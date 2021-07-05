@@ -1,6 +1,7 @@
 from threading import Thread
 import pygame
 import socket
+import brushes
 
 def server_interaction (ip, port):
     """
