@@ -13,10 +13,16 @@ class protocol:
     def encode(message):
         """
         Encodes a received message
+
+        Args:
+            message (String): The original message that needs to be encoded before being sent
         """
     def decode(message):
        """
        Decodes a received message
+
+       Args:
+           message (string): The received message that needs to be decoded
        """
     def send():
         """
