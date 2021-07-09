@@ -1,7 +1,7 @@
 """
 Contains all needed protocol for the drawing program
 """
-class protocol:
+class Protocol:
     """
     class for general protocol between the server and client programs
     """
@@ -31,5 +31,17 @@ class protocol:
     def recv(self):
         """
         Receives a message
+        """
+
+class ColourProtocol(Protocol):
+    """
+    protocol for storing the colour of a pixel    
+    """
+
+    def __init__(self, x, y, r, g, b):
+        """
+        Constructor, assigns values
+
+        
         """
 
