@@ -42,6 +42,28 @@ class ColourProtocol(Protocol):
         """
         Constructor, assigns values
 
-        
+        Args:
+            x (int): x position
+            y (int): y position
+            r (int): red value
+            g (int): green value
+            b (int): blue value
         """
+        self.x = x
+        self.y = y
+        self.r = r
+        self.g = g 
+        self.b = b
 
+class ConnectToBoardProtocol(Protocol):
+    """
+    protocol sent for sending a request for connecting to a board
+    """
+    def __init__(self, invite_code):
+        """
+        Constructor
+
+        Args:
+            invite_code (string): the sent invite code to connect to board
+        """
+        self.invite_code = invite_code
