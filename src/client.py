@@ -25,6 +25,8 @@ def main():
     pygame.init()
 
     window = pygame.display.set_mode((1080, 720))
+    login_font = pygame.font.Font(None, 32)
+    inputted_text = ''
 
     run = True
 
@@ -32,9 +34,18 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    inputted_text = inputted_text[0:-1]
+                else:
+                    inputted_text += event.unicode
+
+        #Booleans for multiple text boxes to choose which one to edit?
         
-    
-   
+        window.fill((0,0,0))
+        textbox = login_font.render(inputted_text, True, (255,255,255))
+        window.blit(textbox, (0,0))
+        pygame.display.flip()
     
     """
     text-based login code to be scrapped later
