@@ -37,10 +37,11 @@ def main():
     login_font = pygame.font.Font(None, 32)
     
     #textboxes for login information
-    username_box = DuberTextBox(450, 400, 300, 25, (255,255,255), '', login_font, (200, 200, 200))
+    username_box = dubercomponent.DuberTextBox(450, 400, 300, 25, (255,255,255), '', login_font, (200, 200, 200))
     ip_box = ''
     port_box = ''
     join_code_box = ''
+    username = ''
 
 
     #boolean to operate main program
