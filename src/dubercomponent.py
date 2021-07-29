@@ -26,11 +26,11 @@ class DuberTextBox(DuberComponent):
         self._font_colour = font_colour
 
     def draw(self, screen):
-        super().__init__(screen)
-        screen.blit(self.font.render(self._text, True, self._font_colour, (self._x, self._y)))
+        super().draw(screen)
+        screen.blit(self._font.render(self._text, True, (self._font_colour)), (self._x, self._y))
 
-    def getText(self):
+    def get_text(self):
         return self._text
     
-    def setText(self, new_text):
+    def set_text(self, new_text):
         self._text = new_text
