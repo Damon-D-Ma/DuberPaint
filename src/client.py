@@ -2,6 +2,7 @@ from threading import Thread
 import pygame
 import socket
 import brushes
+import dubercomponent
 
 def server_interaction (ip, port):
     """
@@ -47,7 +48,6 @@ def main():
     editing_username = False
     editing_ip = False
     editing_port = False
-
 
     while run:
         # events
