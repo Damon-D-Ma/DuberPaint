@@ -27,30 +27,67 @@ def main():
     logo = pygame.image.load("./assets/duberpaint.png")
     pygame.display.set_icon(logo)
 
-    window = pygame.display.set_mode((1080, 720))
-    login_font = pygame.font.Font(None, 32)
-    username = ''
-    join_code = ''
 
+    #screen size subject to change
+    window = pygame.display.set_mode((1080, 720))
+    
+    
+    
+    login_font = pygame.font.Font(None, 32)
+    
+    #stores information to login
+    username = ''
+    ip = ''
+    port = ''
+
+
+    #boolean to operate main program
     run = True
+    login_screen = True
+    editing_username = False
+    editing_ip = False
+    editing_port = False
+
 
     while run:
         # events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_BACKSPACE:
-                    username = username[0:-1]
-                else:
-                    if len(username) <= 10:
-                        username += event.unicode
+            if login_screen:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_BACKSPACE:
+                        if editing_username:
+                            username = username[0:-1]
+                        elif editing_ip:
+                            ip = ip[0:-1]
+                        elif editing_port:
+                            port = port[0:-1]
 
-        #Booleans for multiple text boxes to choose which one to edit?
-        
-        window.fill((0,0,0))
-        textbox = login_font.render(username, True, (255,255,255))
-        window.blit(textbox, (0,0))
+                    else:
+                        #username can't be more than 10 characters
+                        if editing_username and len(username) <= 10:
+                            username += event.unicode
+                        elif editing_ip and len(ip) <= 15:
+                            ip += event.unicode
+                        elif editing_port and len(port) <= 4:
+                            port += event.unicode
+                        
+            else:
+                #there are supposed to be inputs here for the main screen but we haven't gotten to that part yet
+                window.fill((0,0,0))
+
+        if login_screen:
+            window.fill((0,0,0))
+            window.blit(logo, (330, 30))
+            window.blit(login_font.render('Username:', True, (255,255,255)), (300, 400))
+            window.blit(login_font.render('IP Address:', True, (255,255,255)), (300, 430))
+            window.blit(login_font.render('Port:', True, (255,255,255)), (300, 460))
+            textbox = login_font.render(username, True, (200,200,200))
+            window.blit(textbox, (450, 400))
+        else:
+            #other stuff for the main window to be added here
+            window.fill((0,0,0))
         pygame.display.flip()
     
     """
