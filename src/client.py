@@ -33,13 +33,14 @@ def main():
     window = pygame.display.set_mode((1080, 720))
     
     
-    
+    #uniform font for the login screen
     login_font = pygame.font.Font(None, 32)
     
-    #stores information to login
-    username = ''
-    ip = ''
-    port = ''
+    #textboxes for login information
+    username_box = DuberTextBox(450, 400, 300, 25, (255,255,255), '', login_font, (200, 200, 200))
+    ip_box = ''
+    port_box = ''
+    join_code_box = ''
 
 
     #boolean to operate main program
