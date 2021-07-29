@@ -1,18 +1,20 @@
 from threading import Thread
 import socket
         
-threads = []
+threads = [] # idk why we need to keep track of all the threads
+boards = [] # stores all the boards
 
 def client_listener(conn, addr):
     """
     Listens to a specific client
 
     Args:
-        conn (socket.socket object): socket to listen to
+        conn (socket.socket): socket to listen to
         addr (tuple): Where the connection is coming from
     """
     print(f"connection from {addr}")
-    while 1:
+    connected = True # change to False on disconnect
+    while connected:
         data = conn.recv(4096).decode("utf-8")
         print(data)
 
