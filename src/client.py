@@ -23,6 +23,9 @@ def main():
 
     #Initialize pygame
     pygame.init()
+    pygame.display.set_caption("Duber Paint")
+    logo = pygame.image.load("./assets/duberpaint.png")
+    pygame.display.set_icon(logo)
 
     window = pygame.display.set_mode((1080, 720))
     login_font = pygame.font.Font(None, 32)
@@ -32,6 +35,7 @@ def main():
     run = True
 
     while run:
+        # events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
