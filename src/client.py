@@ -19,9 +19,33 @@ def server_interaction (ip, port):
 
 
 def join_room(username, ip, port, code):
+    """
+    Joins an existing room upon logging in
+
+    Args:
+        username (string): the username selected by the user
+        ip (string): the ip address of the server
+        port (string): the server's port to connect to
+        code (string): the join code of the existing room
+
+    """
+
+
+    #unfinished method
+
     print('Joining room with: ' + username + ', ' + ip + ', ' + port + ', ' + code)
 
 def create_room(username, ip, port):
+
+    """
+    Creates a new room upon logging in
+
+    Args:
+       username (string): the username selected by the user
+       ip (string): the ip address of the server
+       port (string): the server's port to connect to
+
+    """
     print('Creating room with ' + username + ', ' + ip + ', ' + port)
 
 
@@ -64,8 +88,11 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+
+            #only detects user input for these objects if they are in the login screen
             if login_screen:
 
+                #detects if a user clicked on a text box to enter information
                 if (event.type == pygame.MOUSEBUTTONDOWN) and (event.button == 1):
                     if username_box.selected(pygame.mouse.get_pos()):
                         editing_username = True
@@ -91,6 +118,8 @@ def main():
                         join_room(username_box.get_text(), ip_box.get_text(), port_box.get_text(), join_code_box.get_text())
                     elif create_room_button.selected(pygame.mouse.get_pos()):
                         create_room(username_box.get_text(), ip_box.get_text(), port_box.get_text())
+
+                #lets the user remove information for logging in
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
                         if editing_username:
@@ -102,8 +131,9 @@ def main():
                         elif editing_join_code:
                             join_code_box.set_text(join_code_box.get_text()[0:-1])
 
+
+                    #lets the user enter in information for logging in
                     else:
-                        #username can't be more than 10 characters
                         if editing_username and len(username_box.get_text()) < 10:
                             username_box.set_text(username_box.get_text() + event.unicode)
                         elif editing_ip and len(ip_box.get_text()) < 15:
@@ -112,11 +142,14 @@ def main():
                             port_box.set_text(port_box.get_text() + event.unicode)
                         elif editing_join_code and len(join_code_box.get_text()) < 6:
                             join_code_box.set_text(join_code_box.get_text() + event.unicode)
-                        
+
+            #user interactions for the main program after loggin in (UNFINISHED)        
             else:
                 #there are supposed to be inputs here for the main screen but we haven't gotten to that part yet
                 window.fill((0,0,0))
 
+        
+        #draws components of the login screen
         if login_screen:
             window.fill((0,0,0))
             window.blit(logo, (330, 30))
@@ -134,6 +167,8 @@ def main():
         else:
             #other stuff for the main window to be added here
             window.fill((0,0,0))
+
+        #update entire screen
         pygame.display.flip()
     
     """
