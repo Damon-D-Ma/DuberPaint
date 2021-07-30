@@ -34,3 +34,29 @@ class DuberTextBox(DuberComponent):
     
     def set_text(self, new_text):
         self._text = new_text
+
+class DuberColourButton(DuberComponent):
+    def __init__(self, x, y, colour):
+        super().__init__(self,x,y,32,32,colour)
+
+    def get_colour(self):
+        return(self._colour)
+    
+    def set_colour(self, colour):
+        self._colour = colour
+
+    def draw(self, screen):
+        pygame.draw.rect(screen, self._colour, (self._x, self._y, self._width, self._height))
+
+
+class DuberBrushButton(DuberComponent):
+    def __init__(self, x,y, icon):
+        super().__init__(self,x,y,32,32,(0,0,0))
+        self._icon = icon
+
+    def set_icon(self, new_icon):
+        self._icon = new_icon
+    
+    def draw(self, screen):
+        screen.blit(self._icon, (self._x, self._y))
+
