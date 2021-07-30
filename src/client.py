@@ -35,6 +35,9 @@ def join_room(username, ip, port, code):
 
     print('Joining room with: ' + username + ', ' + ip + ', ' + port + ', ' + code)
 
+    #need condition to check if the login went through
+    return False
+
 def create_room(username, ip, port):
 
     """
@@ -48,6 +51,8 @@ def create_room(username, ip, port):
     """
     print('Creating room with ' + username + ', ' + ip + ', ' + port)
 
+    #need condition to check if the login went through
+    return False
 
 def main():
     """
@@ -115,9 +120,9 @@ def main():
                         editing_port = False
                         editing_join_code = True
                     elif join_button.selected(pygame.mouse.get_pos()):
-                        join_room(username_box.get_text(), ip_box.get_text(), port_box.get_text(), join_code_box.get_text())
+                        login_screen = join_room(username_box.get_text(), ip_box.get_text(), port_box.get_text(), join_code_box.get_text())
                     elif create_room_button.selected(pygame.mouse.get_pos()):
-                        create_room(username_box.get_text(), ip_box.get_text(), port_box.get_text())
+                        login_screen = create_room(username_box.get_text(), ip_box.get_text(), port_box.get_text())
 
                 #lets the user remove information for logging in
                 elif event.type == pygame.KEYDOWN:
