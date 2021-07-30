@@ -32,16 +32,8 @@ def join_room(username, ip, port, code):
     """
 
     # unfinished method
-
-    print(
-        'Joining room with: ' +
-        username +
-        ', ' +
-        ip +
-        ', ' +
-        port +
-        ', ' +
-        code)
+    
+    print(f"Joining room with: {username}, {ip}, {port}, {code}")
 
     # need condition to check if the login went through
     return False
@@ -57,7 +49,7 @@ def create_room(username, ip, port):
        port (string): the server's port to connect to
 
     """
-    print('Creating room with ' + username + ', ' + ip + ', ' + port)
+    print(f"Creating room with {username}, {ip}, {port}")
 
     # need condition to check if the login went through
     return False
