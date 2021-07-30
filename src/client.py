@@ -54,12 +54,10 @@ def create_room(username, ip, port):
     # need condition to check if the login went through
     return False
 
-
-def main():
+def animate():
     """
-    The main function
+    Handles all "animations"
     """
-
     # Initialize pygame
     pygame.init()
     pygame.display.set_caption("Duber Paint")
@@ -70,6 +68,7 @@ def main():
     window_width = 1080
     window_length = 720
     window = pygame.display.set_mode((window_width, window_length))
+
 
     # uniform font for the login screen
     login_font = pygame.font.Font(None, 32)
@@ -205,6 +204,13 @@ def main():
 
         # update entire screen
         pygame.display.flip()
+
+def main():
+    """
+    The main function
+    """
+    animate() # maybe run on different thread
+
 
     """
     text-based login code to be scrapped later

@@ -3,7 +3,9 @@ import socket
 
 threads = []  # idk why we need to keep track of all the threads
 boards = []  # stores all the boards
+users = [] # stores all users
 
+current_user_id = 0 # next ID to assign to a user
 
 def client_listener(conn, addr):
     """
