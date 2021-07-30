@@ -136,7 +136,6 @@ class DuberColourButton(DuberComponent):
         Args:
             screen (pygame.surface): The surface to draw the component on
         """
-        super().draw(screen)
         pygame.draw.rect(screen, self._colour, (self._x, self._y, self._width, self._height))
 
 
@@ -172,6 +171,5 @@ class DuberBrushButton(DuberComponent):
         Args:
             screen (pygame.surface): the surface to draw the component on
         """
-        super().draw(screen)
         screen.blit(self._icon, (self._x, self._y))
 
