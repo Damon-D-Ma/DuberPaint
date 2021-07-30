@@ -173,7 +173,7 @@ def main():
             join_button.draw(window)
         else:
             #other stuff for the main window to be added here
-            window.fill((0,0,0))
+            window.blit(pygame.transform.scale(logo, (105,73)), (0,0))
 
         #update entire screen
         pygame.display.flip()
