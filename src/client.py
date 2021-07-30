@@ -81,7 +81,7 @@ def main():
     port_box = dubercomponent.DuberTextBox(450,460, 300, 25, (255,255,255), '', login_font, (200,200,200))
     join_code_box = dubercomponent.DuberTextBox(175, 550, 300, 25, (255,255,255), '', login_font, (200,200,200))
     create_room_button = dubercomponent.DuberTextBox(650, 550, 150, 25, (255,255,255), 'Create Room', login_font, (200,200,200))
-    join_button = dubercomponent.DuberTextBox(275, 610, 75, 25, (255,255,255), 'Join', login_font, (200,200,200))
+    join_button = dubercomponent.DuberTextBox(275, 610, 55, 25, (255,255,255), 'Join', login_font, (200,200,200))
     #boolean to operate main program
     run = True
     login_screen = True

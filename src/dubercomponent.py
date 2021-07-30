@@ -27,7 +27,7 @@ class DuberTextBox(DuberComponent):
 
     def draw(self, screen):
         super().draw(screen)
-        screen.blit(self._font.render(self._text, True, (self._font_colour)), (self._x, self._y))
+        screen.blit(self._font.render(self._text, True, (self._font_colour)), (self._x +5, self._y +2))
 
     def get_text(self):
         return self._text
