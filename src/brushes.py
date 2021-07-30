@@ -1,10 +1,13 @@
 """
 Contains all valid brushes
 """
+
+
 class Brush:
     """
     Brush class
     """
+
     def __init__(self, colour, width, height):
         """
         Constructor, assigns values
@@ -18,10 +21,12 @@ class Brush:
         self.width = width
         self.height = height
 
+
 class Eraser(Brush):
     """
     Eraser, inherits from Brush
     """
+
     def __init__(self, width, height):
         """
         Eraser constructor

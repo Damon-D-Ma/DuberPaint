@@ -3,10 +3,12 @@ import pygame
 Contains the components
 """
 
+
 class DuberComponent:
     """
     Parent class for all DuberComponents
     """
+
     def __init__(self, x, y, width, height, colour):
         """
         DuberComponent constructor
@@ -31,7 +33,14 @@ class DuberComponent:
         Args:
             screen (pygame.surface): where to draw the component
         """
-        pygame.draw.rect(screen, self._colour, (self._x, self._y, self._width, self._height), 1)
+        pygame.draw.rect(
+            screen,
+            self._colour,
+            (self._x,
+             self._y,
+             self._width,
+             self._height),
+            1)
 
     def selected(self, point):
         """
@@ -43,12 +52,15 @@ class DuberComponent:
         Returns:
             boolean: True if the component is selected, false otherwise
         """
-        return self._x <= point[0] <= self._x + self._width and self._y <= point[1] <= self._y + self._height
+        return self._x <= point[0] <= self._x + \
+            self._width and self._y <= point[1] <= self._y + self._height
+
 
 class DuberTextBox(DuberComponent):
     """
     The DuberComponent that can contain text
     """
+
     def __init__(self, x, y, width, height, colour, text, font, font_colour):
         """
         Constructor for the DuberTextBox
@@ -76,7 +88,13 @@ class DuberTextBox(DuberComponent):
             screen (pygame.surface): the surface to draw the component on
         """
         super().draw(screen)
-        screen.blit(self._font.render(self._text, True, (self._font_colour)), (self._x +5, self._y +2))
+        screen.blit(
+            self._font.render(
+                self._text,
+                True,
+                (self._font_colour)),
+            (self._x + 5,
+             self._y + 2))
 
     def get_text(self):
         """
@@ -86,7 +104,7 @@ class DuberTextBox(DuberComponent):
             string: text in the DuberTextBox
         """
         return self._text
-    
+
     def set_text(self, new_text):
         """
         Sets new_text as the text of the DuberTextComponent
@@ -96,10 +114,12 @@ class DuberTextBox(DuberComponent):
         """
         self._text = new_text
 
+
 class DuberColourButton(DuberComponent):
     """
     Button for setting colours
     """
+
     def __init__(self, x, y, colour):
         """
         Constructor of the DuberColourButton
@@ -109,7 +129,7 @@ class DuberColourButton(DuberComponent):
             y (int): the top left corner's y position
             colour (tuple): the colour of the DuberColourButton
         """
-        super().__init__(self,x,y,32,32,colour)
+        super().__init__(self, x, y, 32, 32, colour)
 
     def get_colour(self):
         """
@@ -119,7 +139,7 @@ class DuberColourButton(DuberComponent):
             tuple: the colour stored in the DuberColourComponent
         """
         return (self._colour)
-    
+
     def set_colour(self, colour):
         """
         Sets a new colour for the DuberColourButton
@@ -136,14 +156,21 @@ class DuberColourButton(DuberComponent):
         Args:
             screen (pygame.surface): The surface to draw the component on
         """
-        pygame.draw.rect(screen, self._colour, (self._x, self._y, self._width, self._height))
+        pygame.draw.rect(
+            screen,
+            self._colour,
+            (self._x,
+             self._y,
+             self._width,
+             self._height))
 
 
 class DuberBrushButton(DuberComponent):
     """
     Button for brush
     """
-    def __init__(self, x,y, icon):
+
+    def __init__(self, x, y, icon):
         """
         Constructor for the DuberBrushButton
 
@@ -152,7 +179,7 @@ class DuberBrushButton(DuberComponent):
             y (int): the y position of the top left corner
             icon (pygame.image): the image icon
         """
-        super().__init__(self,x,y,32,32,(0,0,0))
+        super().__init__(self, x, y, 32, 32, (0, 0, 0))
         self._icon = icon
 
     def set_icon(self, new_icon):
@@ -163,7 +190,7 @@ class DuberBrushButton(DuberComponent):
             new_icon (pygame.image): the new image to set
         """
         self._icon = new_icon
-    
+
     def draw(self, screen):
         """
         Draws the component on the screen
@@ -172,4 +199,3 @@ class DuberBrushButton(DuberComponent):
             screen (pygame.surface): the surface to draw the component on
         """
         screen.blit(self._icon, (self._x, self._y))
-
