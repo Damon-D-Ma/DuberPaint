@@ -67,7 +67,9 @@ def main():
 
 
     #screen size subject to change
-    window = pygame.display.set_mode((1080, 720))
+    window_width = 1080
+    window_length = 720
+    window = pygame.display.set_mode((window_width, window_length))
     
     
     #uniform font for the login screen
