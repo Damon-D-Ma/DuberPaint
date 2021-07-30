@@ -1,9 +1,12 @@
 """
 Contains a board class
 """
+
+
 class Board:
     """[summary]
     """
+
     def __init__(self, size, invite_code):
         """
         Constructor for the board class
