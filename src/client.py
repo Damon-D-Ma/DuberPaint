@@ -4,19 +4,8 @@ import socket
 import brushes
 import dubercomponent
 
-
-def server_interaction(ip, port):
-    """
-    Interacts with the server (listens and sends)
-
-    Args:
-        ip (string): The IP to connect to
-        port (int): The port to connect to on that specific IP
-    """
-    sock = socket.create_connection((ip, port))
-    while True:
-        data = input("send something: ")
-        sock.send(data.encode())
+#-------------------------------GLOBALS-------------------------------#
+sock = None # socket
 
 def send(message):
     """
@@ -27,8 +16,6 @@ def send(message):
     """
 
     #incomplete function
-
-
 
 def send_brush_mark(join_code, mark):
     """
@@ -89,7 +76,8 @@ def join_room(username, ip, port, code):
         code (string): the join code of the existing room
 
     """
-
+    global sock
+    sock = socket.create_connection((ip, port))
     # unfinished method
     
     print(f"Joining room with: {username}, {ip}, {port}, {code}")
@@ -108,10 +96,22 @@ def create_room(username, ip, port):
        port (string): the server's port to connect to
 
     """
+    global sock
+    sock = socket.create_connection((ip, port))
     print(f"Creating room with {username}, {ip}, {port}")
 
     # need condition to check if the login went through
     return False
+
+def server_listener():
+    """
+    Listens to the server then calls a function to respond based on what the server sends
+    """
+    global sock
+    running = True
+    while running:
+        data = sock.recv()
+        print(data)
 
 def animate():
     """
