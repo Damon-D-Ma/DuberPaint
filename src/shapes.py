@@ -24,6 +24,30 @@ class Shape:
         self._colour = colour
         self._filled = filled
 
+    def get_top_left(self):
+        """
+        returns the top left coordinate of the shape
+        """
+        return self._top_left
+
+    def get_bottom_right(self):
+        """
+        returns the bottom right coordinate of the shape
+        """
+        return self._bottom_right
+    
+    def get_colour(self):
+        """
+        returns the colour of the rectangle
+        """
+        return self._colour
+    
+    def get_filled(self):
+        """
+        returns whether or not the shape is filled with its set colour or not
+        """
+        return self._filled
+
 
 class Rectangle (Shape):
     """
@@ -39,9 +63,9 @@ class Rectangle (Shape):
             screen (pygame.Surface): the pygame Surface to draw a rectangle on
         """
         pygame.draw.rect(screen, self._colour, (self._top_left[0], self._top_left[1],
-                                          self._bottom_right[0] -
-                                          self._top_left[0],
-                                          self._bottom_right[1] - self._top_left[1]), self._filled)
+                                          abs(self._bottom_right[0] -
+                                          self._top_left[0]),
+                                          abs(self._bottom_right[1] - self._top_left[1])), self._filled)
 
 
 class Ellipse (Shape):
@@ -58,9 +82,9 @@ class Ellipse (Shape):
             screen (pygame.Surface): the pygame Surface to draw an Ellipse on
         """
         pygame.draw.ellipse(screen, self._colour, (self._top_left[0], self._top_left[1],
-                                             self._bottom_right[0] -
-                                             self._top_left[0],
-                                             self._bottom_right[1] - self._top_left[1]), self._filled)
+                                             abs(self._bottom_right[0] -
+                                             self._top_left[0]),
+                                             abs(self._bottom_right[1] - self._top_left[1])), self._filled)
 
 
 class Line (Shape):

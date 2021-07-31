@@ -18,6 +18,65 @@ def server_interaction(ip, port):
         data = input("send something: ")
         sock.send(data.encode())
 
+def send(message):
+    """
+    sends a message to the server
+
+    Args:
+        message (string): the message to be sent to the server
+    """
+
+    #incomplete function
+
+
+
+def send_brush_mark(join_code, mark):
+    """
+    Sends a point drawn from the brush to the server
+
+    Args:
+        join_code (string): The room that the user is in
+        mark (BrushMark): the mark that the user drew on the canvas
+    """
+    message = f'<d>\n{join_code}\n{mark.get_coordinates()}\n{mark.get_width()}\n{mark.get_colour()}'
+    send(message)
+
+
+def send_rect(join_code, rect):
+    """
+    Sends a rectangle drawn by the user to the server
+
+    Args:
+        join_code (string):  the room that the user is in
+        rect (Rectangle): the rectangle to be sent to the server
+    """
+    message = f'<r>\n{join_code}\n{rect.get_top_left()}\n{rect.get_bottom_right()}\n{rect.get_colour()}\n{rect.get_filled()}'
+    send(message)
+
+
+def send_ellipse(join_code, ellipse):
+    """
+    Sends an ellipse drawn by the user to the server
+
+    Args:
+        join_code (string): the room that the user is in
+        ellipse (Ellipse): the ellipse to be sent to the server
+    """
+    message = f'<e>\n{join_code}\n{ellipse.get_top_left()}\n{ellipse.get_bottom_right()}\n{ellipse.get_colour()}\n{ellipse.get_filles()}'
+    send(message)
+
+def send_line(join_code, line):
+    """
+    sends a line drawn by the user to the server
+
+    Args:
+        join_code (string): the room that the user is in
+        line (Line): the line to be sent to the server
+    """
+    message = f'<L>\n{join_code}\n{line.get_top_left}\n{line.get_bottom_right()}\n{line.get_colour()}'
+    send(message)
+
+
 
 def join_room(username, ip, port, code):
     """
