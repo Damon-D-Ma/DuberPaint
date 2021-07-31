@@ -6,6 +6,30 @@ boards = []  # stores all the boards
 users = [] # stores all users
 
 current_user_id = 0 # next ID to assign to a user
+current_join_code = 0 # next join code to assign to a board
+
+def parse_join_code(join_code):
+    """
+    takes the join code and makes sure it's at least 6 digits long
+
+    Args:
+        join_code (int): the number of join codes sent out so far
+
+    Returns:
+        string: the actual join code
+    """
+    if join_code < 10:
+        return f"00000{join_code}"
+    elif join_code < 100:
+        return f"0000{join_code}"
+    elif join_code < 1000:
+        return f"000{join_code}"
+    elif join_code < 10000:
+        return f"00{join_code}"
+    elif join_code < 100000:
+        return f"0{join_code}"
+    else:
+        return f"{join_code}"
 
 def client_listener(conn, addr):
     """
