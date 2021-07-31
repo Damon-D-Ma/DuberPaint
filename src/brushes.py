@@ -3,6 +3,7 @@ Contains all valid brushes
 """
 
 import shapes
+import pygame
 
 class Brush:
     """
@@ -71,7 +72,7 @@ class Eraser(Brush):
         """
         super.__init__((255, 255, 255), width, height)
 
-class BrushStroke(Brush, Shape):
+class BrushStroke(Brush, shapes.Shape):
     """
     The mark that the Brush class would make on the canvas
     """
