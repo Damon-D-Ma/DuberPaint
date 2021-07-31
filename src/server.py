@@ -44,6 +44,7 @@ def client_listener(conn, addr):
     while connected:
         data = conn.recv(4096).decode("utf-8")
         print(data)
+        command = data.splitlines()[0]
 
 
 def main():

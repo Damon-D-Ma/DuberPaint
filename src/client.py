@@ -14,7 +14,8 @@ def send(message):
     Args:
         message (string): the message to be sent to the server
     """
-
+    global sock
+    sock.send(message.encode())
     #incomplete function
 
 def send_brush_mark(join_code, mark):
@@ -78,6 +79,7 @@ def join_room(username, ip, port, code):
     """
     global sock
     sock = socket.create_connection((ip, port))
+    send(f"<j>\n{username}\n{code}")
     # unfinished method
     
     print(f"Joining room with: {username}, {ip}, {port}, {code}")
