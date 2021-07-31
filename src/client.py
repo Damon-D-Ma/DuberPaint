@@ -7,6 +7,22 @@ import dubercomponent
 #-------------------------------GLOBALS-------------------------------#
 sock = None # socket
 
+logo = None
+window_width = None
+window_length = None
+window = None
+
+
+login_font = None
+
+username_box = None
+ip_box = None
+port_box = None
+join_code_box = None
+create_room_button = None
+join_button = None
+
+
 def send(message):
     """
     sends a message to the server
@@ -115,11 +131,28 @@ def server_listener():
         data = sock.recv()
         print(data)
 
-def animate():
+def main():
     """
-    Handles all "animations"
+    The main function
     """
     # Initialize pygame
+
+    global logo
+    global window_width
+    global window_length
+    global window
+
+    global login_font
+
+    global username_box
+    global ip_box
+    global port_box
+    global join_code_box
+    global create_room_button
+    global join_button
+
+
+
     pygame.init()
     pygame.display.set_caption("Duber Paint")
     logo = pygame.image.load("./assets/duberpaint.png")
@@ -234,53 +267,51 @@ def animate():
                 # we haven't gotten to that part yet
                 window.fill((0, 0, 0))
 
-        # draws components of the login screen
+        # update the screen
         if login_screen:
-            window.fill((0, 0, 0))
-            window.blit(logo, (330, 30))
-            window.blit(
-                login_font.render(
-                    'Username:', True, (255, 255, 255)), (300, 400))
-            window.blit(
-                login_font.render(
-                    'IP Address:', True, (255, 255, 255)), (300, 430))
-            window.blit(
-                login_font.render(
-                    'Port:', True, (255, 255, 255)), (300, 460))
-            window.blit(
-                login_font.render(
-                    'Join Code:', True, (255, 255, 255)), (25, 550))
-            window.blit(
-                login_font.render(
-                    'Or', True, (255, 255, 255)), (530, 550))
-            username_box.draw(window)
-            ip_box.draw(window)
-            port_box.draw(window)
-            join_code_box.draw(window)
-            create_room_button.draw(window)
-            join_button.draw(window)
+            update_login_screen()
         else:
-            # other stuff for the main window to be added here
-            window.blit(pygame.transform.scale(logo, (105, 73)), (0, 0))
+            update_main_screen()
+        
 
-        # update entire screen
-        pygame.display.flip()
 
-def main():
+def update_main_screen():
+    window.fill((0, 0, 0))
+    window.blit(pygame.transform.scale(logo, (105, 73)), (0, 0))
+    pygame.display.flip()
+
+def update_login_screen():
     """
-    The main function
+    Updates the login window when it is being used
     """
-    animate() # maybe run on different thread
 
 
-    """
-    text-based login code to be scrapped later
+    window.fill((0, 0, 0))
+    window.blit(logo, (330, 30))
+    window.blit(
+        login_font.render(
+            'Username:', True, (255, 255, 255)), (300, 400))
+    window.blit(
+        login_font.render(
+            'IP Address:', True, (255, 255, 255)), (300, 430))
+    window.blit(
+        login_font.render(
+            'Port:', True, (255, 255, 255)), (300, 460))
+    window.blit(
+        login_font.render(
+            'Join Code:', True, (255, 255, 255)), (25, 550))
+    window.blit(
+        login_font.render(
+            'Or', True, (255, 255, 255)), (530, 550))
+    username_box.draw(window)
+    ip_box.draw(window)
+    port_box.draw(window)
+    join_code_box.draw(window)
+    create_room_button.draw(window)
+    join_button.draw(window)
 
-    ip = input("enter ip: ")
-    port = int(input("enter port: "))
-    thread = Thread(target=server_interaction, args=(ip, port))
-    thread.start()
-    """
+
+    pygame.display.flip()
 
 
 if __name__ == "__main__":
