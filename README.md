@@ -12,5 +12,8 @@ Run `./checkcode.bat` on Windows to check code.
 ## TODO
 - [X] start the code
 - [X] figure out threading in Python
+- [ ] Log in error handling
+- [ ] Handle networking protocols
+- [ ] Actual drawing program
 - [ ] make entire thing functional
 - [ ] take camera input (if we ever manage to finish)
