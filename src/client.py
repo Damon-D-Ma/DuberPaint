@@ -7,6 +7,14 @@ import dubercomponent
 #-------------------------------GLOBALS-------------------------------#
 sock = None # socket
 
+user_id = None
+join_code = None
+username = None
+ip = None
+port = None
+
+owner = False
+
 logo = None
 window_width = None
 window_length = None
@@ -34,77 +42,81 @@ def send(message):
     sock.send(message.encode())
     #incomplete function
 
-def send_brush_mark(join_code, mark):
+def send_brush_mark(mark):
     """
     Sends a point drawn from the brush to the server
 
     Args:
-        join_code (string): The room that the user is in
         mark (BrushMark): the mark that the user drew on the canvas
     """
     message = f'<d>\n{join_code}\n{mark.get_coordinates()}\n{mark.get_width()}\n{mark.get_colour()}'
     send(message)
 
 
-def send_rect(join_code, rect):
+def send_rect(rect):
     """
     Sends a rectangle drawn by the user to the server
 
     Args:
-        join_code (string):  the room that the user is in
         rect (Rectangle): the rectangle to be sent to the server
     """
     message = f'<r>\n{join_code}\n{rect.get_top_left()}\n{rect.get_bottom_right()}\n{rect.get_colour()}\n{rect.get_filled()}'
     send(message)
 
 
-def send_ellipse(join_code, ellipse):
+def send_ellipse(ellipse):
     """
     Sends an ellipse drawn by the user to the server
 
     Args:
-        join_code (string): the room that the user is in
         ellipse (Ellipse): the ellipse to be sent to the server
     """
     message = f'<e>\n{join_code}\n{ellipse.get_top_left()}\n{ellipse.get_bottom_right()}\n{ellipse.get_colour()}\n{ellipse.get_filles()}'
     send(message)
 
-def send_line(join_code, line):
+def send_line(line):
     """
     sends a line drawn by the user to the server
 
     Args:
-        join_code (string): the room that the user is in
         line (Line): the line to be sent to the server
     """
     message = f'<L>\n{join_code}\n{line.get_top_left}\n{line.get_bottom_right()}\n{line.get_colour()}'
     send(message)
 
+def disconnect():
+    message = f'<dc>\n{user_id}'
+    send(message)
 
-
-def join_room(username, ip, port, code):
+def kick_user(target_id):
     """
-    Joins an existing room upon logging in
+    Kicks a selected user if the current user is the owner of the room
 
     Args:
-        username (string): the username selected by the user
-        ip (string): the ip address of the server
-        port (string): the server's port to connect to
-        code (string): the join code of the existing room
+        target_id (string): the user id of the user to be kicked
+    """
+
+    if owner:
+        message = f'<k>\n{target_id}'
+        send(message)
+
+def join_room():
+    """
+    Joins an existing room upon logging in
 
     """
     global sock
     sock = socket.create_connection((ip, port))
-    send(f"<j>\n{username}\n{code}")
+    send(f"<j>\n{username}\n{join_code}")
     # unfinished method
     
-    print(f"Joining room with: {username}, {ip}, {port}, {code}")
+    print(f"Joining room with: {username}, {ip}, {port}, {join_code}")
 
     # need condition to check if the login went through
     return False
 
 
-def create_room(username, ip, port):
+def create_room():
     """
     Creates a new room upon logging in
 
@@ -115,8 +127,12 @@ def create_room(username, ip, port):
 
     """
     global sock
+    global owner
     sock = socket.create_connection((ip, port))
     print(f"Creating room with {username}, {ip}, {port}")
+
+    owner = True
+
 
     # need condition to check if the login went through
     return False
@@ -142,8 +158,14 @@ def main():
     global window_length
     global window
 
-    global login_font
+    global user_id
+    global join_code
+    global username
+    global ip
+    global port
 
+
+    global login_font
     global username_box
     global ip_box
     global port_box
@@ -222,14 +244,20 @@ def main():
                         editing_port = False
                         editing_join_code = True
                     elif join_button.selected(pygame.mouse.get_pos()):
-                        login_screen = join_room(
-                            username_box.get_text(),
-                            ip_box.get_text(),
-                            port_box.get_text(),
-                            join_code_box.get_text())
+                        
+                        username = username_box.get_text()
+                        ip = ip_box.get_text()
+                        port = port_box.get_text()
+                        join_code = join_code_box.get_text()
+
+                        login_screen = join_room()
                     elif create_room_button.selected(pygame.mouse.get_pos()):
-                        login_screen = create_room(
-                            username_box.get_text(), ip_box.get_text(), port_box.get_text())
+
+                        username = username_box.get_text()
+                        ip = ip_box.get_text()
+                        port = port_box.get_text()
+
+                        login_screen = create_room()
 
                 # lets the user remove information for logging in
                 elif event.type == pygame.KEYDOWN:
