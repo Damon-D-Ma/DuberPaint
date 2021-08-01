@@ -15,5 +15,6 @@ Run `./checkcode.bat` on Windows to check code.
 - [ ] Log in error handling
 - [ ] Handle networking protocols
 - [ ] Actual drawing program
+- [ ] Function to plot shapes on the board
 - [ ] make entire thing functional
 - [ ] take camera input (if we ever manage to finish)
