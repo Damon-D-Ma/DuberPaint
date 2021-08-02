@@ -5,10 +5,11 @@ import user
 
 threads = []  # idk why we need to keep track of all the threads
 boards = []  # stores all the boards
-users = [] # stores all users
+users = []  # stores all users
 
-current_user_id = 0 # next ID to assign to a user
-current_join_code = 0 # next join code to assign to a board
+current_user_id = 0  # next ID to assign to a user
+current_join_code = 0  # next join code to assign to a board
+
 
 def parse_join_code(join_code):
     """
@@ -33,6 +34,7 @@ def parse_join_code(join_code):
     else:
         return f"{join_code}"
 
+
 def send(conn, message):
     """
     Sends a message to the client
@@ -42,6 +44,7 @@ def send(conn, message):
         message (string): the string to send
     """
     conn.send(message.encode())
+
 
 def join_room(conn, data):
     """
@@ -58,7 +61,7 @@ def join_room(conn, data):
         for board in boards:
             if board.get_invite_code() == msg[2]:
                 success = True
-                #TODO: send board for the join code
+                # TODO: send board for the join code
         send(conn, f"<j>\n{current_user_id}") if success else send(conn, "<X>")
         current_user_id += 1
     else:
@@ -77,7 +80,8 @@ def create_room(conn, data):
     if len(msg) == 2:
         join_code = parse_join_code(current_join_code)
         current_join_code += 1
-        boards.append(board.Board((720, 720), join_code)) #TODO: make this not a fixed value later
+        # TODO: make this not a fixed value later
+        boards.append(board.Board((720, 720), join_code))
         users.append(user.User(msg[1], current_user_id))
         send(conn, f"<c>\n{current_user_id}\n{join_code}")
         current_user_id += 1
@@ -86,6 +90,7 @@ def create_room(conn, data):
 
 
 command_map = {"<j>": join_room, "<c>": create_room}
+
 
 def client_listener(conn, addr):
     """
@@ -103,6 +108,7 @@ def client_listener(conn, addr):
         command = data.splitlines()[0]
         if command_map.has_key(command):
             command_map[command](conn, data)
+
 
 def main():
     """

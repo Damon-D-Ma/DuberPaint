@@ -5,6 +5,7 @@ Contains all valid brushes
 import shapes
 import pygame
 
+
 class Brush:
     """
     Brush class
@@ -23,7 +24,6 @@ class Brush:
         self._width = width
         self._height = height
 
-
         def get_colour(self):
             """
             returns the colour of the brush
@@ -39,7 +39,7 @@ class Brush:
         def set_colour(self, new_colour):
             """
             sets the colour of the brush
-            
+
             args:
                 new_colour (tuple): the new colour of the brush in RGB
             """
@@ -53,8 +53,6 @@ class Brush:
                 new_wdith (int): the new width of the brush
             """
             self._width = new_width
-
-
 
 
 class Eraser(Brush):
@@ -71,6 +69,7 @@ class Eraser(Brush):
             height (int): height of eraser
         """
         super.__init__((255, 255, 255), width, height)
+
 
 class BrushStroke(Brush, shapes.Shape):
     """
@@ -104,4 +103,9 @@ class BrushStroke(Brush, shapes.Shape):
             screen (pygame.surface): the pygame surface the brush mark will be drawn on
         """
 
-        pygame.draw.circle(screen, self._colour, self._coordinates, (self._width/2), 0)
+        pygame.draw.circle(
+            screen,
+            self._colour,
+            self._coordinates,
+            (self._width / 2),
+            0)

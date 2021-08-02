@@ -55,4 +55,4 @@ class Board:
         """
         return self._user_list
 
-    #TODO: update canvasi option
+    # TODO: update canvasi option

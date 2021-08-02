@@ -5,7 +5,7 @@ import brushes
 import dubercomponent
 
 #-------------------------------GLOBALS-------------------------------#
-sock = None # socket
+sock = None  # socket
 
 user_id = None
 join_code = None
@@ -40,7 +40,8 @@ def send(message):
     """
     global sock
     sock.send(message.encode())
-    #incomplete function
+    # incomplete function
+
 
 def send_brush_mark(mark):
     """
@@ -74,6 +75,7 @@ def send_ellipse(ellipse):
     message = f'<e>\n{join_code}\n{ellipse.get_top_left()}\n{ellipse.get_bottom_right()}\n{ellipse.get_colour()}\n{ellipse.get_filles()}'
     send(message)
 
+
 def send_line(line):
     """
     sends a line drawn by the user to the server
@@ -84,9 +86,11 @@ def send_line(line):
     message = f'<L>\n{join_code}\n{line.get_top_left}\n{line.get_bottom_right()}\n{line.get_colour()}'
     send(message)
 
+
 def disconnect():
     message = f'<dc>\n{user_id}'
     send(message)
+
 
 def kick_user(target_id):
     """
@@ -100,6 +104,7 @@ def kick_user(target_id):
         message = f'<k>\n{target_id}'
         send(message)
 
+
 def join_room():
     """
     Joins an existing room upon logging in
@@ -109,7 +114,7 @@ def join_room():
     sock = socket.create_connection((ip, port))
     send(f"<j>\n{username}\n{join_code}")
     # unfinished method
-    
+
     print(f"Joining room with: {username}, {ip}, {port}, {join_code}")
 
     # need condition to check if the login went through
@@ -133,9 +138,9 @@ def create_room():
 
     owner = True
 
-
     # need condition to check if the login went through
     return False
+
 
 def server_listener():
     """
@@ -146,6 +151,7 @@ def server_listener():
     while running:
         data = sock.recv()
         print(data)
+
 
 def main():
     """
@@ -164,7 +170,6 @@ def main():
     global ip
     global port
 
-
     global login_font
     global username_box
     global ip_box
@@ -172,8 +177,6 @@ def main():
     global join_code_box
     global create_room_button
     global join_button
-
-
 
     pygame.init()
     pygame.display.set_caption("Duber Paint")
@@ -184,7 +187,6 @@ def main():
     window_width = 1080
     window_length = 720
     window = pygame.display.set_mode((window_width, window_length))
-
 
     # uniform font for the login screen
     login_font = pygame.font.Font(None, 32)
@@ -244,7 +246,7 @@ def main():
                         editing_port = False
                         editing_join_code = True
                     elif join_button.selected(pygame.mouse.get_pos()):
-                        
+
                         username = username_box.get_text()
                         ip = ip_box.get_text()
                         port = port_box.get_text()
@@ -300,7 +302,6 @@ def main():
             update_login_screen()
         else:
             update_main_screen()
-        
 
 
 def update_main_screen():
@@ -308,11 +309,11 @@ def update_main_screen():
     window.blit(pygame.transform.scale(logo, (105, 73)), (0, 0))
     pygame.display.flip()
 
+
 def update_login_screen():
     """
     Updates the login window when it is being used
     """
-
 
     window.fill((0, 0, 0))
     window.blit(logo, (330, 30))
@@ -337,7 +338,6 @@ def update_login_screen():
     join_code_box.draw(window)
     create_room_button.draw(window)
     join_button.draw(window)
-
 
     pygame.display.flip()
 

@@ -2,10 +2,12 @@
 Contains a User class
 """
 
+
 class User:
     """
     Class for Users
     """
+
     def __init__(self, username, id):
         """
         Constructor for the User class

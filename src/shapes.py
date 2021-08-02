@@ -41,7 +41,7 @@ class Shape:
             tuple: the coordinates of the bottom right
         """
         return self._bottom_right
-    
+
     def get_colour(self):
         """
         returns the colour of the shape
@@ -51,7 +51,7 @@ class Shape:
         """
         colour_list = [self._colour[0], self._colour[1], self._colour[2]]
         return colour_list
-    
+
     def get_filled(self):
         """
         returns whether or not the shape is filled with its set colour or not
@@ -76,11 +76,17 @@ class Rectangle (Shape):
             screen (pygame.Surface): the pygame Surface to draw a rectangle on
         """
         pygame.draw.rect(screen, self._colour, (self._top_left[0], self._top_left[1],
-                                          abs(self._bottom_right[0] -
-                                          self._top_left[0]),
-                                          abs(self._bottom_right[1] - self._top_left[1])), self._filled)
+                                                abs(self._bottom_right[0] -
+                                                    self._top_left[0]),
+                                                abs(self._bottom_right[1] - self._top_left[1])), self._filled)
 
     def mark(self, canvas):
+        """
+        Marks the rectangle on the canvas
+
+        Args:
+            canvas (list): surface to mark
+        """
         for i in range(self._top_left[0], self._bottom_right[0]):
             # mark horizontals
             canvas[i][self._top_left[1]] = self.get_colour()
@@ -105,9 +111,9 @@ class Ellipse (Shape):
             screen (pygame.Surface): the pygame Surface to draw an Ellipse on
         """
         pygame.draw.ellipse(screen, self._colour, (self._top_left[0], self._top_left[1],
-                                             abs(self._bottom_right[0] -
-                                             self._top_left[0]),
-                                             abs(self._bottom_right[1] - self._top_left[1])), self._filled)
+                                                   abs(self._bottom_right[0] -
+                                                       self._top_left[0]),
+                                                   abs(self._bottom_right[1] - self._top_left[1])), self._filled)
 
 
 class Line (Shape):
@@ -116,18 +122,16 @@ class Line (Shape):
     Inherits from Shape
     """
 
-
     def __init__(self, top_left, bottom_right, colour):
         """
         Constructor for the Line class
-        
+
         Args:
             top_left (tuple): In the format of (x, y) for the top left corner
             bottom_right (tuple): In the format of (x, y) for the bottom right corner
-            colour (tuple): In the format of (r, g, g) for the colour of the shape 
+            colour (tuple): In the format of (r, g, g) for the colour of the shape
         """
         super().__init__(top_left, bottom_right, colour, True)
-
 
     def draw(self, screen):
         """
@@ -136,4 +140,8 @@ class Line (Shape):
         Args:
             screen (pygame.Surface): the pygame surface the line will be drawed on
         """
-        pygame.draw.line(screen, self._colour, (self._top_left), (self._bottom_right))
+        pygame.draw.line(
+            screen,
+            self._colour,
+            (self._top_left),
+            (self._bottom_right))
