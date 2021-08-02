@@ -83,12 +83,12 @@ class Rectangle (Shape):
     def mark(self, canvas):
         for i in range(self._top_left[0], self._bottom_right[0]):
             # mark horizontals
-            canvas[self._top_left[1]][i] = self.get_colour()
-            canvas[self._bottom_right[1]][i] = self.get_colour()
+            canvas[i][self._top_left[1]] = self.get_colour()
+            canvas[i][self._bottom_right[1]] = self.get_colour()
         for i in range(self._top_left[1], self._bottom_right[1]):
             # mark verticals
-            canvas[i][self._top_left[0]] = self.get_colour()
-            canvas[i][self._bottom_right[0]] = self.get_colour()
+            canvas[self._top_left[0]][i] = self.get_colour()
+            canvas[self._bottom_right[0]][i] = self.get_colour()
 
 
 class Ellipse (Shape):
