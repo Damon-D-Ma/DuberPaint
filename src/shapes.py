@@ -27,24 +27,37 @@ class Shape:
     def get_top_left(self):
         """
         returns the top left coordinate of the shape
+
+        Returns:
+            tuple: the coordinates of the top left
         """
         return self._top_left
 
     def get_bottom_right(self):
         """
         returns the bottom right coordinate of the shape
+
+        Returns:
+            tuple: the coordinates of the bottom right
         """
         return self._bottom_right
     
     def get_colour(self):
         """
-        returns the colour of the rectangle
+        returns the colour of the shape
+
+        Returns:
+            list: [r, g, b] of the colour of the shape
         """
-        return self._colour
+        colour_list = [self._colour[0], self._colour[1], self._colour[2]]
+        return colour_list
     
     def get_filled(self):
         """
         returns whether or not the shape is filled with its set colour or not
+
+        Returns:
+            boolean: if the shape is filled or not
         """
         return self._filled
 
@@ -66,6 +79,16 @@ class Rectangle (Shape):
                                           abs(self._bottom_right[0] -
                                           self._top_left[0]),
                                           abs(self._bottom_right[1] - self._top_left[1])), self._filled)
+
+    def mark(self, canvas):
+        for i in range(self._top_left[0], self._bottom_right[0]):
+            # mark horizontals
+            canvas[self._top_left[1]][i] = self.get_colour()
+            canvas[self._bottom_right[1]][i] = self.get_colour()
+        for i in range(self._top_left[1], self._bottom_right[1]):
+            # mark verticals
+            canvas[i][self._top_left[0]] = self.get_colour()
+            canvas[i][self._bottom_right[0]] = self.get_colour()
 
 
 class Ellipse (Shape):

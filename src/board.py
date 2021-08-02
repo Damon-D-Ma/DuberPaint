@@ -20,9 +20,7 @@ class Board:
         self._owner = owner
         self._board_elements = []
         self._user_list = []
-
-        
-        self._canvas = []
+        self.canvas = []
 
         for i in range(size[0]):
             temp = []
@@ -37,4 +35,24 @@ class Board:
         Returns:
             string: the invite code
         """
-        return self.__invite_code
+        return self._invite_code
+
+    def get_owner(self):
+        """
+        Gets the owner of the board
+
+        Returns:
+            user.User: the owner of the board
+        """
+        return self._owner
+
+    def get_users(self):
+        """
+        Gets the users
+
+        Returns:
+            list: list of all users on the board
+        """
+        return self._user_list
+
+    #TODO: update canvasi option
