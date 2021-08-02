@@ -15,10 +15,19 @@ class Board:
             size (tuple): in the format of (height, width) of the canvas
             invite_code (string): the invite code for the board
         """
-        self.invite_code = invite_code
+        self.__invite_code = invite_code
         self.canvas = []
         for i in range(size[0]):
             temp = []
             for j in range(size[1]):
                 temp.append([255, 255, 255])
             self.canvas.append(temp)
+
+    def get_invite_code(self):
+        """
+        Gets the invite code
+
+        Returns:
+            string: the invite code
+        """
+        return self.__invite_code

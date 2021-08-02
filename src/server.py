@@ -1,5 +1,7 @@
 from threading import Thread
 import socket
+import board
+import user
 
 threads = []  # idk why we need to keep track of all the threads
 boards = []  # stores all the boards
@@ -31,6 +33,60 @@ def parse_join_code(join_code):
     else:
         return f"{join_code}"
 
+def send(conn, message):
+    """
+    Sends a message to the client
+
+    Args:
+        conn (socket): the socket to use to send the message
+        message (string): the string to send
+    """
+    conn.send(message.encode())
+
+def join_room(conn, data):
+    """
+    Handles when a user joins a room
+
+    Args:
+        conn (socket): the socket the message was sent from and where messages should be sent to
+        data (string): all the data that was sent over
+    """
+    msg = data.splitlines()
+    if len(msg) == 3:
+        users.append(user.User(msg[1], current_user_id))
+        success = False
+        for board in boards:
+            if board.get_invite_code() == msg[2]:
+                success = True
+                #TODO: send board for the join code
+        send(conn, f"<j>\n{current_user_id}") if success else send(conn, "<X>")
+        current_user_id += 1
+    else:
+        send(conn, "<X>")
+
+
+def create_room(conn, data):
+    """
+    Handles when user requests to create a room
+
+    Args:
+        conn (socket): the socket the message was sent from and where messages should be sent to
+        data (string): all the data that was sent over
+    """
+    msg = data.splitlines()
+    if len(msg) == 2:
+        join_code = parse_join_code(current_join_code)
+        current_join_code += 1
+        boards.append(board.Board((720, 720), join_code)) #TODO: make this not a fixed value later
+        users.append(user.User(msg[1], current_user_id))
+        send(conn, f"<c>\n{current_user_id}\n{join_code}")
+        current_user_id += 1
+    else:
+        send(conn, "<X>")
+
+
+command_map = {"<j>": join_room, "<c>": create_room}
+
 def client_listener(conn, addr):
     """
     Listens to a specific client
@@ -45,7 +101,8 @@ def client_listener(conn, addr):
         data = conn.recv(4096).decode("utf-8")
         print(data)
         command = data.splitlines()[0]
-
+        if command_map.has_key(command):
+            command_map[command](conn, data)
 
 def main():
     """
