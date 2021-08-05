@@ -104,6 +104,16 @@ def kick_user(target_id):
         message = f'<k>\n{target_id}'
         send(message)
 
+def server_listener():
+    """
+    Listens to the server then calls a function to respond based on what the server sends
+    """
+    global sock
+    running = True
+    while running:
+        data = sock.recv(4096).decode("utf-8")
+        print(data)
+
 
 def join_room():
     """
@@ -116,6 +126,7 @@ def join_room():
     # unfinished method
 
     print(f"Joining room with: {username}, {ip}, {port}, {join_code}")
+    Thread(target=server_listener).start()
 
     # need condition to check if the login went through
     return False
@@ -134,24 +145,14 @@ def create_room():
     global sock
     global owner
     sock = socket.create_connection((ip, port))
+    send(f"<c>\n{username}")
     print(f"Creating room with {username}, {ip}, {port}")
 
     owner = True
+    Thread(target=server_listener).start()
 
     # need condition to check if the login went through
     return False
-
-
-def server_listener():
-    """
-    Listens to the server then calls a function to respond based on what the server sends
-    """
-    global sock
-    running = True
-    while running:
-        data = sock.recv()
-        print(data)
-
 
 def main():
     """

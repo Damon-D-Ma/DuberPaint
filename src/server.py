@@ -54,6 +54,7 @@ def join_room(conn, data):
         conn (socket): the socket the message was sent from and where messages should be sent to
         data (string): all the data that was sent over
     """
+    global current_user_id
     msg = data.splitlines()
     if len(msg) == 3:
         users.append(user.User(msg[1], current_user_id))
@@ -76,18 +77,20 @@ def create_room(conn, data):
         conn (socket): the socket the message was sent from and where messages should be sent to
         data (string): all the data that was sent over
     """
+    global current_join_code
+    global current_user_id
     msg = data.splitlines()
+    print(msg)
     if len(msg) == 2:
         join_code = parse_join_code(current_join_code)
         current_join_code += 1
-        # TODO: make this not a fixed value later
-        boards.append(board.Board((720, 720), join_code))
         users.append(user.User(msg[1], current_user_id))
+        # TODO: make this not a fixed value later
+        boards.append(board.Board((720, 720), join_code, users[-1]))
         send(conn, f"<c>\n{current_user_id}\n{join_code}")
         current_user_id += 1
     else:
         send(conn, "<X>")
-
 
 command_map = {"<j>": join_room, "<c>": create_room}
 
@@ -106,7 +109,8 @@ def client_listener(conn, addr):
         data = conn.recv(4096).decode("utf-8")
         print(data)
         command = data.splitlines()[0]
-        if command_map.has_key(command):
+        print(command)
+        if command in command_map.keys():
             command_map[command](conn, data)
 
 
