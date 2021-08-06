@@ -14,7 +14,11 @@ Run `./checkcode.bat` on Windows to check code.
 - [X] figure out threading in Python
 - [ ] Log in error handling
 - [ ] Handle networking protocols
+- [ ] Shape marking
+- [ ] Server Functions
+- [ ] Create the interface of the main screen
+- [ ] User input to draw things
 - [ ] Actual drawing program
 - [ ] Function to plot shapes on the board
-- [ ] make entire thing functional
+- [ ] make entire thing functional + testing
 - [ ] take camera input (if we ever manage to finish)
