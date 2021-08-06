@@ -89,12 +89,16 @@ def create_room(conn, data):
     else:
         send(conn, "<X>")
 
+
 command_map = {"<j>": join_room, "<c>": create_room}
+
 
 def disconnect(conn, data):
     if len(data) == 1:
-        # TODO: loopthroug threads and figure out which one it is or have an identifier for the thread and users
+        # TODO: loopthroug threads and figure out which one it is or have an
+        # identifier for the thread and users
         pass
+
 
 def client_listener(conn, addr):
     """

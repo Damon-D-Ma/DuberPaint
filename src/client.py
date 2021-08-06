@@ -104,6 +104,7 @@ def kick_user(target_id):
         message = f'<k>\n{target_id}'
         send(message)
 
+
 def server_listener():
     """
     Listens to the server then calls a function to respond based on what the server sends
@@ -153,6 +154,7 @@ def create_room():
 
     # need condition to check if the login went through
     return False
+
 
 def main():
     """
