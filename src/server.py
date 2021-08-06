@@ -3,9 +3,8 @@ import socket
 import board
 import user
 
-threads = []  # idk why we need to keep track of all the threads
 boards = []  # stores all the boards
-users = []  # stores all users
+clients = []  # stores all clients (user, conn, board)
 
 current_user_id = 0  # next ID to assign to a user
 current_join_code = 0  # next join code to assign to a board
@@ -52,14 +51,16 @@ def join_room(conn, data):
 
     Args:
         conn (socket): the socket the message was sent from and where messages should be sent to
-        data (string): all the data that was sent over
+        data (list): all the data that was sent over
     """
     global current_user_id
     if len(data) == 3:
-        users.append(user.User(data[1], current_user_id))
         success = False
         for board in boards:
-            if board.get_invite_code() == data[2]:
+            if board.check_invite_code(data[2]):
+                new_user = user.User(data[1], current_user_id)
+                clients.append((new_user, conn, board))
+                board.add_user(new_user)
                 success = True
                 # TODO: send board for the join code
         send(conn, f"<j>\n{current_user_id}") if success else send(conn, "<X>")
@@ -74,30 +75,47 @@ def create_room(conn, data):
 
     Args:
         conn (socket): the socket the message was sent from and where messages should be sent to
-        data (string): all the data that was sent over
+        data (list): all the data that was sent over
     """
     global current_join_code
     global current_user_id
     if len(data) == 2:
         join_code = parse_join_code(current_join_code)
         current_join_code += 1
-        users.append(user.User(data[1], current_user_id))
+        new_user = user.User(data[1], current_user_id)
         # TODO: make this not a fixed value later
-        boards.append(board.Board((720, 720), join_code, users[-1]))
+        boards.append(board.Board((720, 720), join_code, new_user))
+        clients.append((new_user, conn, boards[-1]))
         send(conn, f"<c>\n{current_user_id}\n{join_code}")
         current_user_id += 1
     else:
         send(conn, "<X>")
 
-
-command_map = {"<j>": join_room, "<c>": create_room}
-
-
 def disconnect(conn, data):
+    """
+    Handles a user disconnect
+
+    Args:
+        conn (socket): the socket connection
+        data (list): the data being sent over
+    """
     if len(data) == 1:
-        # TODO: loopthroug threads and figure out which one it is or have an
-        # identifier for the thread and users
-        pass
+        for client in clients:
+            if client[1] == conn:
+                client[1].close()
+                user_id = client[0].get_id()
+                board = client[2]
+                board_users = board.get_users()
+                for user in board_users:
+                    for message_target in clients:
+                        if message_target[0] == user:
+                            send(message_target[1], f"<dc>\n{user_id}")
+                clients.remove(client) # not sure if this handles it nicely
+
+command_map = {
+    "<j>": join_room, 
+    "<c>": create_room, 
+    "<dc>": disconnect}
 
 
 def client_listener(conn, addr):
@@ -128,9 +146,7 @@ def main():
             sock.bind(("127.0.0.1", 5000))
             sock.listen()
             conn, addr = sock.accept()
-            thread = Thread(target=client_listener, args=(conn, addr))
-            thread.start()
-            threads.append(thread)
+            Thread(target=client_listener, args=(conn, addr)).start()
 
 
 if __name__ == "__main__":

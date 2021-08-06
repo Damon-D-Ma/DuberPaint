@@ -28,14 +28,17 @@ class Board:
                 temp.append([255, 255, 255])
             self.canvas.append(temp)
 
-    def get_invite_code(self):
+    def check_invite_code(self, invite):
         """
-        Gets the invite code
+        Checks if the invite code is valid
+
+        Args:
+            invite (string): the invite code to check
 
         Returns:
-            string: the invite code
+            boolean: True if the invite codes are equal, False otherwise
         """
-        return self._invite_code
+        return self._invite_code == invite
 
     def get_owner(self):
         """
@@ -45,6 +48,15 @@ class Board:
             user.User: the owner of the board
         """
         return self._owner
+
+    def add_user(self, user):
+        """
+        Adds a user to the list of users
+
+        Args:
+            user (user.User): the user to add to the list
+        """
+        self._user_list.append(user)
 
     def get_users(self):
         """
