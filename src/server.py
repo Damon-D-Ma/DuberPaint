@@ -55,12 +55,11 @@ def join_room(conn, data):
         data (string): all the data that was sent over
     """
     global current_user_id
-    msg = data.splitlines()
-    if len(msg) == 3:
-        users.append(user.User(msg[1], current_user_id))
+    if len(data) == 3:
+        users.append(user.User(data[1], current_user_id))
         success = False
         for board in boards:
-            if board.get_invite_code() == msg[2]:
+            if board.get_invite_code() == data[2]:
                 success = True
                 # TODO: send board for the join code
         send(conn, f"<j>\n{current_user_id}") if success else send(conn, "<X>")
@@ -79,12 +78,10 @@ def create_room(conn, data):
     """
     global current_join_code
     global current_user_id
-    msg = data.splitlines()
-    print(msg)
-    if len(msg) == 2:
+    if len(data) == 2:
         join_code = parse_join_code(current_join_code)
         current_join_code += 1
-        users.append(user.User(msg[1], current_user_id))
+        users.append(user.User(data[1], current_user_id))
         # TODO: make this not a fixed value later
         boards.append(board.Board((720, 720), join_code, users[-1]))
         send(conn, f"<c>\n{current_user_id}\n{join_code}")
@@ -94,6 +91,10 @@ def create_room(conn, data):
 
 command_map = {"<j>": join_room, "<c>": create_room}
 
+def disconnect(conn, data):
+    if len(data) == 1:
+        # TODO: loopthroug threads and figure out which one it is or have an identifier for the thread and users
+        pass
 
 def client_listener(conn, addr):
     """
@@ -111,7 +112,7 @@ def client_listener(conn, addr):
         command = data.splitlines()[0]
         print(command)
         if command in command_map.keys():
-            command_map[command](conn, data)
+            command_map[command](conn, data.splitlines())
 
 
 def main():
@@ -125,6 +126,7 @@ def main():
             conn, addr = sock.accept()
             thread = Thread(target=client_listener, args=(conn, addr))
             thread.start()
+            threads.append(thread)
 
 
 if __name__ == "__main__":
