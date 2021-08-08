@@ -44,6 +44,19 @@ def send(conn, message):
     """
     conn.send(message.encode())
 
+def send_to_board_members(board, message):
+    """
+    Sends a message all members using the board
+
+    Args:
+        board (board.Board): the board to broadcast the message to
+        message (string): the message to boardcast
+    """
+    board_users = board.get_users()
+    for user in board_users:
+        for client in clients:
+            if client[0] == user:
+                send(client[1], message)
 
 def join_room(conn, data):
     """
@@ -56,14 +69,20 @@ def join_room(conn, data):
     global current_user_id
     if len(data) == 3:
         success = False
+        right_board = None
         for board in boards:
             if board.check_invite_code(data[2]):
                 new_user = user.User(data[1], current_user_id)
                 clients.append((new_user, conn, board))
                 board.add_user(new_user)
+                right_board = board
                 success = True
-                # TODO: send board for the join code
-        send(conn, f"<j>\n{current_user_id}") if success else send(conn, "<X>")
+        if success:
+            send(conn, f"<j>\n{current_user_id}") # send user in reply
+            # TODO: send board for the join code
+            send_to_board_members(right_board, f"<uj>\n{data[1]}\n{current_user_id}") # send to board member that a new user joined
+        else:
+            send(conn, "<X>")
         current_user_id += 1
     else:
         send(conn, "<X>")
@@ -102,20 +121,30 @@ def disconnect(conn, data):
     if len(data) == 1:
         for client in clients:
             if client[1] == conn:
+                send_to_board_members(client[2], f"<dc>\n{client[0].get_id()}")
                 client[1].close()
-                user_id = client[0].get_id()
-                board = client[2]
-                board_users = board.get_users()
-                for user in board_users:
-                    for message_target in clients:
-                        if message_target[0] == user:
-                            send(message_target[1], f"<dc>\n{user_id}")
                 clients.remove(client) # not sure if this handles it nicely
+
+def kick(conn, data):
+    """
+    Handles kicking a user
+
+    Args:
+        conn (socket): the socket connection
+        data (list): the data being sent over
+    """
+    if len(data) == 2:
+        for client in clients:
+            if client[0].get_id == data[1]:
+                send_to_board_members(client[2], f"<dc>\n{data[1]}")
+                client[1].close()
+                clients.remove(client)
 
 command_map = {
     "<j>": join_room, 
     "<c>": create_room, 
-    "<dc>": disconnect}
+    "<dc>": disconnect,
+    "<k>": kick}
 
 
 def client_listener(conn, addr):
