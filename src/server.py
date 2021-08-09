@@ -110,6 +110,59 @@ def create_room(conn, data):
     else:
         send(conn, "<X>")
 
+def draw(conn, data):
+    """
+    Handles when a user decides to draw on the board
+
+    Args:
+        conn (socket): the socket connection
+        data (list): data being sent over
+    """
+    if len(data) == 5:
+        for board in boards:
+            if board.check_invite_code(data[1]):
+                send_to_board_members(board, f"<d>\n{data[2]}\n{data[3]}\n{data[4]}")
+
+def draw_rectangle(conn, data):
+    """
+    Handles a rectangle being drawn
+
+    Args:
+        conn (socket): the socket the message came from
+        data (list): the data the client sent
+    """
+    if len(data) == 6:
+        for board in boards:
+            if board.check_invite_code(data[1]):
+                send_to_board_members(board, f"<r>\n{data[2]}\n{data[3]}\n{data[4]}\n{data[5]}")
+
+def draw_ellipse(conn, data):
+    """
+    Handles an ellipse being drawn
+
+    Args:
+        conn (socket): the connection the message was from
+        data (list): the data that the client sent
+    """
+    if len(data) == 6:
+        for board in boards:
+            if board.check_invite_code(data[1]):
+                send_to_board_members(board, f"<e>\n{data[2]}\n{data[3]}\n{data[4]}\n{data[5]}")
+
+
+def draw_line(conn, data):
+    """
+    Handles a line being drawn
+
+    Args:
+        conn (socket): the connection the message was from
+        data (list): the data the client sent
+    """
+    if len(data) == 6:
+        for board in boards:
+            if board.check_invite_code(data[1]):
+                send_to_board_members(board, f"<L>\n{data[2]}\n{data[3]}\n{data[4]}\n{data[5]}")
+
 def disconnect(conn, data):
     """
     Handles a user disconnect
@@ -144,8 +197,12 @@ command_map = {
     "<j>": join_room, 
     "<c>": create_room, 
     "<dc>": disconnect,
-    "<k>": kick}
-
+    "<d>": draw,
+    "<r>": draw_rectangle,
+    "<e>": draw_ellipse,
+    "<L>": draw_line,
+    "<k>": kick
+}
 
 def client_listener(conn, addr):
     """
