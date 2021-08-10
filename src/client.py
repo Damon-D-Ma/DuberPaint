@@ -130,7 +130,14 @@ def join_room():
     Thread(target=server_listener).start()
 
     # need condition to check if the login went through
-    return False
+    response = sock.recv(4096).decode("utf-8")
+    if response == "<X>":
+        return False
+    elif len(response.splitlines()) == 2:
+        user_id = int(response.splitlines[1])
+        return True
+    else:
+        return False
 
 
 def create_room():
@@ -153,7 +160,12 @@ def create_room():
     Thread(target=server_listener).start()
 
     # need condition to check if the login went through
-    return False
+    response = sock.recv(4096).decode("utf-8")
+    if response == "<X>":
+        return False
+    elif len(response.splitlines()) == 3:
+        user_id = int(response.splitlines()[1])
+        join_code = response.splitlines()[2]
 
 
 def main():
