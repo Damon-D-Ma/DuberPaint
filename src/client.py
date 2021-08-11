@@ -169,12 +169,25 @@ def recv_disconnect(data):
         user_id_of_user_to_remove = int(data[1])
         #TODO: remove the user
 
+def recv_user_join(data):
+    """
+    Handles a user joining
+
+    Args:
+        data (list): stuff sent over from the server
+    """
+    if len(data) == 3:
+        new_user_id = int(data[1])
+        new_username = data[2]
+        #TODO: uh do stuff with this data
+
 command_map = {
     "<d>": recv_draw,
     "<r>": recv_rectangle,
     "<e>": recv_ellipse,
     "<L>": recv_line,
-    "<dc>": recv_disconnect
+    "<dc>": recv_disconnect,
+    "<uj>": recv_user_join
 }
 
 def server_listener():
