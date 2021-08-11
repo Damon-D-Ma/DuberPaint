@@ -15,7 +15,7 @@ Run `./checkcode.bat` on Windows to check code.
 - [ ] Log in error handling
 - [ ] Handle networking protocols
 - [ ] Shape marking
-- [ ] Server Functions
+- [X] Server Functions
 - [ ] Create the interface of the main screen
 - [ ] User input to draw things
 - [ ] Actual drawing program

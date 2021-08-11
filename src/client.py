@@ -104,6 +104,78 @@ def kick_user(target_id):
         message = f'<k>\n{target_id}'
         send(message)
 
+def recv_draw(data):
+    """
+    Handles receiving a draw mark
+
+    Args:
+        data (list): the data sent over by the server
+    """
+    if len(data) == 4:
+        #TODO: do stuff with the data
+        coords = (int(data[1].split(" ")[0]), int(data[1].split(" ")[1]))
+        width = int(data[2])
+        colour = (int(data[3].split(" ")[0]), int(data[3].split(" ")[1]), int(data[3].split(" ")[2]))
+
+def recv_rectangle(data):
+    """
+    Handles receiving a rectangle
+
+    Args:
+        data (list): the data sent over by the server
+    """
+    if len(data) == 5:
+        top_left = (int(data[1].split(" ")[0]), int(data[1].split(" ")[1]))
+        bottom_right = (int(data[2].split(" ")[0]), int(data[2].split(" ")[1]))
+        colour = (int(data[3].split(" ")[0]), int(data[3].split(" ")[1]), int(data[3].split(" ")[2]))
+        fill = (int(data[4].split(" ")[0]), int(data[4].split(" ")[1]), int(data[4].split(" ")[2]))
+        #TODO: do stuff with the data
+
+def recv_ellipse(data):
+    """
+    Handles receiving an ellipse
+
+    Args:
+        data (list): the data sent over by the server
+    """
+    if len(data) == 5:
+        top_left = (int(data[1].split(" ")[0]), int(data[1].split(" ")[1]))
+        bottom_right = (int(data[2].split(" ")[0]), int(data[2].split(" ")[1]))
+        colour = (int(data[3].split(" ")[0]), int(data[3].split(" ")[1]), int(data[3].split(" ")[2]))
+        fill = (int(data[4].split(" ")[0]), int(data[4].split(" ")[1]), int(data[4].split(" ")[2]))
+        #TODO: do stuff with the data
+
+def recv_line(data):
+    """
+    Handles receiving a line
+
+    Args:
+        data (list): the data sent over by the server
+    """
+    if len(data) == 5:
+        top_left = (int(data[1].split(" ")[0]), int(data[1].split(" ")[1]))
+        bottom_right = (int(data[2].split(" ")[0]), int(data[2].split(" ")[1]))
+        colour = (int(data[3].split(" ")[0]), int(data[3].split(" ")[1]), int(data[3].split(" ")[2]))
+        #TODO: do stuff with the data
+
+def recv_disconnect(data):
+    """
+    Handles a user disconnecting
+
+    Args:
+        data (list): the data being sent over by the server
+    """
+    if len(data) == 2:
+        user_id_of_user_to_remove = int(data[1])
+        #TODO: remove the user
+
+command_map = {
+    "<d>": recv_draw,
+    "<r>": recv_rectangle,
+    "<e>": recv_ellipse,
+    "<L>": recv_line,
+    "<dc>": recv_disconnect
+}
 
 def server_listener():
     """
@@ -114,6 +186,8 @@ def server_listener():
     while running:
         data = sock.recv(4096).decode("utf-8")
         print(data)
+        command = data.splitlines()[0]
+        command[command](data.splitlines())
 
 
 def join_room():

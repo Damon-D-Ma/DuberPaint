@@ -161,7 +161,7 @@ def draw_line(conn, data):
     if len(data) == 6:
         for board in boards:
             if board.check_invite_code(data[1]):
-                send_to_board_members(board, f"<L>\n{data[2]}\n{data[3]}\n{data[4]}\n{data[5]}")
+                send_to_board_members(board, f"<L>\n{data[2]}\n{data[3]}\n{data[4]}")
 
 def disconnect(conn, data):
     """
