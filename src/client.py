@@ -30,6 +30,18 @@ join_code_box = None
 create_room_button = None
 join_button = None
 
+board_elements = []
+user_list = []
+
+main_font = None
+
+colour_selection_area = None
+brush_selection_area = None
+shape_selection_area = None
+leave_button = None
+
+
+
 
 def send(message):
     """
@@ -260,12 +272,21 @@ def main():
     global port
 
     global login_font
+    global main_font
     global username_box
     global ip_box
     global port_box
     global join_code_box
     global create_room_button
     global join_button
+
+    global board_elements
+    global user_list
+
+    global colour_selection_area
+    global brush_selection_area
+    global shape_selection_area
+    global leave_button
 
     pygame.init()
     pygame.display.set_caption("Duber Paint")
@@ -277,8 +298,11 @@ def main():
     window_length = 720
     window = pygame.display.set_mode((window_width, window_length))
 
-    # uniform font for the login screen
+    # uniform fonts the program
     login_font = pygame.font.Font(None, 32)
+    main_font = pygame.font.Font(None,32)
+
+
 
     # textboxes for login information
     username_box = dubercomponent.DuberTextBox(
@@ -293,13 +317,43 @@ def main():
         650, 550, 150, 25, (255, 255, 255), 'Create Room', login_font, (200, 200, 200))
     join_button = dubercomponent.DuberTextBox(
         275, 610, 55, 25, (255, 255, 255), 'Join', login_font, (200, 200, 200))
-    # boolean to operate main program
+    
+
+    #elements for main window
+    colour_selection_area = dubercomponent.DuberTextBox(240, 10, 300, 95, (128,128,128), "Colours here", main_font, (255,255,255))
+    brush_selection_area = dubercomponent.DuberTextBox(560, 10, 150, 95, (128,128,128), "Brushes here", main_font, (255,255,255))
+    shape_selection_area = dubercomponent.DuberTextBox(730, 10, 200, 95, (128,128,128), "Shapes here", main_font, (255,255,255))
+        
+    #leave/disconnect button
+    leave_button = dubercomponent.DuberTextBox(20, 670, 160, 40, (255,0,0), "LEAVE", main_font, (255,0,0))
+
+
+    # booleans to operate program
     run = True
     login_screen = True
     editing_username = False
     editing_ip = False
     editing_port = False
     editing_join_code = False
+
+    using_brush = False
+    drawing_rectangle = False
+    drawing_ellipse = False
+    drawing_line = False
+
+
+
+    #Other values needed for the program
+    current_brush = None #may need a default brush here
+    brush_list = [] #need some preset brushes here
+    colour_list = [] #need some preset colours here
+
+
+
+
+
+
+
 
     while run:
         # events
@@ -379,12 +433,21 @@ def main():
                             join_code_box.set_text(
                                 join_code_box.get_text() + event.unicode)
 
-            # user interactions for the main program after loggin in
+            # user interactions for the main program after logging in
             # (UNFINISHED)
             else:
-                # there are supposed to be inputs here for the main screen but
+                if((event.type == pygame.MOUSEBUTTONDOWN) and (event.button == 1)):
+                    if colour_selection_area.selected(pygame.mouse.get_pos()):
+                        print("Colour area clicked")
+                    elif brush_selection_area.selected(pygame.mouse.get_pos()):
+                        print("brush area clicked")
+                    elif shape_selection_area.selected(pygame.mouse.get_pos()):
+                        print("shape tool area selected")
+                    elif leave_button.selected(pygame.mouse.get_pos()):
+                        print("Leave button selected")
+                    elif (200 >= pygame.mouse.get_pos()[0] <= 1080) and (115 >= pygame.mouse.get_pos()[1] <= 720):
+                        print("drawing on the canvas")
                 # we haven't gotten to that part yet
-                window.fill((0, 0, 0))
 
         # update the screen
         if login_screen:
@@ -395,7 +458,23 @@ def main():
 
 def update_main_screen():
     window.fill((0, 0, 0))
-    window.blit(pygame.transform.scale(logo, (105, 73)), (0, 0))
+    pygame.draw.rect(window, (255,255,255), (0,0, 1080, 115), True) #top part of interface
+    pygame.draw.rect(window, (255,255,255), (0,0, 200, 720), True) #left part of interface
+    pygame.draw.rect(window, (255,255,255), (200,115, 880,605), False) #canvas
+
+    window.blit(pygame.transform.scale(logo, (166,115)), (0,0))
+    
+    colour_selection_area.draw(window)
+    brush_selection_area.draw(window)
+    shape_selection_area.draw(window)
+    leave_button.draw(window)
+
+    for object in board_elements:
+        object.draw(window)
+
+    for user in user_list:
+        user.draw(window)
+
     pygame.display.flip()
 
 
