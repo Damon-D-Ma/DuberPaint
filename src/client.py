@@ -40,7 +40,8 @@ brush_selection_area = None
 shape_selection_area = None
 leave_button = None
 
-
+brush_list = [] #need some preset brushes here
+colour_list = [] #need some preset colours here
 
 
 def send(message):
@@ -301,6 +302,9 @@ def main():
     global shape_selection_area
     global leave_button
 
+    global brush_list
+    global colour_list
+
     pygame.init()
     pygame.display.set_caption("Duber Paint")
     logo = pygame.image.load("./assets/duberpaint.png")
@@ -358,8 +362,6 @@ def main():
 
     #Other values needed for the program
     current_brush = None #may need a default brush here
-    brush_list = [] #need some preset brushes here
-    colour_list = [] #need some preset colours here
 
 
 
