@@ -1,4 +1,5 @@
 import pygame
+from math import sqrt
 """
 Contains all the Shapes
 """
@@ -86,6 +87,9 @@ class Rectangle (Shape):
 
         Args:
             canvas (list): surface to mark
+
+        Returns:
+            (list): the canvas but marked
         """
         for i in range(self._top_left[0], self._bottom_right[0]):
             # mark horizontals
@@ -95,6 +99,7 @@ class Rectangle (Shape):
             # mark verticals
             canvas[self._top_left[0]][i] = self.get_colour()
             canvas[self._bottom_right[0]][i] = self.get_colour()
+        return canvas
 
 
 class Ellipse (Shape):
@@ -114,6 +119,27 @@ class Ellipse (Shape):
                                                    abs(self._bottom_right[0] -
                                                        self._top_left[0]),
                                                    abs(self._bottom_right[1] - self._top_left[1])), self._filled)
+
+    def mark(self, canvas):
+        """
+        Marks the ellipse on the canvas using math
+
+        Args:
+            canvas (list): the canvas to mark the ellipse on
+
+        Returns:
+            list: the newly marked canvas
+        """
+        a = (self._bottom_right[0] - self._top_left[0])/2.0
+        b = (self._bottom_right[1] - self._top_left[1])/2.0
+        h = (self._top_left[0] + self._bottom_right[0])/2.0
+        k = (self._top_left[1] + self._bottom_right[1])/2.0
+        for x in range(self._top_left[0], self._bottom_right[0] + 1):
+            # derived from the ellipse formula
+            y1 = round(sqrt((b*b*(1 - (x - h)*(x - h)))) + k)
+            y2 = round(-sqrt((b*b*(1 - (x - h)*(x - h)))) + k)
+            canvas[x][y] = self.get_colour()
+        return canvas
 
 
 class Line (Shape):
