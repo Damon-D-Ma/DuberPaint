@@ -75,7 +75,22 @@ def main():
         pygame.display.flip()
 
 
+    """
+    Colours:
+    
+    Red: (255,0,0)
+    Orange: (255,165)
+    Yellow: (255,255,255)
+    Green: (0,128,0)
+    Blue: (0,0,255)
+    Purple: (128,0,128)
+    Black: (0,0,0)
+    White: (255,255,255)
+    Brown: (139,69,19)
+    Grey: (128,128,128)
 
+
+    """
 
 if __name__ == "__main__":
     main()
