@@ -326,7 +326,7 @@ def main():
     eraser_icon = pygame.image.load("./assets/EraserIcon.png")
     line_icon = pygame.image.load("./assets/LineIcon.png")
     rectangle_icon = pygame.image.load("./assets/RectangleIcon.png")
-    brush_icon = pygame.image.load("./assets/EllipseIcon.png")
+    ellipse_icon = pygame.image.load("./assets/EllipseIcon.png")
 
 
 
@@ -414,12 +414,21 @@ def main():
 
 
     #adding buttons to the list of brush buttons
-
+    
     #row 1
     brush_list.append(dubercomponent.DuberBrushButton(430,20, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10, 10) ))
+    brush_list.append(dubercomponent.DuberBrushButton(472,20, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10, 10) ))
+    brush_list.append(dubercomponent.DuberBrushButton(514,20, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10, 10) ))
+
+    #row 2
+    brush_list.append(dubercomponent.DuberBrushButton(430,62, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10, 10) ))
+    brush_list.append(dubercomponent.DuberBrushButton(472,62, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10, 10) ))
+    brush_list.append(dubercomponent.DuberBrushButton(514,62, pygame.transform.scale(eraser_icon, (32,32)), brushes.Eraser(10,10) ))
+
     #adding buttons to the list of shape buttons
-
-
+    shape_list.append(dubercomponent.DuberShapeButton(586,20, pygame.transform.scale(rectangle_icon, (75,75))))
+    shape_list.append(dubercomponent.DuberShapeButton(671,20, pygame.transform.scale(ellipse_icon, (75,75))))
+    shape_list.append(dubercomponent.DuberShapeButton(756,20, pygame.transform.scale(line_icon, (75,75))))
 
 
 

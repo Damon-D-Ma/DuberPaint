@@ -24,19 +24,19 @@ class Brush:
         self._width = width
         self._height = height
 
-        def get_colour(self):
+    def get_colour(self):
             """
             returns the colour of the brush
             """
             return self._colour
 
-        def get_width(self):
+    def get_width(self):
             """
             returns the width of the brush
             """
             return self._width
 
-        def set_colour(self, new_colour):
+    def set_colour(self, new_colour):
             """
             sets the colour of the brush
 
@@ -45,7 +45,7 @@ class Brush:
             """
             self._colour = new_colour
 
-        def set_width(self, new_width):
+    def set_width(self, new_width):
             """
             sets the width of the brush
 
@@ -53,7 +53,6 @@ class Brush:
                 new_wdith (int): the new width of the brush
             """
             self._width = new_width
-
 
 class Eraser(Brush):
     """
@@ -68,7 +67,7 @@ class Eraser(Brush):
             width (int): width of eraser
             height (int): height of eraser
         """
-        super.__init__((255, 255, 255), width, height)
+        super().__init__((255, 255, 255), width, height)
 
 
 class BrushStroke(Brush, shapes.Shape):
@@ -86,7 +85,7 @@ class BrushStroke(Brush, shapes.Shape):
             height (int): the height of the mark
             coordinates (tuple): the position of the mark on the brush'es canvas
         """
-        super.__init__(colour, width, height)
+        super().__init__(colour, width, height)
         self._coordinates = coordinates
 
     def get_coordinates(self):
