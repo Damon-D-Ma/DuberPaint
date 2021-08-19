@@ -1,7 +1,7 @@
 from threading import Thread
 import pygame
 import socket
-import brushes
+import brushes as brushes
 import dubercomponent
 
 #-------------------------------GLOBALS-------------------------------#

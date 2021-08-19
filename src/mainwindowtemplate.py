@@ -1,6 +1,10 @@
 import pygame
 import dubercomponent
+<<<<<<< Updated upstream
 
+=======
+import brushes as brushes
+>>>>>>> Stashed changes
 
 def main():
     pygame.init()
