@@ -1,6 +1,6 @@
 import pygame
 import dubercomponent
-import brushes
+import brushes as brush
 
 def main():
     pygame.init()
@@ -10,6 +10,11 @@ def main():
 
     # screen size subject to change
     window = pygame.display.set_mode((1080, 720))
+    brush_icon = pygame.image.load("./assets/BrushIcon.png")
+    eraser_icon = pygame.image.load("./assets/EraserIcon.png")
+    line_icon = pygame.image.load("./assets/LineIcon.png")
+    rectangle_icon = pygame.image.load("./assets/RectangleIcon.png")
+    ellipse_icon = pygame.image.load("./assets/EllipseIcon.png")
 
     run = True
 
@@ -31,9 +36,9 @@ def main():
         window.blit(pygame.transform.scale(logo, (166,115)), (0,0))
 
         #drawing tool customization
-        colour_selection_area = dubercomponent.DuberTextBox(240, 10, 160, 95, (128,128,128), "Colours here", font_1, (255,255,255))#not complete
-        brush_selection_area = dubercomponent.DuberTextBox(420, 10, 136, 95, (128,128,128), "Brushes here", font_1, (255,255,255))#not complete
-        shape_selection_area = dubercomponent.DuberTextBox(576, 10, 265, 95, (128,128,128), "Shapes here", font_1, (255,255,255))#not complete
+        colour_selection_area = dubercomponent.DuberTextBox(240, 10, 160, 95, (128,128,128), "", font_1, (255,255,255))#not complete
+        brush_selection_area = dubercomponent.DuberTextBox(420, 10, 136, 95, (128,128,128), "", font_1, (255,255,255))#not complete
+        shape_selection_area = dubercomponent.DuberTextBox(576, 10, 265, 95, (128,128,128), "", font_1, (255,255,255))#not complete
         
         #leave/disconnect button
         leave_button = dubercomponent.DuberTextBox(20, 670, 160, 40, (255,0,0), "LEAVE", font_1, (255,0,0))
@@ -53,6 +58,21 @@ def main():
         pygame.draw.rect(window, (128,128,128), (20, 530, 160, 40), True)
         pygame.draw.rect(window, (128,128,128), (20, 570, 160, 40), True)
         pygame.draw.rect(window, (128,128,128), (20, 610, 160, 40), True)
+
+        leave_button.draw(window)
+
+        colour_selection_area.draw(window)
+        brush_selection_area.draw(window)
+        shape_selection_area.draw(window)
+
+        #top part of interface
+        pygame.draw.rect(window, (255,255,255), (0,0, 1080, 115), True)
+
+        #left part of interface
+        pygame.draw.rect(window, (255,255,255), (0,0, 200, 720), True)
+
+        #canvas
+        pygame.draw.rect(window, (255,255,255), (200,115, 880,605), False)
 
         #positions for colour buttons
 
@@ -101,19 +121,11 @@ def main():
         leave_button.draw(window)
 
         colour_selection_area.draw(window)
-        brush_selection_area.draw(window)
-        shape_selection_area.draw(window)
-
-        #top part of interface
-        pygame.draw.rect(window, (255,255,255), (0,0, 1080, 115), True)
-
-        #left part of interface
-        pygame.draw.rect(window, (255,255,255), (0,0, 200, 720), True)
-
         #canvas
         pygame.draw.rect(window, (255,255,255), (200,115, 880,605), False)
 
         colour_list = []
+        #row1
         colour_list.append(dubercomponent.DuberColourButton(250,18, (255,0,0)))
         colour_list.append(dubercomponent.DuberColourButton(280,18, (255,165,0)))
         colour_list.append(dubercomponent.DuberColourButton(310,18, (255,255,0)))
@@ -140,26 +152,49 @@ def main():
         brush_icon = pygame.image.load("./assets/BrushIcon.png")
 
         brush_list = []
-        brush_list.append(dubercomponent.DuberBrushButton(430,20, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10, 10) ))
+        #adding buttons to the list of brush buttons
+    
+        #row 1
+        brush_list.append(dubercomponent.DuberBrushButton(430,20, pygame.transform.scale(brush_icon, (32,32)), brush.Brush((0,0,0), 10, 10) ))
+        brush_list.append(dubercomponent.DuberBrushButton(472,20, pygame.transform.scale(brush_icon, (32,32)), brush.Brush((0,0,0), 10, 10) ))
+        brush_list.append(dubercomponent.DuberBrushButton(514,20, pygame.transform.scale(brush_icon, (32,32)), brush.Brush((0,0,0), 10, 10) ))
 
-        for brush in brush_list:
-            brush.draw(window)
+        #row 2
+        brush_list.append(dubercomponent.DuberBrushButton(430,62, pygame.transform.scale(brush_icon, (32,32)), brush.Brush((0,0,0), 10, 10) ))
+        brush_list.append(dubercomponent.DuberBrushButton(472,62, pygame.transform.scale(brush_icon, (32,32)), brush.Brush((0,0,0), 10, 10) ))
+        brush_list.append(dubercomponent.DuberBrushButton(514,62, pygame.transform.scale(eraser_icon, (32,32)), brush.Eraser(10, 10)))
+
+        shape_list = []
+        #adding buttons to the list of shape buttons
+        shape_list.append(dubercomponent.DuberShapeButton(586,20, pygame.transform.scale(rectangle_icon, (75,75))))
+        shape_list.append(dubercomponent.DuberShapeButton(671,20, pygame.transform.scale(ellipse_icon, (75,75))))
+        shape_list.append(dubercomponent.DuberShapeButton(756,20, pygame.transform.scale(line_icon, (75,75))))
+
+
+        for brushes in brush_list:
+            brushes.draw(window)
+
+        for shapes in shape_list:
+            shapes.draw(window)
+
         pygame.display.flip()
-   
-  
+
+
     """
     Colours:
     
-    1 Red: (255,0,0)
-    2 Orange: (255,165)
-    3 Yellow: (255,255,0)
-    4 Green: (0,128,0)
-    5 Blue: (0,0,255)
-    6 Purple: (128,0,128)
-    7 Black: (0,0,0)
-    8 White: (255,255,255)
-    9 Brown: (139,69,19)
-    10 Grey: (128,128,128)
+    Red: (255,0,0)
+    Orange: (255,165)
+    Yellow: (255,255,255)
+    Green: (0,128,0)
+    Blue: (0,0,255)
+    Purple: (128,0,128)
+    Black: (0,0,0)
+    White: (255,255,255)
+    Brown: (139,69,19)
+    Grey: (128,128,128)
+
+
     """
 
 if __name__ == "__main__":
