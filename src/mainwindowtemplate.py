@@ -1,6 +1,6 @@
 import pygame
 import dubercomponent
-
+import brushes
 
 def main():
     pygame.init()
