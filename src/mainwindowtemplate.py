@@ -1,6 +1,6 @@
 import pygame
 import dubercomponent
-import brushes as bruh
+import brushes
 
 def main():
     pygame.init()
@@ -140,10 +140,10 @@ def main():
         brush_icon = pygame.image.load("./assets/BrushIcon.png")
 
         brush_list = []
-        brush_list.append(dubercomponent.DuberBrushButton(430,20, pygame.transform.scale(brush_icon, (32,32)), bruh.Brush((0,0,0), 10, 10) ))
+        brush_list.append(dubercomponent.DuberBrushButton(430,20, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10, 10) ))
 
-        for brushes in brush_list:
-            brushes.draw(window)
+        for brush in brush_list:
+            brush.draw(window)
         pygame.display.flip()
    
   
