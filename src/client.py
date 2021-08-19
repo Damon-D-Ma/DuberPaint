@@ -16,6 +16,12 @@ port = None
 owner = False
 
 logo = None
+brush_icon = None
+eraser_icon = None
+line_icon = None
+rectangle_icon = None
+ellipse_icon = None
+
 window_width = None
 window_length = None
 window = None
@@ -40,8 +46,9 @@ brush_selection_area = None
 shape_selection_area = None
 leave_button = None
 
-brush_list = [] #need some preset brushes here
-colour_list = [] #need some preset colours here
+brush_list = []
+colour_list = []
+shape_list = []
 
 
 def send(message):
@@ -304,10 +311,28 @@ def main():
 
     global brush_list
     global colour_list
+    global shape_list
+
+    global brush_icon
+    global eraser_icon
+    global line_icon
+    global rectangle_icon
+    global ellipse_icon
 
     pygame.init()
     pygame.display.set_caption("Duber Paint")
     logo = pygame.image.load("./assets/duberpaint.png")
+    brush_icon = pygame.image.load("./assets/BrushIcon.png")
+    eraser_icon = pygame.image.load("./assets/EraserIcon.png")
+    line_icon = pygame.image.load("./assets/LineIcon.png")
+    rectangle_icon = pygame.image.load("./assets/RectangleIcon.png")
+    brush_icon = pygame.image.load("./assets/EllipseIcon.png")
+
+
+
+
+
+
     pygame.display.set_icon(logo)
 
     # screen size subject to change
@@ -337,9 +362,9 @@ def main():
     
 
     #elements for main window
-    colour_selection_area = dubercomponent.DuberTextBox(240, 10, 300, 95, (128,128,128), "Colours here", main_font, (255,255,255))
-    brush_selection_area = dubercomponent.DuberTextBox(560, 10, 150, 95, (128,128,128), "Brushes here", main_font, (255,255,255))
-    shape_selection_area = dubercomponent.DuberTextBox(730, 10, 200, 95, (128,128,128), "Shapes here", main_font, (255,255,255))
+    colour_selection_area = dubercomponent.DuberTextBox(240, 10, 160, 95, (128,128,128), "", main_font, (255,255,255))
+    brush_selection_area = dubercomponent.DuberTextBox(420, 10, 136, 95, (128,128,128), "", main_font, (255,255,255))
+    shape_selection_area = dubercomponent.DuberTextBox(576, 10, 265, 95, (128,128,128), "", main_font, (255,255,255))
         
     #leave/disconnect button
     leave_button = dubercomponent.DuberTextBox(20, 670, 160, 40, (255,0,0), "LEAVE", main_font, (255,0,0))
@@ -364,7 +389,35 @@ def main():
     current_brush = None #may need a default brush here
 
 
+    #adding buttons to the list of colour buttons
 
+    #row 1
+    colour_list.append(dubercomponent.DuberColourButton(250,18, (255,0,0)))
+    colour_list.append(dubercomponent.DuberColourButton(280,18, (255,165,0)))
+    colour_list.append(dubercomponent.DuberColourButton(310,18, (255,255,0)))
+    colour_list.append(dubercomponent.DuberColourButton(340,18, (0,128,0)))
+    colour_list.append(dubercomponent.DuberColourButton(370,18, (0,0,255)))
+
+    #row 2
+    colour_list.append(dubercomponent.DuberColourButton(250,48, (128,0,128)))
+    colour_list.append(dubercomponent.DuberColourButton(280,48, (0,0,0)))
+    colour_list.append(dubercomponent.DuberColourButton(310,48, (255,255,255)))
+    colour_list.append(dubercomponent.DuberColourButton(340,48, (139,69,19)))
+    colour_list.append(dubercomponent.DuberColourButton(370,48, (128,128,128)))
+
+    #row 3
+    colour_list.append(dubercomponent.DuberColourButton(250,78, (255,255,255)))
+    colour_list.append(dubercomponent.DuberColourButton(280,78, (255,255,255)))
+    colour_list.append(dubercomponent.DuberColourButton(310,78, (255,255,255)))
+    colour_list.append(dubercomponent.DuberColourButton(340,78, (255,255,255)))
+    colour_list.append(dubercomponent.DuberColourButton(370,78, (255,255,255)))
+
+
+    #adding buttons to the list of brush buttons
+
+    #row 1
+    brush_list.append(dubercomponent.DuberBrushButton(430,20, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10, 10) ))
+    #adding buttons to the list of shape buttons
 
 
 
@@ -483,6 +536,15 @@ def update_main_screen():
     brush_selection_area.draw(window)
     shape_selection_area.draw(window)
     leave_button.draw(window)
+
+    for colours in colour_list:
+        colours.draw(window)
+    
+    for brushes in brush_list:
+        brushes.draw(window)
+
+    for shapes in shape_list:
+        shapes.draw(window)
 
     for object in board_elements:
         object.draw(window)

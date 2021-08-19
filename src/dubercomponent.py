@@ -129,7 +129,7 @@ class DuberColourButton(DuberComponent):
             y (int): the top left corner's y position
             colour (tuple): the colour of the DuberColourButton
         """
-        super().__init__(self, x, y, 32, 32, colour)
+        super().__init__(x, y, 20, 20, colour)
 
     def get_colour(self):
         """
@@ -170,7 +170,7 @@ class DuberBrushButton(DuberComponent):
     Button for brush
     """
 
-    def __init__(self, x, y, icon):
+    def __init__(self, x, y, icon, brush):
         """
         Constructor for the DuberBrushButton
 
@@ -178,9 +178,26 @@ class DuberBrushButton(DuberComponent):
             x (int): the x position of the top left corner
             y (int): the y position of the top left corner
             icon (pygame.image): the image icon
+            brush (brushes.Brush): the brush stored in the button
         """
-        super().__init__(self, x, y, 32, 32, (0, 0, 0))
+        super().__init__(x, y, 32, 32, (255, 255, 255))
         self._icon = icon
+        self._brush = brush
+    
+    def get_brush(self):
+        """
+        Reutnrs the brush stored in this button
+        """
+        return self._brush
+
+    def set_brush(self, new_brush):
+        """
+        Sets a new brush
+
+        Args:
+            new_brush (brushes.Brush): the new brush to set
+        """
+        self._brush = new_brush
 
     def set_icon(self, new_icon):
         """
@@ -198,4 +215,43 @@ class DuberBrushButton(DuberComponent):
         Args:
             screen (pygame.surface): the surface to draw the component on
         """
+        pygame.draw.rect(screen, self._colour,(self._x, self._y, self._width,self._height),0)
         screen.blit(self._icon, (self._x, self._y))
+
+    class DuberShapeButton(DuberComponent):
+        """
+        Button for shapes
+        """
+
+        def __init__(self, x, y, icon):
+            """
+            Constructor for the DuberShapeButton
+
+            Args:
+                x (int): the x position of the top left corner
+                y (int): the y position of the top left corner
+                icon (pygame.image): the image icon
+            """
+            super().__init__(self, x, y, 75, 75, (255, 255, 255))
+            self._icon = icon
+
+        def set_icon(self, new_icon):
+            """
+            Sets a new icon
+
+            Args:
+                new_icon (pygame.image): the new image to set
+            """
+            self._icon = new_icon
+
+        def draw(self, screen):
+            """
+            Draws the component on the screen
+
+            Args:
+                screen (pygame.surface): the surface to draw the component on
+            """
+            pygame.draw.rect(screen, self._colour,(self._x, self._y, self._width,self._height),0)
+            screen.blit(self._icon, (self._x, self._y))
+
+
