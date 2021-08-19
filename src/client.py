@@ -365,7 +365,48 @@ def main():
 
 
 
+<<<<<<< Updated upstream
 
+=======
+    #row 1
+    colour_list.append(dubercomponent.DuberColourButton(250,18, (255,0,0)))
+    colour_list.append(dubercomponent.DuberColourButton(280,18, (255,165,0)))
+    colour_list.append(dubercomponent.DuberColourButton(310,18, (255,255,0)))
+    colour_list.append(dubercomponent.DuberColourButton(340,18, (0,128,0)))
+    colour_list.append(dubercomponent.DuberColourButton(370,18, (0,0,255)))
+
+    #row 2
+    colour_list.append(dubercomponent.DuberColourButton(250,48, (128,0,128)))
+    colour_list.append(dubercomponent.DuberColourButton(280,48, (0,0,0)))
+    colour_list.append(dubercomponent.DuberColourButton(310,48, (255,255,255)))
+    colour_list.append(dubercomponent.DuberColourButton(340,48, (139,69,19)))
+    colour_list.append(dubercomponent.DuberColourButton(370,48, (128,128,128)))
+
+    #row 3
+    colour_list.append(dubercomponent.DuberColourButton(250,78, (255,255,255)))
+    colour_list.append(dubercomponent.DuberColourButton(280,78, (255,255,255)))
+    colour_list.append(dubercomponent.DuberColourButton(310,78, (255,255,255)))
+    colour_list.append(dubercomponent.DuberColourButton(340,78, (255,255,255)))
+    colour_list.append(dubercomponent.DuberColourButton(370,78, (255,255,255)))
+
+
+    #adding buttons to the list of brush buttons
+
+    #row 1
+    brush_list.append(dubercomponent.DuberBrushButton(430,20, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10, 10) ))
+    brush_list.append(dubercomponent.DuberBrushButton(472,20, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10, 10) ))
+    brush_list.append(dubercomponent.DuberBrushButton(514,20, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10, 10) ))
+    
+    #row 2
+    brush_list.append(dubercomponent.DuberBrushButton(430,62, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10, 10) ))
+    brush_list.append(dubercomponent.DuberBrushButton(472,62, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10, 10) ))
+    brush_list.append(dubercomponent.DuberBrushButton(514,62, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10, 10) ))
+   
+    #adding buttons to the list of shape buttons
+    shape_list.append(dubercomponent.DuberShapeButton(586,20, rectangle_icon))
+    shape_list.append(dubercomponent.DuberShapeButton(671, 20, ellipse_icon))
+    shape_list.append(dubercomponent.DuberShapeButton(756,20, line_icon))
+>>>>>>> Stashed changes
 
 
 

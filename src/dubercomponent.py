@@ -199,3 +199,45 @@ class DuberBrushButton(DuberComponent):
             screen (pygame.surface): the surface to draw the component on
         """
         screen.blit(self._icon, (self._x, self._y))
+<<<<<<< Updated upstream
+=======
+
+class DuberShapeButton(DuberComponent):
+    """
+    Button for shapes
+    """
+
+    def __init__(self, x, y, icon):
+        """
+        Constructor for the DuberShapeButton
+
+        Args:
+            x (int): the x position of the top left corner
+            y (int): the y position of the top left corner
+            icon (pygame.image): the image icon
+        """
+        super().__init__(self, x, y, 75, 75, (255, 255, 255))
+        self._icon = icon
+
+    def set_icon(self, new_icon):
+        """
+        Sets a new icon
+
+        Args:
+            new_icon (pygame.image): the new image to set
+        """
+        self._icon = new_icon
+        
+        
+    def draw(self, screen):
+        """
+        Draws the component on the screen
+
+        Args:
+            screen (pygame.surface): the surface to draw the component on
+        """
+        pygame.draw.rect(screen, self._colour,(self._x, self._y, self._width,self._height),0)
+        screen.blit(self._icon, (self._x, self._y))
+
+
+>>>>>>> Stashed changes
