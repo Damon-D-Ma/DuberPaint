@@ -11,18 +11,25 @@ class Brush:
     Brush class
     """
 
-    def __init__(self, colour, width, height):
+    def __init__(self, colour, width):
         """
         Constructor, assigns values
 
         Args:
             colour (tuple): RGB values for the brush colour
             width (int): width of brush
-            height (int): height of brush
         """
         self._colour = colour
         self._width = width
-        self._height = height
+    
+    def make_brush_stroke(self, position):
+        """
+        Creates a brush stroke when the brush is used
+
+        Args:
+            position (tuple): the coordinates that the brush is on to make the mark
+        """
+        return BrushStroke(self._colour, self._width, position)
 
     def get_colour(self):
             """
@@ -54,12 +61,13 @@ class Brush:
             """
             self._width = new_width
 
+
 class Eraser(Brush):
     """
     Eraser, inherits from Brush
     """
 
-    def __init__(self, width, height):
+    def __init__(self, width):
         """
         Eraser constructor
 
@@ -67,7 +75,7 @@ class Eraser(Brush):
             width (int): width of eraser
             height (int): height of eraser
         """
-        super().__init__((255, 255, 255), width, height)
+        super().__init__((255, 255, 255), width)
 
 
 class BrushStroke(Brush, shapes.Shape):
@@ -75,7 +83,7 @@ class BrushStroke(Brush, shapes.Shape):
     The mark that the Brush class would make on the canvas
     """
 
-    def __init__(self, colour, width, height, coordinates):
+    def __init__(self, colour, width, coordinates):
         """
         Constructor for the BrushStroke
 
@@ -85,7 +93,7 @@ class BrushStroke(Brush, shapes.Shape):
             height (int): the height of the mark
             coordinates (tuple): the position of the mark on the brush'es canvas
         """
-        super().__init__(colour, width, height)
+        super().__init__(colour, width)
         self._coordinates = coordinates
 
     def get_coordinates(self):

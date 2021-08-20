@@ -361,6 +361,8 @@ def main():
 
     pygame.init()
     pygame.display.set_caption("Duber Paint")
+
+    #loading in assets
     logo = pygame.image.load("./assets/duberpaint.png")
     brush_icon = pygame.image.load("./assets/BrushIcon.png")
     eraser_icon = pygame.image.load("./assets/EraserIcon.png")
@@ -418,15 +420,19 @@ def main():
     editing_port = False
     editing_join_code = False
 
-    using_brush = False
+    using_brush = True
     drawing_rectangle = False
     drawing_ellipse = False
     drawing_line = False
 
+    #default colour for shapes that are drawn
+    shape_colour = (0,0,0)
 
+    #index of the brush selected
+    brush_index = 0
 
     #Other values needed for the program
-    current_brush = None #may need a default brush here
+    current_brush = brushes.Brush((0,0,0), 10)
 
 
     #adding buttons to the list of colour buttons
@@ -456,14 +462,14 @@ def main():
     #adding buttons to the list of brush buttons
     
     #row 1
-    brush_list.append(dubercomponent.DuberBrushButton(430,20, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10, 10) ))
-    brush_list.append(dubercomponent.DuberBrushButton(472,20, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10, 10) ))
-    brush_list.append(dubercomponent.DuberBrushButton(514,20, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10, 10) ))
+    brush_list.append(dubercomponent.DuberBrushButton(430,20, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10) ))
+    brush_list.append(dubercomponent.DuberBrushButton(472,20, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10) ))
+    brush_list.append(dubercomponent.DuberBrushButton(514,20, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10) ))
 
     #row 2
-    brush_list.append(dubercomponent.DuberBrushButton(430,62, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10, 10) ))
-    brush_list.append(dubercomponent.DuberBrushButton(472,62, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10, 10) ))
-    brush_list.append(dubercomponent.DuberBrushButton(514,62, pygame.transform.scale(eraser_icon, (32,32)), brushes.Eraser(10,10) ))
+    brush_list.append(dubercomponent.DuberBrushButton(430,62, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10) ))
+    brush_list.append(dubercomponent.DuberBrushButton(472,62, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10) ))
+    brush_list.append(dubercomponent.DuberBrushButton(514,62, pygame.transform.scale(eraser_icon, (32,32)), brushes.Eraser(10) ))
 
     #adding buttons to the list of shape buttons
     shape_list.append(dubercomponent.DuberShapeButton(586,20, pygame.transform.scale(rectangle_icon, (75,75))))
@@ -476,7 +482,10 @@ def main():
         # events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = False
+                if not login_screen:
+                    disconnect()
+                
+                run = False 
 
             # only detects user input for these objects if they are in the
             # login screen
@@ -581,16 +590,59 @@ def main():
             else:
                 if((event.type == pygame.MOUSEBUTTONDOWN) and (event.button == 1)):
                     if colour_selection_area.selected(pygame.mouse.get_pos()):
-                        print("Colour area clicked")
+                        for colour_button in colour_list:
+                            if colour_button.selected(pygame.mouse.get_pos()):
+                                if drawing_rectangle or drawing_ellipse or drawing_line:
+                                    shape_colour = colour_button.get_colour()
+                                elif not isinstance(current_brush, brushes.Eraser) and using_brush:
+                                     current_brush.set_colour(colour_button.get_colour())
+                                     brush_list[brush_index].set_colour(colour_button.get_colour())
+                                break
+
                     elif brush_selection_area.selected(pygame.mouse.get_pos()):
-                        print("brush area clicked")
+                        temp_brush_index = 0
+                        for brush_button in brush_list:
+                            temp_brush_index += 1
+                            if brush_button.selected(pygame.mouse.get_pos()):
+                                current_brush = brush_button.get_brush()
+                                brush_index = temp_brush_index
+                                using_brush = True
+                                drawing_rectangle = False
+                                drawing_ellipse = False
+                                drawing_line = False
+                                break
+
                     elif shape_selection_area.selected(pygame.mouse.get_pos()):
-                        print("shape tool area selected")
+                        if shape_list[0].selected(pygame.mouse.get_pos()):
+                            drawing_rectangle = True
+                            using_brush = False
+                            drawing_ellipse = False
+                            drawing_line = False
+                        elif shape_list[1].selected(pygame.mouse.get_pos()):
+                            drawing_ellipse = True
+                            using_brush = False
+                            drawing_rectangle = False
+                            drawing_line = False
+                        elif shape_list[2].selected(pygame.mouse.get_pos()):
+                            drawing_line = True
+                            using_brush = False
+                            drawing_rectangle = False
+                            drawing_ellipse = False
+
                     elif leave_button.selected(pygame.mouse.get_pos()):
-                        print("Leave button selected")
+                        disconnect()
                     elif (200 >= pygame.mouse.get_pos()[0] <= 1080) and (115 >= pygame.mouse.get_pos()[1] <= 720):
-                        print("drawing on the canvas")
-                # we haven't gotten to that part yet
+                        if using_brush:
+                            send_brush_mark(current_brush.make_brush_stroke(pygame.mouse.get_pos()))
+                        elif drawing_rectangle:
+                            #send_rect()
+                            print("Drawing Rectangle")
+                        elif drawing_ellipse:
+                            #send_ellipse
+                            print("Drawing Ellipse")
+                        elif drawing_line:
+                            #send_line()
+                            print("Drawing Line")
 
         # update the screen
         if login_screen:
