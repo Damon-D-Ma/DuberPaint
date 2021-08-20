@@ -534,7 +534,33 @@ def main():
                         elif editing_join_code:
                             join_code_box.set_text(
                                 join_code_box.get_text()[0:-1])
-
+                    elif event.key == pygame.K_TAB:
+                        if editing_username:
+                            editing_username = False
+                            editing_ip = True
+                            editing_port = False
+                            editing_join_code = False
+                        elif editing_ip:
+                            editing_username = False
+                            editing_ip = False
+                            editing_port = True
+                            editing_join_code = False
+                        elif editing_port:
+                            editing_username = False
+                            editing_ip = False
+                            editing_port = False
+                            editing_join_code = True
+                        elif editing_join_code:
+                            editing_username = True
+                            editing_ip = False
+                            editing_port = False
+                            editing_join_code = False
+                    # editing_username = True
+                    #     editing_ip = False
+                    #     editing_port = False
+                    #     editing_join_code = False
+                    elif (event.key == pygame.K_LCTRL) or (event.key == pygame.K_RCTRL):
+                        pass # TODO: handle ctrl being pressed
                     # lets the user enter in information for logging in
                     else:
                         if editing_username and len(
