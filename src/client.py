@@ -46,6 +46,9 @@ brush_selection_area = None
 shape_selection_area = None
 leave_button = None
 
+run = True
+server_thread = None
+
 brush_list = []
 colour_list = []
 shape_list = []
@@ -108,8 +111,15 @@ def send_line(line):
 
 
 def disconnect():
+    """
+    Disconnects the client from the server
+    """
+    global server_thread
+    global sock
     message = f'<dc>\n{user_id}'
     send(message)
+    del(server_thread)
+    sock.close()
 
 
 def kick_user(target_id):
@@ -255,8 +265,8 @@ def server_listener():
     Listens to the server then calls a function to respond based on what the server sends
     """
     global sock
-    running = True
-    while running:
+    global run
+    while run:
         data = sock.recv(4096).decode("utf-8")
         print(data)
         command = data.splitlines()[0]
@@ -271,6 +281,7 @@ def join_room():
         boolean: True if successful, false otherwise
     """
     global sock
+    global server_thread
     sock = socket.create_connection((ip, port))
     send(f"<j>\n{username}\n{join_code}")
     # unfinished method
@@ -283,7 +294,7 @@ def join_room():
         return False
     elif len(response.splitlines()) == 3:
         user_id = int(response.splitlines[1])
-        Thread(target=server_listener).start()
+        server_thread = Thread(target=server_listener).start()
         return True
     else:
         return False
@@ -298,6 +309,7 @@ def create_room():
     """
     global sock
     global owner
+    global server_thread
     sock = socket.create_connection((ip, port))
     send(f"<c>\n{username}")
     print(f"Creating room with {username}, {ip}, {port}")
@@ -311,7 +323,7 @@ def create_room():
     elif len(response.splitlines()) == 3:
         user_id = int(response.splitlines()[1])
         join_code = response.splitlines()[2]
-        Thread(target=server_listener).start()
+        server_thread = Thread(target=server_listener).start()
         return True
     else:
         return False
@@ -360,6 +372,8 @@ def main():
     global line_icon
     global rectangle_icon
     global ellipse_icon
+
+    global run
 
     pygame.init()
     pygame.display.set_caption("Duber Paint")
@@ -415,7 +429,6 @@ def main():
 
 
     # booleans to operate program
-    run = True
     login_screen = True
     editing_username = False
     editing_ip = False
@@ -487,7 +500,7 @@ def main():
                 if not login_screen:
                     disconnect()
                 
-                run = False 
+                run = False
 
             # only detects user input for these objects if they are in the
             # login screen
@@ -651,6 +664,7 @@ def main():
             update_login_screen()
         else:
             update_main_screen()
+    pygame.quit()
 
 
 def update_main_screen():
