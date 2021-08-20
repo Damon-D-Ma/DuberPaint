@@ -29,7 +29,6 @@ def main():
 
 
 
-
         font_1= pygame.font.Font(None,32)
 
         #project logo
@@ -40,10 +39,16 @@ def main():
         brush_selection_area = dubercomponent.DuberTextBox(420, 10, 136, 95, (128,128,128), "", font_1, (255,255,255))#not complete
         shape_selection_area = dubercomponent.DuberTextBox(576, 10, 265, 95, (128,128,128), "", font_1, (255,255,255))#not complete
         
-        #leave/disconnect button
-        leave_button = dubercomponent.DuberTextBox(20, 670, 160, 40, (255,0,0), "LEAVE", font_1, (255,0,0))
-        
+        join_code = "XXXXXX"
+        join_code_area = dubercomponent.DuberTextBox(861, 10, 130, 55, (128,128,128), "Join Code:", font_1, (255,255,255))
+        window.blit(font_1.render(join_code, True, (255, 255, 255)), (866, 34))
 
+
+        export_button = dubercomponent.DuberTextBox(861, 73, 130, 32, (128,128,128), "Export", font_1, (0,128,0))
+
+        kick_button = dubercomponent.DuberTextBox(20, 670, 160, 40, (255,0,0), "Kick User", font_1, (255,0,0))
+        
+  
         #list of users
         window.blit(font_1.render('Users:', True, (255, 255, 255)), (20, 130))
         pygame.draw.rect(window, (128,128,128), (20, 170, 160, 40), True)
@@ -59,12 +64,12 @@ def main():
         pygame.draw.rect(window, (128,128,128), (20, 570, 160, 40), True)
         pygame.draw.rect(window, (128,128,128), (20, 610, 160, 40), True)
 
-        leave_button.draw(window)
-
+        export_button.draw(window)
         colour_selection_area.draw(window)
         brush_selection_area.draw(window)
         shape_selection_area.draw(window)
-
+        join_code_area.draw(window)
+        kick_button.draw(window)
         #top part of interface
         pygame.draw.rect(window, (255,255,255), (0,0, 1080, 115), True)
 
@@ -118,7 +123,6 @@ def main():
 
       
 
-        leave_button.draw(window)
 
         colour_selection_area.draw(window)
         #canvas
