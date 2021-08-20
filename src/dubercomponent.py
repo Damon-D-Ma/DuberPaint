@@ -199,6 +199,14 @@ class DuberBrushButton(DuberComponent):
             new_brush (brushes.Brush): the new brush to set
         """
         self._brush = new_brush
+
+    def set_colour(self, new_colour):
+        """
+        Sets the colour of the brush
+            new_colour (tuple): the new colour of the brush in the button
+        """
+        self._brush.set_colour(new_colour)
+
     def set_icon(self, new_icon):
         """
         Sets a new icon
