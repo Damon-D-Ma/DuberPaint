@@ -124,6 +124,25 @@ def kick_user(target_id):
         message = f'<k>\n{target_id}'
         send(message)
 
+def recv_successful(data):
+    """
+    What happens when the connection was successful
+
+    Args:
+        data (list): All the data that was send over
+    """
+    userid = int(data[1])
+    join_code = data[2]
+
+def recv_login_failed(data):
+    """
+    Shows connection failed
+
+    Args:
+        data (list): In this case is just ["<X>"] and is here to follow convention
+    """
+    pass # connection failed
+
 def recv_draw(data):
     """
     Handles receiving a draw mark
@@ -201,13 +220,34 @@ def recv_user_join(data):
         new_username = data[2]
         #TODO: uh do stuff with this data
 
+def recv_board(data):
+    """
+    Handles receiving board data
+
+    Args:
+        data (list): all the data that got sent over
+    """
+    width, height = int(data[1].split(" ")[0]), int(data[1].split(" ")[1])
+    canvas = []
+    for i in range(width):
+        row = []
+        row_data = data[i + 2].split("|")
+        for j in range(height):
+            colour_data = row_data[j].split(",")
+            colour = [int(colour_data[0]), int(colour_data[1]), int(colour_data[2])]
+            row.append(colour)
+        canvas.append(row)
+
 command_map = {
+    "<c>": recv_successful,
+    "<X>": recv_login_failed,
     "<d>": recv_draw,
     "<r>": recv_rectangle,
     "<e>": recv_ellipse,
     "<L>": recv_line,
     "<dc>": recv_disconnect,
-    "<uj>": recv_user_join
+    "<uj>": recv_user_join,
+    "<b>": recv_board
 }
 
 def server_listener():

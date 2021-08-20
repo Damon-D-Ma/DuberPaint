@@ -69,7 +69,7 @@ def send_canvas(conn, board):
     canvas_data = f"{len(board.canvas)} {len(board.canvas[0])}\n"
     for row in board.canvas:
         for colour in row:
-            canvas_data += f"({colour[0]} {colour[1]} {colour[2]}) "
+            canvas_data += f"{colour[0]},{colour[1]},{colour[2]}|"
         canvas_data += "\n"
     send (conn, f"<b>\n{canvas_data}")
 
@@ -93,7 +93,7 @@ def join_room(conn, data):
                 right_board = board
                 success = True
         if success:
-            send(conn, f"<j>\n{current_user_id}") # send user in reply
+            send(conn, f"<c>\n{current_user_id}\n{data[2]}") # send user in reply
             send_canvas(conn, right_board)
             send_to_board_members(right_board, f"<uj>\n{data[1]}\n{current_user_id}") # send to board member that a new user joined
         else:
