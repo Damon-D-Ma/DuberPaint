@@ -58,6 +58,21 @@ def send_to_board_members(board, message):
             if client[0] == user:
                 send(client[1], message)
 
+def send_canvas(conn, board):
+    """
+    Sends the board data over
+
+    Args:
+        conn (socket): [description]
+        board (board.Board): [description]
+    """
+    canvas_data = f"{len(board.canvas)} {len(board.canvas[0])}\n"
+    for row in board.canvas:
+        for colour in row:
+            canvas_data += f"({colour[0]} {colour[1]} {colour[2]}) "
+        canvas_data += "\n"
+    send (conn, f"<b>\n{canvas_data}")
+
 def join_room(conn, data):
     """
     Handles when a user joins a room
@@ -79,7 +94,7 @@ def join_room(conn, data):
                 success = True
         if success:
             send(conn, f"<j>\n{current_user_id}") # send user in reply
-            # TODO: send board for the join code
+            send_canvas(conn, right_board)
             send_to_board_members(right_board, f"<uj>\n{data[1]}\n{current_user_id}") # send to board member that a new user joined
         else:
             send(conn, "<X>")
