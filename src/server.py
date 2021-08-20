@@ -87,7 +87,7 @@ def join_room(conn, data):
         right_board = None
         for board in boards:
             if board.check_invite_code(data[2]):
-                new_user = user.User(data[1], current_user_id)
+                new_user = user.User(data[1], current_user_id, False)
                 clients.append((new_user, conn, board))
                 board.add_user(new_user)
                 right_board = board
@@ -116,7 +116,7 @@ def create_room(conn, data):
     if len(data) == 2:
         join_code = parse_join_code(current_join_code)
         current_join_code += 1
-        new_user = user.User(data[1], current_user_id)
+        new_user = user.User(data[1], current_user_id, True)
         # TODO: make this not a fixed value later
         boards.append(board.Board((720, 720), join_code, new_user))
         clients.append((new_user, conn, boards[-1]))

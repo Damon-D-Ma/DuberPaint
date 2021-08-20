@@ -260,13 +260,15 @@ def server_listener():
         data = sock.recv(4096).decode("utf-8")
         print(data)
         command = data.splitlines()[0]
-        command[command](data.splitlines())
+        command_map[command](data.splitlines())
 
 
 def join_room():
     """
     Joins an existing room upon logging in
 
+    Returns:
+        boolean: True if successful, false otherwise
     """
     global sock
     sock = socket.create_connection((ip, port))
@@ -274,14 +276,14 @@ def join_room():
     # unfinished method
 
     print(f"Joining room with: {username}, {ip}, {port}, {join_code}")
-    Thread(target=server_listener).start()
 
     # need condition to check if the login went through
     response = sock.recv(4096).decode("utf-8")
     if response == "<X>":
         return False
-    elif len(response.splitlines()) == 2:
+    elif len(response.splitlines()) == 3:
         user_id = int(response.splitlines[1])
+        Thread(target=server_listener).start()
         return True
     else:
         return False
@@ -291,11 +293,8 @@ def create_room():
     """
     Creates a new room upon logging in
 
-    Args:
-       username (string): the username selected by the user
-       ip (string): the ip address of the server
-       port (string): the server's port to connect to
-
+    Returns:
+        boolean: True if successful, False otherwise
     """
     global sock
     global owner
@@ -304,7 +303,6 @@ def create_room():
     print(f"Creating room with {username}, {ip}, {port}")
 
     owner = True
-    Thread(target=server_listener).start()
 
     # need condition to check if the login went through
     response = sock.recv(4096).decode("utf-8")
@@ -313,6 +311,10 @@ def create_room():
     elif len(response.splitlines()) == 3:
         user_id = int(response.splitlines()[1])
         join_code = response.splitlines()[2]
+        Thread(target=server_listener).start()
+        return True
+    else:
+        return False
 
 
 def main():
@@ -521,14 +523,14 @@ def main():
                         port = port_box.get_text()
                         join_code = join_code_box.get_text()
 
-                        login_screen = join_room()
+                        login_screen = not join_room()
                     elif create_room_button.selected(pygame.mouse.get_pos()):
 
                         username = username_box.get_text()
                         ip = ip_box.get_text()
                         port = port_box.get_text()
 
-                        login_screen = create_room()
+                        login_screen = not create_room()
 
                 # lets the user remove information for logging in
                 elif event.type == pygame.KEYDOWN:
