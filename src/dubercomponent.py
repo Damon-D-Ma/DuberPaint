@@ -163,7 +163,7 @@ class DuberColourButton(DuberComponent):
              self._y,
              self._width,
              self._height))
-        pygame.draw.rect(screen, (128,128,128), (self._x, self._y, self._width, self._height), True)
+        pygame.draw.rect(screen, (255,255,255), (self._x, self._y, self._width, self._height), True)
 
 
 class DuberBrushButton(DuberComponent):
