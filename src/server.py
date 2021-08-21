@@ -44,6 +44,7 @@ def send(conn, message):
     """
     conn.send(message.encode())
 
+
 def send_to_board_members(board, message):
     """
     Sends a message all members using the board
@@ -58,6 +59,7 @@ def send_to_board_members(board, message):
             if client[0] == user:
                 send(client[1], message)
 
+
 def send_canvas(conn, board):
     """
     Sends the board data over
@@ -71,7 +73,8 @@ def send_canvas(conn, board):
         for colour in row:
             canvas_data += f"{colour[0]},{colour[1]},{colour[2]}|"
         canvas_data += "\n"
-    send (conn, f"<b>\n{canvas_data}")
+    send(conn, f"<b>\n{canvas_data}")
+
 
 def join_room(conn, data):
     """
@@ -93,9 +96,12 @@ def join_room(conn, data):
                 right_board = board
                 success = True
         if success:
-            send(conn, f"<c>\n{current_user_id}\n{data[2]}") # send user in reply
+            # send user in reply
+            send(conn, f"<c>\n{current_user_id}\n{data[2]}")
             send_canvas(conn, right_board)
-            send_to_board_members(right_board, f"<uj>\n{data[1]}\n{current_user_id}") # send to board member that a new user joined
+            # send to board member that a new user joined
+            send_to_board_members(
+                right_board, f"<uj>\n{data[1]}\n{current_user_id}")
         else:
             send(conn, "<X>")
         current_user_id += 1
@@ -125,6 +131,7 @@ def create_room(conn, data):
     else:
         send(conn, "<X>")
 
+
 def draw(conn, data):
     """
     Handles when a user decides to draw on the board
@@ -136,7 +143,9 @@ def draw(conn, data):
     if len(data) == 5:
         for board in boards:
             if board.check_invite_code(data[1]):
-                send_to_board_members(board, f"<d>\n{data[2]}\n{data[3]}\n{data[4]}")
+                send_to_board_members(
+                    board, f"<d>\n{data[2]}\n{data[3]}\n{data[4]}")
+
 
 def draw_rectangle(conn, data):
     """
@@ -149,7 +158,9 @@ def draw_rectangle(conn, data):
     if len(data) == 6:
         for board in boards:
             if board.check_invite_code(data[1]):
-                send_to_board_members(board, f"<r>\n{data[2]}\n{data[3]}\n{data[4]}\n{data[5]}")
+                send_to_board_members(
+                    board, f"<r>\n{data[2]}\n{data[3]}\n{data[4]}\n{data[5]}")
+
 
 def draw_ellipse(conn, data):
     """
@@ -162,7 +173,8 @@ def draw_ellipse(conn, data):
     if len(data) == 6:
         for board in boards:
             if board.check_invite_code(data[1]):
-                send_to_board_members(board, f"<e>\n{data[2]}\n{data[3]}\n{data[4]}\n{data[5]}")
+                send_to_board_members(
+                    board, f"<e>\n{data[2]}\n{data[3]}\n{data[4]}\n{data[5]}")
 
 
 def draw_line(conn, data):
@@ -176,7 +188,9 @@ def draw_line(conn, data):
     if len(data) == 6:
         for board in boards:
             if board.check_invite_code(data[1]):
-                send_to_board_members(board, f"<L>\n{data[2]}\n{data[3]}\n{data[4]}")
+                send_to_board_members(
+                    board, f"<L>\n{data[2]}\n{data[3]}\n{data[4]}")
+
 
 def disconnect(conn, data):
     """
@@ -191,7 +205,8 @@ def disconnect(conn, data):
             if client[1] == conn:
                 send_to_board_members(client[2], f"<dc>\n{client[0].get_id()}")
                 client[1].close()
-                clients.remove(client) # not sure if this handles it nicely
+                clients.remove(client)  # not sure if this handles it nicely
+
 
 def kick(conn, data):
     """
@@ -208,9 +223,10 @@ def kick(conn, data):
                 client[1].close()
                 clients.remove(client)
 
+
 command_map = {
-    "<j>": join_room, 
-    "<c>": create_room, 
+    "<j>": join_room,
+    "<c>": create_room,
     "<dc>": disconnect,
     "<d>": draw,
     "<r>": draw_rectangle,
@@ -218,6 +234,7 @@ command_map = {
     "<L>": draw_line,
     "<k>": kick
 }
+
 
 def client_listener(conn, addr):
     """

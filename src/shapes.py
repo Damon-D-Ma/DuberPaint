@@ -130,14 +130,14 @@ class Ellipse (Shape):
         Returns:
             list: the newly marked canvas
         """
-        a = (self._bottom_right[0] - self._top_left[0])/2.0
-        b = (self._bottom_right[1] - self._top_left[1])/2.0
-        h = (self._top_left[0] + self._bottom_right[0])/2.0
-        k = (self._top_left[1] + self._bottom_right[1])/2.0
+        a = (self._bottom_right[0] - self._top_left[0]) / 2.0
+        b = (self._bottom_right[1] - self._top_left[1]) / 2.0
+        h = (self._top_left[0] + self._bottom_right[0]) / 2.0
+        k = (self._top_left[1] + self._bottom_right[1]) / 2.0
         for x in range(self._top_left[0], self._bottom_right[0] + 1):
             # derived from the ellipse formula
-            y1 = round(sqrt((b*b*(1 - (x - h)*(x - h)))) + k)
-            y2 = round(-sqrt((b*b*(1 - (x - h)*(x - h)))) + k)
+            y1 = round(sqrt((b * b * (1 - (x - h) * (x - h)))) + k)
+            y2 = round(-sqrt((b * b * (1 - (x - h) * (x - h)))) + k)
             canvas[x][y] = self.get_colour()
         return canvas
 
@@ -182,8 +182,9 @@ class Line (Shape):
         Returns:
             list: the newly marked canvas
         """
-        m = (self.get_top_left()[1] - self.get_bottom_right()[1])/(self.get_top_left()[0] - self.get_bottom_right()[0])
-        b = self.get_bottom_right()[1] - m*self.get_bottom_right()[0]
+        m = (self.get_top_left()[1] - self.get_bottom_right()[1]) / \
+            (self.get_top_left()[0] - self.get_bottom_right()[0])
+        b = self.get_bottom_right()[1] - m * self.get_bottom_right()[0]
         for i in range(self.get_top_left()[0], self.get_bottom_right()[0] + 1):
-            canvas[i][int(m*i + b)] = self.get_colour()
+            canvas[i][int(m * i + b)] = self.get_colour()
         return canvas

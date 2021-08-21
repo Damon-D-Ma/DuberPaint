@@ -134,6 +134,7 @@ def kick_user(target_id):
         message = f'<k>\n{target_id}'
         send(message)
 
+
 def recv_successful(data):
     """
     What happens when the connection was successful
@@ -144,6 +145,7 @@ def recv_successful(data):
     userid = int(data[1])
     join_code = data[2]
 
+
 def recv_login_failed(data):
     """
     Shows connection failed
@@ -151,7 +153,8 @@ def recv_login_failed(data):
     Args:
         data (list): In this case is just ["<X>"] and is here to follow convention
     """
-    pass # connection failed
+    pass  # connection failed
+
 
 def recv_draw(data):
     """
@@ -161,10 +164,12 @@ def recv_draw(data):
         data (list): the data sent over by the server
     """
     if len(data) == 4:
-        #TODO: do stuff with the data
+        # TODO: do stuff with the data
         coords = (int(data[1].split(" ")[0]), int(data[1].split(" ")[1]))
         width = int(data[2])
-        colour = (int(data[3].split(" ")[0]), int(data[3].split(" ")[1]), int(data[3].split(" ")[2]))
+        colour = (int(data[3].split(" ")[0]), int(
+            data[3].split(" ")[1]), int(data[3].split(" ")[2]))
+
 
 def recv_rectangle(data):
     """
@@ -176,9 +181,13 @@ def recv_rectangle(data):
     if len(data) == 5:
         top_left = (int(data[1].split(" ")[0]), int(data[1].split(" ")[1]))
         bottom_right = (int(data[2].split(" ")[0]), int(data[2].split(" ")[1]))
-        colour = (int(data[3].split(" ")[0]), int(data[3].split(" ")[1]), int(data[3].split(" ")[2]))
-        fill = (int(data[4].split(" ")[0]), int(data[4].split(" ")[1]), int(data[4].split(" ")[2]))
-        #TODO: do stuff with the data
+        colour = (int(data[3].split(" ")[0]), int(
+            data[3].split(" ")[1]), int(data[3].split(" ")[2]))
+        fill = (int(data[4].split(" ")[0]),
+                int(data[4].split(" ")[1]),
+                int(data[4].split(" ")[2]))
+        # TODO: do stuff with the data
+
 
 def recv_ellipse(data):
     """
@@ -190,9 +199,13 @@ def recv_ellipse(data):
     if len(data) == 5:
         top_left = (int(data[1].split(" ")[0]), int(data[1].split(" ")[1]))
         bottom_right = (int(data[2].split(" ")[0]), int(data[2].split(" ")[1]))
-        colour = (int(data[3].split(" ")[0]), int(data[3].split(" ")[1]), int(data[3].split(" ")[2]))
-        fill = (int(data[4].split(" ")[0]), int(data[4].split(" ")[1]), int(data[4].split(" ")[2]))
-        #TODO: do stuff with the data
+        colour = (int(data[3].split(" ")[0]), int(
+            data[3].split(" ")[1]), int(data[3].split(" ")[2]))
+        fill = (int(data[4].split(" ")[0]),
+                int(data[4].split(" ")[1]),
+                int(data[4].split(" ")[2]))
+        # TODO: do stuff with the data
+
 
 def recv_line(data):
     """
@@ -204,8 +217,10 @@ def recv_line(data):
     if len(data) == 5:
         top_left = (int(data[1].split(" ")[0]), int(data[1].split(" ")[1]))
         bottom_right = (int(data[2].split(" ")[0]), int(data[2].split(" ")[1]))
-        colour = (int(data[3].split(" ")[0]), int(data[3].split(" ")[1]), int(data[3].split(" ")[2]))
-        #TODO: do stuff with the data
+        colour = (int(data[3].split(" ")[0]), int(
+            data[3].split(" ")[1]), int(data[3].split(" ")[2]))
+        # TODO: do stuff with the data
+
 
 def recv_disconnect(data):
     """
@@ -216,7 +231,8 @@ def recv_disconnect(data):
     """
     if len(data) == 2:
         user_id_of_user_to_remove = int(data[1])
-        #TODO: remove the user
+        # TODO: remove the user
+
 
 def recv_user_join(data):
     """
@@ -228,7 +244,8 @@ def recv_user_join(data):
     if len(data) == 3:
         new_user_id = int(data[1])
         new_username = data[2]
-        #TODO: uh do stuff with this data
+        # TODO: uh do stuff with this data
+
 
 def recv_board(data):
     """
@@ -244,9 +261,11 @@ def recv_board(data):
         row_data = data[i + 2].split("|")
         for j in range(height):
             colour_data = row_data[j].split(",")
-            colour = [int(colour_data[0]), int(colour_data[1]), int(colour_data[2])]
+            colour = [int(colour_data[0]), int(
+                colour_data[1]), int(colour_data[2])]
             row.append(colour)
         canvas.append(row)
+
 
 command_map = {
     "<c>": recv_successful,
@@ -259,6 +278,7 @@ command_map = {
     "<uj>": recv_user_join,
     "<b>": recv_board
 }
+
 
 def server_listener():
     """
@@ -386,11 +406,6 @@ def main():
     rectangle_icon = pygame.image.load("./assets/RectangleIcon.png")
     ellipse_icon = pygame.image.load("./assets/EllipseIcon.png")
 
-
-
-
-
-
     pygame.display.set_icon(logo)
 
     # screen size subject to change
@@ -400,9 +415,7 @@ def main():
 
     # uniform fonts the program
     login_font = pygame.font.Font(None, 32)
-    main_font = pygame.font.Font(None,32)
-
-
+    main_font = pygame.font.Font(None, 32)
 
     # textboxes for login information
     username_box = dubercomponent.DuberTextBox(
@@ -417,16 +430,18 @@ def main():
         650, 550, 150, 25, (255, 255, 255), 'Create Room', login_font, (200, 200, 200))
     join_button = dubercomponent.DuberTextBox(
         275, 610, 55, 25, (255, 255, 255), 'Join', login_font, (200, 200, 200))
-    
 
-    #elements for main window
-    colour_selection_area = dubercomponent.DuberTextBox(240, 10, 160, 95, (128,128,128), "", main_font, (255,255,255))
-    brush_selection_area = dubercomponent.DuberTextBox(420, 10, 136, 95, (128,128,128), "", main_font, (255,255,255))
-    shape_selection_area = dubercomponent.DuberTextBox(576, 10, 265, 95, (128,128,128), "", main_font, (255,255,255))
-        
-    #leave/disconnect button
-    leave_button = dubercomponent.DuberTextBox(20, 670, 160, 40, (255,0,0), "LEAVE", main_font, (255,0,0))
+    # elements for main window
+    colour_selection_area = dubercomponent.DuberTextBox(
+        240, 10, 160, 95, (128, 128, 128), "", main_font, (255, 255, 255))
+    brush_selection_area = dubercomponent.DuberTextBox(
+        420, 10, 136, 95, (128, 128, 128), "", main_font, (255, 255, 255))
+    shape_selection_area = dubercomponent.DuberTextBox(
+        576, 10, 265, 95, (128, 128, 128), "", main_font, (255, 255, 255))
 
+    # leave/disconnect button
+    leave_button = dubercomponent.DuberTextBox(
+        20, 670, 160, 40, (255, 0, 0), "LEAVE", main_font, (255, 0, 0))
 
     # booleans to operate program
     login_screen = True
@@ -440,58 +455,108 @@ def main():
     drawing_ellipse = False
     drawing_line = False
 
-    #default colour for shapes that are drawn
-    shape_colour = (0,0,0)
+    # default colour for shapes that are drawn
+    shape_colour = (0, 0, 0)
 
-    #index of the brush selected
+    # index of the brush selected
     brush_index = 0
 
-    #Other values needed for the program
-    current_brush = brushes.Brush((0,0,0), 10)
+    # Other values needed for the program
+    current_brush = brushes.Brush((0, 0, 0), 10)
 
+    # adding buttons to the list of colour buttons
 
-    #adding buttons to the list of colour buttons
+    # row 1
+    colour_list.append(dubercomponent.DuberColourButton(250, 18, (255, 0, 0)))
+    colour_list.append(
+        dubercomponent.DuberColourButton(
+            280, 18, (255, 165, 0)))
+    colour_list.append(
+        dubercomponent.DuberColourButton(
+            310, 18, (255, 255, 0)))
+    colour_list.append(dubercomponent.DuberColourButton(340, 18, (0, 128, 0)))
+    colour_list.append(dubercomponent.DuberColourButton(370, 18, (0, 0, 255)))
 
-    #row 1
-    colour_list.append(dubercomponent.DuberColourButton(250,18, (255,0,0)))
-    colour_list.append(dubercomponent.DuberColourButton(280,18, (255,165,0)))
-    colour_list.append(dubercomponent.DuberColourButton(310,18, (255,255,0)))
-    colour_list.append(dubercomponent.DuberColourButton(340,18, (0,128,0)))
-    colour_list.append(dubercomponent.DuberColourButton(370,18, (0,0,255)))
+    # row 2
+    colour_list.append(
+        dubercomponent.DuberColourButton(
+            250, 48, (128, 0, 128)))
+    colour_list.append(dubercomponent.DuberColourButton(280, 48, (0, 0, 0)))
+    colour_list.append(
+        dubercomponent.DuberColourButton(
+            310, 48, (255, 255, 255)))
+    colour_list.append(
+        dubercomponent.DuberColourButton(
+            340, 48, (139, 69, 19)))
+    colour_list.append(
+        dubercomponent.DuberColourButton(
+            370, 48, (128, 128, 128)))
 
-    #row 2
-    colour_list.append(dubercomponent.DuberColourButton(250,48, (128,0,128)))
-    colour_list.append(dubercomponent.DuberColourButton(280,48, (0,0,0)))
-    colour_list.append(dubercomponent.DuberColourButton(310,48, (255,255,255)))
-    colour_list.append(dubercomponent.DuberColourButton(340,48, (139,69,19)))
-    colour_list.append(dubercomponent.DuberColourButton(370,48, (128,128,128)))
+    # row 3
+    colour_list.append(
+        dubercomponent.DuberColourButton(
+            250, 78, (255, 255, 255)))
+    colour_list.append(
+        dubercomponent.DuberColourButton(
+            280, 78, (255, 255, 255)))
+    colour_list.append(
+        dubercomponent.DuberColourButton(
+            310, 78, (255, 255, 255)))
+    colour_list.append(
+        dubercomponent.DuberColourButton(
+            340, 78, (255, 255, 255)))
+    colour_list.append(
+        dubercomponent.DuberColourButton(
+            370, 78, (255, 255, 255)))
 
-    #row 3
-    colour_list.append(dubercomponent.DuberColourButton(250,78, (255,255,255)))
-    colour_list.append(dubercomponent.DuberColourButton(280,78, (255,255,255)))
-    colour_list.append(dubercomponent.DuberColourButton(310,78, (255,255,255)))
-    colour_list.append(dubercomponent.DuberColourButton(340,78, (255,255,255)))
-    colour_list.append(dubercomponent.DuberColourButton(370,78, (255,255,255)))
+    # adding buttons to the list of brush buttons
 
+    # row 1
+    brush_list.append(
+        dubercomponent.DuberBrushButton(
+            430, 20, pygame.transform.scale(
+                brush_icon, (32, 32)), brushes.Brush(
+                (0, 0, 0), 10)))
+    brush_list.append(
+        dubercomponent.DuberBrushButton(
+            472, 20, pygame.transform.scale(
+                brush_icon, (32, 32)), brushes.Brush(
+                (0, 0, 0), 10)))
+    brush_list.append(
+        dubercomponent.DuberBrushButton(
+            514, 20, pygame.transform.scale(
+                brush_icon, (32, 32)), brushes.Brush(
+                (0, 0, 0), 10)))
 
-    #adding buttons to the list of brush buttons
-    
-    #row 1
-    brush_list.append(dubercomponent.DuberBrushButton(430,20, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10) ))
-    brush_list.append(dubercomponent.DuberBrushButton(472,20, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10) ))
-    brush_list.append(dubercomponent.DuberBrushButton(514,20, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10) ))
+    # row 2
+    brush_list.append(
+        dubercomponent.DuberBrushButton(
+            430, 62, pygame.transform.scale(
+                brush_icon, (32, 32)), brushes.Brush(
+                (0, 0, 0), 10)))
+    brush_list.append(
+        dubercomponent.DuberBrushButton(
+            472, 62, pygame.transform.scale(
+                brush_icon, (32, 32)), brushes.Brush(
+                (0, 0, 0), 10)))
+    brush_list.append(
+        dubercomponent.DuberBrushButton(
+            514, 62, pygame.transform.scale(
+                eraser_icon, (32, 32)), brushes.Eraser(10)))
 
-    #row 2
-    brush_list.append(dubercomponent.DuberBrushButton(430,62, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10) ))
-    brush_list.append(dubercomponent.DuberBrushButton(472,62, pygame.transform.scale(brush_icon, (32,32)), brushes.Brush((0,0,0), 10) ))
-    brush_list.append(dubercomponent.DuberBrushButton(514,62, pygame.transform.scale(eraser_icon, (32,32)), brushes.Eraser(10) ))
-
-    #adding buttons to the list of shape buttons
-    shape_list.append(dubercomponent.DuberShapeButton(586,20, pygame.transform.scale(rectangle_icon, (75,75))))
-    shape_list.append(dubercomponent.DuberShapeButton(671,20, pygame.transform.scale(ellipse_icon, (75,75))))
-    shape_list.append(dubercomponent.DuberShapeButton(756,20, pygame.transform.scale(line_icon, (75,75))))
-
-
+    # adding buttons to the list of shape buttons
+    shape_list.append(
+        dubercomponent.DuberShapeButton(
+            586, 20, pygame.transform.scale(
+                rectangle_icon, (75, 75))))
+    shape_list.append(
+        dubercomponent.DuberShapeButton(
+            671, 20, pygame.transform.scale(
+                ellipse_icon, (75, 75))))
+    shape_list.append(
+        dubercomponent.DuberShapeButton(
+            756, 20, pygame.transform.scale(
+                line_icon, (75, 75))))
 
     while run:
         # events
@@ -499,7 +564,7 @@ def main():
             if event.type == pygame.QUIT:
                 if not login_screen:
                     disconnect()
-                
+
                 run = False
 
             # only detects user input for these objects if they are in the
@@ -584,7 +649,7 @@ def main():
                     #     editing_port = False
                     #     editing_join_code = False
                     elif (event.key == pygame.K_LCTRL) or (event.key == pygame.K_RCTRL):
-                        pass # TODO: handle ctrl being pressed
+                        pass  # TODO: handle ctrl being pressed
                     # lets the user enter in information for logging in
                     else:
                         if editing_username and len(
@@ -610,8 +675,10 @@ def main():
                                 if drawing_rectangle or drawing_ellipse or drawing_line:
                                     shape_colour = colour_button.get_colour()
                                 elif not isinstance(current_brush, brushes.Eraser) and using_brush:
-                                     current_brush.set_colour(colour_button.get_colour())
-                                     brush_list[brush_index].set_colour(colour_button.get_colour())
+                                    current_brush.set_colour(
+                                        colour_button.get_colour())
+                                    brush_list[brush_index].set_colour(
+                                        colour_button.get_colour())
                                 break
 
                     elif brush_selection_area.selected(pygame.mouse.get_pos()):
@@ -648,15 +715,17 @@ def main():
                         disconnect()
                     elif (200 >= pygame.mouse.get_pos()[0] <= 1080) and (115 >= pygame.mouse.get_pos()[1] <= 720):
                         if using_brush:
-                            send_brush_mark(current_brush.make_brush_stroke(pygame.mouse.get_pos()))
+                            send_brush_mark(
+                                current_brush.make_brush_stroke(
+                                    pygame.mouse.get_pos()))
                         elif drawing_rectangle:
-                            #send_rect()
+                            # send_rect()
                             print("Drawing Rectangle")
                         elif drawing_ellipse:
-                            #send_ellipse
+                            # send_ellipse
                             print("Drawing Ellipse")
                         elif drawing_line:
-                            #send_line()
+                            # send_line()
                             print("Drawing Line")
 
         # update the screen
@@ -669,12 +738,15 @@ def main():
 
 def update_main_screen():
     window.fill((0, 0, 0))
-    pygame.draw.rect(window, (255,255,255), (0,0, 1080, 115), True) #top part of interface
-    pygame.draw.rect(window, (255,255,255), (0,0, 200, 720), True) #left part of interface
-    pygame.draw.rect(window, (255,255,255), (200,115, 880,605), False) #canvas
+    pygame.draw.rect(window, (255, 255, 255), (0, 0, 1080,
+                     115), True)  # top part of interface
+    pygame.draw.rect(window, (255, 255, 255), (0, 0, 200, 720),
+                     True)  # left part of interface
+    pygame.draw.rect(window, (255, 255, 255),
+                     (200, 115, 880, 605), False)  # canvas
 
-    window.blit(pygame.transform.scale(logo, (166,115)), (0,0))
-    
+    window.blit(pygame.transform.scale(logo, (166, 115)), (0, 0))
+
     colour_selection_area.draw(window)
     brush_selection_area.draw(window)
     shape_selection_area.draw(window)
@@ -682,7 +754,7 @@ def update_main_screen():
 
     for colours in colour_list:
         colours.draw(window)
-    
+
     for brushes in brush_list:
         brushes.draw(window)
 

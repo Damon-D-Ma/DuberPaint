@@ -21,7 +21,7 @@ class Brush:
         """
         self._colour = colour
         self._width = width
-    
+
     def make_brush_stroke(self, position):
         """
         Creates a brush stroke when the brush is used
@@ -32,34 +32,34 @@ class Brush:
         return BrushStroke(self._colour, self._width, position)
 
     def get_colour(self):
-            """
-            returns the colour of the brush
-            """
-            return self._colour
+        """
+        returns the colour of the brush
+        """
+        return self._colour
 
     def get_width(self):
-            """
-            returns the width of the brush
-            """
-            return self._width
+        """
+        returns the width of the brush
+        """
+        return self._width
 
     def set_colour(self, new_colour):
-            """
-            sets the colour of the brush
+        """
+        sets the colour of the brush
 
-            args:
-                new_colour (tuple): the new colour of the brush in RGB
-            """
-            self._colour = new_colour
+        args:
+            new_colour (tuple): the new colour of the brush in RGB
+        """
+        self._colour = new_colour
 
     def set_width(self, new_width):
-            """
-            sets the width of the brush
+        """
+        sets the width of the brush
 
-            args:
-                new_wdith (int): the new width of the brush
-            """
-            self._width = new_width
+        args:
+            new_wdith (int): the new width of the brush
+        """
+        self._width = new_width
 
 
 class Eraser(Brush):
@@ -117,6 +117,7 @@ class BrushStroke(Brush, shapes.Shape):
             (self._width / 2),
             0)
 
+
 def fill(canvas, point, colour):
     """
     Fills an area of the canvas
@@ -135,12 +136,16 @@ def fill(canvas, point, colour):
     while len(mock_queue) > 0:
         new_point = mock_queue.pop(0)
         canvas[new_point[0]][new_point[1]] = colour
-        if (new_point[0] + 1 < len(canvas)) and (canvas[new_point[0] + 1][new_point[1]] == original_colour):
+        if (new_point[0] + 1 < len(canvas)) and (canvas[new_point[0] + 1]
+                                                 [new_point[1]] == original_colour):
             mock_queue.append((new_point[0] + 1, new_point[1]))
-        if (new_point[0] - 1 >= 0) and (canvas[new_point[0] - 1][new_point[1]] == original_colour):
+        if (new_point[0] - 1 >= 0) and (canvas[new_point[0] - 1]
+                                        [new_point[1]] == original_colour):
             mock_queue.append((new_point[0] - 1, new_point[1]))
-        if (new_point[1] + 1 < len(canvas[0])) and (canvas[new_point[0]][new_point[1] + 1] == original_colour):
+        if (new_point[1] + 1 < len(canvas[0])) and (canvas[new_point[0]]
+                                                    [new_point[1] + 1] == original_colour):
             mock_queue.append((new_point[0], new_point[1] + 1))
-        if (new_point[1] + 1 >= 0) and (canvas[new_point[0]][new_point[1] - 1] == original_colour):
+        if (new_point[1] + 1 >= 0) and (canvas[new_point[0]]
+                                        [new_point[1] - 1] == original_colour):
             mock_queue.append((new_point[0], new_point[1] - 1))
     return canvas
