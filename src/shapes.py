@@ -171,3 +171,19 @@ class Line (Shape):
             self._colour,
             (self._top_left),
             (self._bottom_right))
+
+    def mark(self, canvas):
+        """
+        Marks the line on the screen
+
+        Args:
+            canvas (pygame.surface): The surface to mark the line on
+
+        Returns:
+            list: the newly marked canvas
+        """
+        m = (self.get_top_left()[1] - self.get_bottom_right()[1])/(self.get_top_left()[0] - self.get_bottom_right()[0])
+        b = self.get_bottom_right()[1] - m*self.get_bottom_right()[0]
+        for i in range(self.get_top_left()[0], self.get_bottom_right()[0] + 1):
+            canvas[i][int(m*i + b)] = self.get_colour()
+        return canvas

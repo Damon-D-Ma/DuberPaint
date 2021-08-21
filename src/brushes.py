@@ -116,3 +116,31 @@ class BrushStroke(Brush, shapes.Shape):
             self._coordinates,
             (self._width / 2),
             0)
+
+def fill(canvas, point, colour):
+    """
+    Fills an area of the canvas
+
+    Args:
+        canvas (list): the canvsa to fill something on
+        point (tuple): the point to start filling at
+        colour (list): the colour to fill with
+
+    Returns:
+        list: the newly filled canvas
+    """
+    original_colour = canvas[point[0]][point[1]]
+    mock_queue = []
+    mock_queue.append(point)
+    while len(mock_queue) > 0:
+        new_point = mock_queue.pop(0)
+        canvas[new_point[0]][new_point[1]] = colour
+        if (new_point[0] + 1 < len(canvas)) and (canvas[new_point[0] + 1][new_point[1]] == original_colour):
+            mock_queue.append((new_point[0] + 1, new_point[1]))
+        if (new_point[0] - 1 >= 0) and (canvas[new_point[0] - 1][new_point[1]] == original_colour):
+            mock_queue.append((new_point[0] - 1, new_point[1]))
+        if (new_point[1] + 1 < len(canvas[0])) and (canvas[new_point[0]][new_point[1] + 1] == original_colour):
+            mock_queue.append((new_point[0], new_point[1] + 1))
+        if (new_point[1] + 1 >= 0) and (canvas[new_point[0]][new_point[1] - 1] == original_colour):
+            mock_queue.append((new_point[0], new_point[1] - 1))
+    return canvas
