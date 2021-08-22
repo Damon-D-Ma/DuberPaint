@@ -2,6 +2,7 @@ from threading import Thread
 import socket
 import board
 import user
+import time
 
 boards = []  # stores all the boards
 clients = []  # stores all clients (user, conn, board)
@@ -98,8 +99,14 @@ def join_room(conn, data):
         if success:
             # send user in reply
             send(conn, f"<c>\n{current_user_id}\n{data[2]}")
-            send_canvas(conn, right_board)
+            # send_canvas(conn, right_board)
             # send to board member that a new user joined
+            for user_to_send in right_board.get_users():
+                for client in clients:
+                    if (client[0] == user_to_send) and (client[1] is not conn):
+                        print(f"<uj>\n{user_to_send.get_username()}\n{user_to_send.get_id()}")
+                        send(conn, f"<uj>\n{user_to_send.get_username()}\n{user_to_send.get_id()}")
+                        time.sleep(0.2)
             send_to_board_members(
                 right_board, f"<uj>\n{data[1]}\n{current_user_id}")
         else:
@@ -126,7 +133,9 @@ def create_room(conn, data):
         # TODO: make this not a fixed value later
         boards.append(board.Board((720, 720), join_code, new_user))
         clients.append((new_user, conn, boards[-1]))
+        boards[-1].add_user(new_user)
         send(conn, f"<c>\n{current_user_id}\n{join_code}")
+        send(conn, f"<uj>\n{data[1]}\n{current_user_id}")
         current_user_id += 1
         # send_canvas(conn, boards[-1])
     else:

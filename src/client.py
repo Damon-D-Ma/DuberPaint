@@ -279,10 +279,17 @@ def recv_user_join(data):
     Args:
         data (list): stuff sent over from the server
     """
+    global user_list
+    global user_button_list
     if len(data) == 3:
-        new_user_id = int(data[1])
-        new_username = data[2]
-        # TODO: uh do stuff with this data
+        new_username = data[1]
+        new_user_id = int(data[2])
+        new_user = user.User(new_username, new_user_id, False)
+        user_list.append(new_user)
+        for user_button in user_button_list:
+            if user_button.get_user().get_id() == -1:
+                user_button.set_user(new_user)
+                break
 
 
 def recv_board(data):
