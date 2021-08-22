@@ -78,7 +78,6 @@ def export_drawing():
     """
     Exports a screenshot of the board that the users drew on
     """
-    # TODO not complete
     global canvas
     numpy_array = []
     print(type(numpy.array(canvas[0][0])))
@@ -203,7 +202,7 @@ def recv_draw(data):
         data (list): the data sent over by the server
     """
     if len(data) == 4:
-        # TODO: do stuff with the data
+        # TODO: update canvas for draw
         coords = (int(data[1].split(" ")[0]), int(data[1].split(" ")[1]))
         width = int(data[2])
         colour = (int(data[3].split(" ")[0]), int(
@@ -225,7 +224,7 @@ def recv_rectangle(data):
         fill = (int(data[4].split(" ")[0]),
                 int(data[4].split(" ")[1]),
                 int(data[4].split(" ")[2]))
-        # TODO: do stuff with the data
+        # TODO: update canvas for a rect
 
 
 def recv_ellipse(data):
@@ -243,7 +242,7 @@ def recv_ellipse(data):
         fill = (int(data[4].split(" ")[0]),
                 int(data[4].split(" ")[1]),
                 int(data[4].split(" ")[2]))
-        # TODO: do stuff with the data
+        # TODO: update ellipse to canvas
 
 
 def recv_line(data):
@@ -258,7 +257,7 @@ def recv_line(data):
         bottom_right = (int(data[2].split(" ")[0]), int(data[2].split(" ")[1]))
         colour = (int(data[3].split(" ")[0]), int(
             data[3].split(" ")[1]), int(data[3].split(" ")[2]))
-        # TODO: do stuff with the data
+        # TODO: update line to canvas
 
 
 def recv_disconnect(data):
