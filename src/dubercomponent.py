@@ -1,4 +1,6 @@
 import pygame
+
+from user import User
 """
 Contains the components
 """
@@ -261,3 +263,74 @@ class DuberShapeButton(DuberComponent):
              self._height),
             0)
         screen.blit(self._icon, (self._x, self._y))
+
+class DuberUserButton(DuberComponent):
+    """
+    A button to select users in the board in the main window
+    """
+    
+    def __init__(self, x, y, empty, font, user):
+        """
+        Constructor for the user button
+
+        Args:
+            x (int): the x position of the top left corner
+            y (int): the y position of the top left corner
+            empty (boolean): determines if this button is storing a user or not (since the room might not be full)
+            font (pygame.font): the font of the button
+            user (user.User): The user that is stored in the button
+        """
+        self._empty = empty
+        self._font = font
+        self._user = user
+        super().__init__(x, y, 160, 40, (128,128,128))
+
+    def set_user(self, new_user):
+        """
+        Assigns a new user to this button
+
+        Args:
+            new_user (user.User): The new user to be assigned to this button
+        """
+        self._user = new_user
+
+    def get_user(self):
+        """
+        Returns the user assigned to this button
+        """
+        return self._user
+
+    def check_if_empty(self):
+        """
+        Returns whether or not there is a user assigned to this button
+        """
+        return self._empty
+    
+    def set_empty(self, empty):
+        """
+        Changes the status of if the user is assigned to this button
+        """
+        self._empty = empty
+    
+    def toggle_empty(self):
+        """
+        Toggles the status of if the user is assigned to this button
+        """
+        self._empty = not self._empty
+    
+    def draw(self, screen):
+        """
+        Draws the button on the given window
+
+        Args:
+            screen (pygame.surface): the window that the button will be drawn on
+        """
+        pygame.draw.rect(
+            screen,
+            self._colour,
+            (self._x,
+             self._y,
+             self._width,
+             self._height),
+            0)
+        screen.blit(self._font.render(self._user.get_username(), True, (255, 255, 255)), (self._x, self._y))

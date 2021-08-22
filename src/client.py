@@ -1,6 +1,7 @@
 from threading import Thread
 import pygame
 import socket
+import user
 import brushes as brushes
 import dubercomponent
 
@@ -35,16 +36,19 @@ port_box = None
 join_code_box = None
 create_room_button = None
 join_button = None
+export_button = None
+join_code_area = None
 
 board_elements = []
 user_list = []
-
+user_button_list = []
 main_font = None
 
 colour_selection_area = None
 brush_selection_area = None
 shape_selection_area = None
-leave_button = None
+user_selection_area = None
+kick_button = None
 
 run = True
 server_thread = None
@@ -65,6 +69,11 @@ def send(message):
     sock.send(message.encode())
     # incomplete function
 
+def export_drawing():
+    """
+    Exports a screenshot of the board that the users drew on
+    """
+    #TODO not complete
 
 def send_brush_mark(mark):
     """
@@ -142,6 +151,8 @@ def recv_successful(data):
     Args:
         data (list): All the data that was send over
     """
+    global userid
+    global join_code
     userid = int(data[1])
     join_code = data[2]
 
@@ -374,14 +385,17 @@ def main():
     global join_code_box
     global create_room_button
     global join_button
-
+    global export_button
+    global join_code_area
     global board_elements
     global user_list
+    global user_button_list
 
     global colour_selection_area
     global brush_selection_area
     global shape_selection_area
-    global leave_button
+    global user_selection_area
+    global kick_button
 
     global brush_list
     global colour_list
@@ -430,18 +444,24 @@ def main():
         650, 550, 150, 25, (255, 255, 255), 'Create Room', login_font, (200, 200, 200))
     join_button = dubercomponent.DuberTextBox(
         275, 610, 55, 25, (255, 255, 255), 'Join', login_font, (200, 200, 200))
+    
+
 
     # elements for main window
-    colour_selection_area = dubercomponent.DuberTextBox(
-        240, 10, 160, 95, (128, 128, 128), "", main_font, (255, 255, 255))
-    brush_selection_area = dubercomponent.DuberTextBox(
-        420, 10, 136, 95, (128, 128, 128), "", main_font, (255, 255, 255))
-    shape_selection_area = dubercomponent.DuberTextBox(
-        576, 10, 265, 95, (128, 128, 128), "", main_font, (255, 255, 255))
-
-    # leave/disconnect button
-    leave_button = dubercomponent.DuberTextBox(
-        20, 670, 160, 40, (255, 0, 0), "LEAVE", main_font, (255, 0, 0))
+    colour_selection_area = dubercomponent.DuberComponent(
+        240, 10, 160, 95, (128, 128, 128))
+    brush_selection_area = dubercomponent.DuberComponent(
+        420, 10, 136, 95, (128, 128, 128))
+    shape_selection_area = dubercomponent.DuberComponent(
+        576, 10, 265, 95, (128, 128, 128))
+    user_selection_area = dubercomponent.DuberComponent(20,170,160,480, (128,128,128))
+    join_code_area = dubercomponent.DuberTextBox(
+            861, 10, 130, 55, (128, 128, 128), "Join Code:", main_font, (255, 255, 255))
+    export_button = dubercomponent.DuberTextBox(
+            861, 73, 130, 32, (128, 128, 128), "Export", main_font, (0, 128, 0))
+    # kick user button
+    kick_button = dubercomponent.DuberTextBox(
+        20, 670, 160, 40, (255, 0, 0), "Kick User", main_font, (255, 0, 0))
 
     # booleans to operate program
     login_screen = True
@@ -454,6 +474,7 @@ def main():
     drawing_rectangle = False
     drawing_ellipse = False
     drawing_line = False
+    selected_user = user.User("", -1, False)
 
     # default colour for shapes that are drawn
     shape_colour = (0, 0, 0)
@@ -557,7 +578,23 @@ def main():
         dubercomponent.DuberShapeButton(
             756, 20, pygame.transform.scale(
                 line_icon, (75, 75))))
+    
 
+    # adding buttons to the list of user buttons
+    user_button_list.append(dubercomponent.DuberUserButton(20,170, True, main_font, user.User("", -1, False) ))
+    user_button_list.append(dubercomponent.DuberUserButton(20,210, True, main_font, user.User("", -1, False) ))
+    user_button_list.append(dubercomponent.DuberUserButton(20,250, True, main_font, user.User("", -1, False) ))
+    user_button_list.append(dubercomponent.DuberUserButton(20,290, True, main_font, user.User("", -1, False) ))
+    user_button_list.append(dubercomponent.DuberUserButton(20,330, True, main_font, user.User("", -1, False) ))
+    user_button_list.append(dubercomponent.DuberUserButton(20,370, True, main_font, user.User("", -1, False) ))
+    user_button_list.append(dubercomponent.DuberUserButton(20,410, True, main_font, user.User("", -1, False) ))
+    user_button_list.append(dubercomponent.DuberUserButton(20,450, True, main_font, user.User("", -1, False) ))
+    user_button_list.append(dubercomponent.DuberUserButton(20,490, True, main_font, user.User("", -1, False) ))
+    user_button_list.append(dubercomponent.DuberUserButton(20,530, True, main_font, user.User("", -1, False) ))
+    user_button_list.append(dubercomponent.DuberUserButton(20,570, True, main_font, user.User("", -1, False) ))
+    user_button_list.append(dubercomponent.DuberUserButton(20,610, True, main_font, user.User("", -1, False) ))
+    #TODO: add the current users to the list of users
+    
     while run:
         # events
         for event in pygame.event.get():
@@ -710,9 +747,15 @@ def main():
                             using_brush = False
                             drawing_rectangle = False
                             drawing_ellipse = False
-
-                    elif leave_button.selected(pygame.mouse.get_pos()):
-                        disconnect()
+                    elif user_selection_area.selected(pygame.mouse.get_pos()):
+                        for user_button in user_button_list:
+                            if user_button.selected(pygame.mouse.get_pos()):
+                                selected_user = user_button.get_user()
+                                break
+                    elif kick_button.selected(pygame.mouse.get_pos()):
+                         kick_user(selected_user)
+                    elif export_button.selected(pygame.mouse.get_pos()):
+                        export_drawing()
                     elif (200 >= pygame.mouse.get_pos()[0] <= 1080) and (115 >= pygame.mouse.get_pos()[1] <= 720):
                         if using_brush:
                             send_brush_mark(
@@ -750,7 +793,10 @@ def update_main_screen():
     colour_selection_area.draw(window)
     brush_selection_area.draw(window)
     shape_selection_area.draw(window)
-    leave_button.draw(window)
+    kick_button.draw(window)
+    export_button.draw(window)        
+    window.blit(main_font.render('Users:', True, (255, 255, 255)), (20, 130))
+    window.blit(main_font.render(join_code, True, (255, 255, 255)), (866, 34))
 
     for colours in colour_list:
         colours.draw(window)
@@ -764,7 +810,7 @@ def update_main_screen():
     for object in board_elements:
         object.draw(window)
 
-    for user in user_list:
+    for user in user_button_list:
         user.draw(window)
 
     pygame.display.flip()
