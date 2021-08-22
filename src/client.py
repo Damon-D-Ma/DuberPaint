@@ -81,13 +81,14 @@ def export_drawing():
     #TODO not complete
     global canvas
     numpy_array = []
+    print(type(numpy.array(canvas[0][0])))
     for i in range(len(canvas)):
         line = []
         for j in range(len(canvas[0])):
-            line.append(numpy.array(canvas[i][j]))
+            line.append(numpy.array(canvas[i][j], dtype=numpy.uint8))
         numpy_array.append(line)
-    numpy_array = numpy.array(canvas)
-    Image.fromarray(numpy_array, "RGB").save(f"./out/{join_code}.png")
+    numpy_array = numpy.array(numpy_array)
+    Image.fromarray(numpy_array).save(f"./out/{join_code}.png")
 
 def construct_canvas():
     """
@@ -340,6 +341,7 @@ def join_room():
     """
     global sock
     global server_thread
+    global user_id
     sock = socket.create_connection((ip, port))
     send(f"<j>\n{username}\n{join_code}")
     # unfinished method
@@ -351,7 +353,7 @@ def join_room():
     if response == "<X>":
         return False
     elif len(response.splitlines()) == 3:
-        user_id = int(response.splitlines[1])
+        user_id = int(response.splitlines()[1])
         server_thread = Thread(target=server_listener).start()
         return True
     else:
@@ -368,6 +370,7 @@ def create_room():
     global sock
     global owner
     global server_thread
+    global join_code
     sock = socket.create_connection((ip, port))
     send(f"<c>\n{username}")
     print(f"Creating room with {username}, {ip}, {port}")
