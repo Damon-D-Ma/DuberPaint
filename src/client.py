@@ -4,6 +4,8 @@ import socket
 import user
 import brushes as brushes
 import dubercomponent
+import numpy
+from PIL import Image
 
 #-------------------------------GLOBALS-------------------------------#
 sock = None  # socket
@@ -57,6 +59,9 @@ brush_list = []
 colour_list = []
 shape_list = []
 
+canvas = []
+selected_colour = None
+selected_brush_or_shape = None
 
 def send(message):
     """
@@ -66,14 +71,35 @@ def send(message):
         message (string): the message to be sent to the server
     """
     global sock
+    global canvas
     sock.send(message.encode())
-    # incomplete function
 
 def export_drawing():
     """
     Exports a screenshot of the board that the users drew on
     """
     #TODO not complete
+    global canvas
+    numpy_array = []
+    print(type(numpy.array(canvas[0][0])))
+    for i in range(len(canvas)):
+        line = []
+        for j in range(len(canvas[0])):
+            line.append(numpy.array(canvas[i][j], dtype=numpy.uint8))
+        numpy_array.append(line)
+    numpy_array = numpy.array(numpy_array)
+    Image.fromarray(numpy_array).save(f"./out/{join_code}.png")
+
+def construct_canvas():
+    """
+    Bad temporary function until we fix a bunch of things
+    """
+    global canvas
+    for i in range(720):
+            temp = []
+            for j in range(720):
+                temp.append([255, 255, 255])
+            canvas.append(temp)
 
 def send_brush_mark(mark):
     """
@@ -151,9 +177,9 @@ def recv_successful(data):
     Args:
         data (list): All the data that was send over
     """
-    global userid
+    global user_id
     global join_code
-    userid = int(data[1])
+    user_id = int(data[1])
     join_code = data[2]
 
 
@@ -265,6 +291,7 @@ def recv_board(data):
     Args:
         data (list): all the data that got sent over
     """
+    global canvas
     width, height = int(data[1].split(" ")[0]), int(data[1].split(" ")[1])
     canvas = []
     for i in range(width):
@@ -272,6 +299,7 @@ def recv_board(data):
         row_data = data[i + 2].split("|")
         for j in range(height):
             colour_data = row_data[j].split(",")
+            print(f"{i} {j} {colour_data}")
             colour = [int(colour_data[0]), int(
                 colour_data[1]), int(colour_data[2])]
             row.append(colour)
@@ -313,6 +341,7 @@ def join_room():
     """
     global sock
     global server_thread
+    global user_id
     sock = socket.create_connection((ip, port))
     send(f"<j>\n{username}\n{join_code}")
     # unfinished method
@@ -324,7 +353,7 @@ def join_room():
     if response == "<X>":
         return False
     elif len(response.splitlines()) == 3:
-        user_id = int(response.splitlines[1])
+        user_id = int(response.splitlines()[1])
         server_thread = Thread(target=server_listener).start()
         return True
     else:
@@ -341,6 +370,7 @@ def create_room():
     global sock
     global owner
     global server_thread
+    global join_code
     sock = socket.create_connection((ip, port))
     send(f"<c>\n{username}")
     print(f"Creating room with {username}, {ip}, {port}")
@@ -849,4 +879,5 @@ def update_login_screen():
 
 
 if __name__ == "__main__":
+    construct_canvas() # setup
     main()
