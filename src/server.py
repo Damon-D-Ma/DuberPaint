@@ -73,7 +73,7 @@ def send_canvas(conn, board):
         for colour in row:
             canvas_data += f"{colour[0]},{colour[1]},{colour[2]}|"
         canvas_data += "\n"
-    send(conn, f"<b>\n{canvas_data}")
+    # send(conn, f"<b>\n{canvas_data}")
 
 
 def join_room(conn, data):
@@ -128,6 +128,7 @@ def create_room(conn, data):
         clients.append((new_user, conn, boards[-1]))
         send(conn, f"<c>\n{current_user_id}\n{join_code}")
         current_user_id += 1
+        # send_canvas(conn, boards[-1])
     else:
         send(conn, "<X>")
 
