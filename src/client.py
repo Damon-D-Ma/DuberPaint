@@ -60,8 +60,7 @@ colour_list = []
 shape_list = []
 
 canvas = []
-selected_colour = None
-selected_brush_or_shape = None
+
 
 def send(message):
     """
@@ -74,11 +73,12 @@ def send(message):
     global canvas
     sock.send(message.encode())
 
+
 def export_drawing():
     """
     Exports a screenshot of the board that the users drew on
     """
-    #TODO not complete
+    # TODO not complete
     global canvas
     numpy_array = []
     print(type(numpy.array(canvas[0][0])))
@@ -90,16 +90,18 @@ def export_drawing():
     numpy_array = numpy.array(numpy_array)
     Image.fromarray(numpy_array).save(f"./out/{join_code}.png")
 
+
 def construct_canvas():
     """
     Bad temporary function until we fix a bunch of things
     """
     global canvas
     for i in range(720):
-            temp = []
-            for j in range(720):
-                temp.append([255, 255, 255])
-            canvas.append(temp)
+        temp = []
+        for j in range(720):
+            temp.append([255, 255, 255])
+        canvas.append(temp)
+
 
 def send_brush_mark(mark):
     """
@@ -474,8 +476,6 @@ def main():
         650, 550, 150, 25, (255, 255, 255), 'Create Room', login_font, (200, 200, 200))
     join_button = dubercomponent.DuberTextBox(
         275, 610, 55, 25, (255, 255, 255), 'Join', login_font, (200, 200, 200))
-    
-
 
     # elements for main window
     colour_selection_area = dubercomponent.DuberComponent(
@@ -484,11 +484,12 @@ def main():
         420, 10, 136, 95, (128, 128, 128))
     shape_selection_area = dubercomponent.DuberComponent(
         576, 10, 265, 95, (128, 128, 128))
-    user_selection_area = dubercomponent.DuberComponent(20,170,160,480, (128,128,128))
+    user_selection_area = dubercomponent.DuberComponent(
+        20, 170, 160, 480, (128, 128, 128))
     join_code_area = dubercomponent.DuberTextBox(
-            861, 10, 130, 55, (128, 128, 128), "Join Code:", main_font, (255, 255, 255))
+        861, 10, 130, 55, (128, 128, 128), "Join Code:", main_font, (255, 255, 255))
     export_button = dubercomponent.DuberTextBox(
-            861, 73, 130, 32, (128, 128, 128), "Export", main_font, (0, 128, 0))
+        861, 73, 130, 32, (128, 128, 128), "Export", main_font, (0, 128, 0))
     # kick user button
     kick_button = dubercomponent.DuberTextBox(
         20, 670, 160, 40, (255, 0, 0), "Kick User", main_font, (255, 0, 0))
@@ -608,23 +609,58 @@ def main():
         dubercomponent.DuberShapeButton(
             756, 20, pygame.transform.scale(
                 line_icon, (75, 75))))
-    
 
     # adding buttons to the list of user buttons
-    user_button_list.append(dubercomponent.DuberUserButton(20,170, True, main_font, user.User("", -1, False) ))
-    user_button_list.append(dubercomponent.DuberUserButton(20,210, True, main_font, user.User("", -1, False) ))
-    user_button_list.append(dubercomponent.DuberUserButton(20,250, True, main_font, user.User("", -1, False) ))
-    user_button_list.append(dubercomponent.DuberUserButton(20,290, True, main_font, user.User("", -1, False) ))
-    user_button_list.append(dubercomponent.DuberUserButton(20,330, True, main_font, user.User("", -1, False) ))
-    user_button_list.append(dubercomponent.DuberUserButton(20,370, True, main_font, user.User("", -1, False) ))
-    user_button_list.append(dubercomponent.DuberUserButton(20,410, True, main_font, user.User("", -1, False) ))
-    user_button_list.append(dubercomponent.DuberUserButton(20,450, True, main_font, user.User("", -1, False) ))
-    user_button_list.append(dubercomponent.DuberUserButton(20,490, True, main_font, user.User("", -1, False) ))
-    user_button_list.append(dubercomponent.DuberUserButton(20,530, True, main_font, user.User("", -1, False) ))
-    user_button_list.append(dubercomponent.DuberUserButton(20,570, True, main_font, user.User("", -1, False) ))
-    user_button_list.append(dubercomponent.DuberUserButton(20,610, True, main_font, user.User("", -1, False) ))
-    #TODO: add the current users to the list of users
-    
+    user_button_list.append(
+        dubercomponent.DuberUserButton(
+            20, 170, True, main_font, user.User(
+                "", -1, False)))
+    user_button_list.append(
+        dubercomponent.DuberUserButton(
+            20, 210, True, main_font, user.User(
+                "", -1, False)))
+    user_button_list.append(
+        dubercomponent.DuberUserButton(
+            20, 250, True, main_font, user.User(
+                "", -1, False)))
+    user_button_list.append(
+        dubercomponent.DuberUserButton(
+            20, 290, True, main_font, user.User(
+                "", -1, False)))
+    user_button_list.append(
+        dubercomponent.DuberUserButton(
+            20, 330, True, main_font, user.User(
+                "", -1, False)))
+    user_button_list.append(
+        dubercomponent.DuberUserButton(
+            20, 370, True, main_font, user.User(
+                "", -1, False)))
+    user_button_list.append(
+        dubercomponent.DuberUserButton(
+            20, 410, True, main_font, user.User(
+                "", -1, False)))
+    user_button_list.append(
+        dubercomponent.DuberUserButton(
+            20, 450, True, main_font, user.User(
+                "", -1, False)))
+    user_button_list.append(
+        dubercomponent.DuberUserButton(
+            20, 490, True, main_font, user.User(
+                "", -1, False)))
+    user_button_list.append(
+        dubercomponent.DuberUserButton(
+            20, 530, True, main_font, user.User(
+                "", -1, False)))
+    user_button_list.append(
+        dubercomponent.DuberUserButton(
+            20, 570, True, main_font, user.User(
+                "", -1, False)))
+    user_button_list.append(
+        dubercomponent.DuberUserButton(
+            20, 610, True, main_font, user.User(
+                "", -1, False)))
+    # TODO: add the current users to the list of users
+
     while run:
         # events
         for event in pygame.event.get():
@@ -711,10 +747,6 @@ def main():
                             editing_ip = False
                             editing_port = False
                             editing_join_code = False
-                    # editing_username = True
-                    #     editing_ip = False
-                    #     editing_port = False
-                    #     editing_join_code = False
                     elif (event.key == pygame.K_LCTRL) or (event.key == pygame.K_RCTRL):
                         pass  # TODO: handle ctrl being pressed
                     # lets the user enter in information for logging in
@@ -783,7 +815,7 @@ def main():
                                 selected_user = user_button.get_user()
                                 break
                     elif kick_button.selected(pygame.mouse.get_pos()):
-                         kick_user(selected_user)
+                        kick_user(selected_user)
                     elif export_button.selected(pygame.mouse.get_pos()):
                         export_drawing()
                     elif (200 >= pygame.mouse.get_pos()[0] <= 1080) and (115 >= pygame.mouse.get_pos()[1] <= 720):
@@ -824,7 +856,7 @@ def update_main_screen():
     brush_selection_area.draw(window)
     shape_selection_area.draw(window)
     kick_button.draw(window)
-    export_button.draw(window)        
+    export_button.draw(window)
     window.blit(main_font.render('Users:', True, (255, 255, 255)), (20, 130))
     window.blit(main_font.render(join_code, True, (255, 255, 255)), (866, 34))
 
@@ -879,5 +911,5 @@ def update_login_screen():
 
 
 if __name__ == "__main__":
-    construct_canvas() # setup
+    construct_canvas()  # setup
     main()

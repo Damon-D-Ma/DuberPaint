@@ -264,11 +264,12 @@ class DuberShapeButton(DuberComponent):
             0)
         screen.blit(self._icon, (self._x, self._y))
 
+
 class DuberUserButton(DuberComponent):
     """
     A button to select users in the board in the main window
     """
-    
+
     def __init__(self, x, y, empty, font, user):
         """
         Constructor for the user button
@@ -283,7 +284,7 @@ class DuberUserButton(DuberComponent):
         self._empty = empty
         self._font = font
         self._user = user
-        super().__init__(x, y, 160, 40, (128,128,128))
+        super().__init__(x, y, 160, 40, (128, 128, 128))
 
     def set_user(self, new_user):
         """
@@ -305,19 +306,19 @@ class DuberUserButton(DuberComponent):
         Returns whether or not there is a user assigned to this button
         """
         return self._empty
-    
+
     def set_empty(self, empty):
         """
         Changes the status of if the user is assigned to this button
         """
         self._empty = empty
-    
+
     def toggle_empty(self):
         """
         Toggles the status of if the user is assigned to this button
         """
         self._empty = not self._empty
-    
+
     def draw(self, screen):
         """
         Draws the button on the given window
@@ -333,4 +334,5 @@ class DuberUserButton(DuberComponent):
              self._width,
              self._height),
             0)
-        screen.blit(self._font.render(self._user.get_username(), True, (255, 255, 255)), (self._x, self._y))
+        screen.blit(self._font.render(self._user.get_username(),
+                    True, (255, 255, 255)), (self._x, self._y))
