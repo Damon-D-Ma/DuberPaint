@@ -91,14 +91,14 @@ class Rectangle (Shape):
         Returns:
             (list): the canvas but marked
         """
-        for i in range(self._top_left[0], self._bottom_right[0]):
+        for i in range(self._top_left[0] - 200, self._bottom_right[0] - 200):
             # mark horizontals
-            canvas[i][self._top_left[1]] = self.get_colour()
-            canvas[i][self._bottom_right[1]] = self.get_colour()
-        for i in range(self._top_left[1], self._bottom_right[1]):
+            canvas[self._top_left[1] - 115][i] = self.get_colour()
+            canvas[self._bottom_right[1] - 115][i] = self.get_colour()
+        for i in range(self._top_left[1] - 115, self._bottom_right[1] - 115):
             # mark verticals
-            canvas[self._top_left[0]][i] = self.get_colour()
-            canvas[self._bottom_right[0]][i] = self.get_colour()
+            canvas[i][self._top_left[0] - 200] = self.get_colour()
+            canvas[i][self._bottom_right[0] - 200] = self.get_colour()
         return canvas
 
 

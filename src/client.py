@@ -5,6 +5,7 @@ import user
 import brushes as brushes
 import dubercomponent
 import numpy
+import shapes
 from PIL import Image
 
 #-------------------------------GLOBALS-------------------------------#
@@ -96,7 +97,7 @@ def construct_canvas():
     global canvas
     for i in range(720):
         temp = []
-        for j in range(720):
+        for j in range(1080):
             temp.append([255, 255, 255])
         canvas.append(temp)
 
@@ -443,6 +444,8 @@ def main():
     global line_icon
     global rectangle_icon
     global ellipse_icon
+
+    global canvas
 
     global run
 
@@ -832,10 +835,14 @@ def main():
                         elif (drawing_rectangle) or (drawing_ellipse) or (drawing_line):
                             mouse_down_coords = pygame.mouse.get_pos()
                 elif ((event.type == pygame.MOUSEBUTTONUP) and (event.button == 1)):
-                    if (drawing_rectangle) or (drawing_ellipse) or (drawing_line):
+                    if ((drawing_rectangle) or (drawing_ellipse) or (drawing_line)) and ((200 <= pygame.mouse.get_pos()[0] <= 1080) and (115 <= pygame.mouse.get_pos()[1] <= 720)):
                         mouse_up_coords = pygame.mouse.get_pos()
                         top_left = (min(mouse_down_coords[0], mouse_up_coords[0]), min(mouse_down_coords[1], mouse_up_coords[1]))
                         bottom_right = (max(mouse_down_coords[0], mouse_up_coords[0]), max(mouse_down_coords[1], mouse_up_coords[1]))
+                        if drawing_rectangle:
+                            rect = shapes.Rectangle(top_left, bottom_right, shape_colour, 1)
+                            board_elements.append(rect)
+                            canvas = rect.mark(canvas)
                         # TODO: based on shape, create a shape and mark it on canvas also send over the shape with protocol
 
         # update the screen

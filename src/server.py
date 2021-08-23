@@ -131,7 +131,7 @@ def create_room(conn, data):
         current_join_code += 1
         new_user = user.User(data[1], current_user_id, True)
         # TODO: make this not a fixed value later
-        boards.append(board.Board((720, 720), join_code, new_user))
+        boards.append(board.Board((720, 1080), join_code, new_user))
         clients.append((new_user, conn, boards[-1]))
         boards[-1].add_user(new_user)
         send(conn, f"<c>\n{current_user_id}\n{join_code}")
