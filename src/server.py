@@ -34,6 +34,18 @@ def parse_join_code(join_code):
     else:
         return f"{join_code}"
 
+def parse_point_and_colour(point_or_colour_string):
+    """
+    Parses a point or colour to just space separated characters
+
+    Args:
+        point_string (string): The point in string format as "(x, y)" or colour as "[r, g, b]"
+
+    Returns:
+        string: the point parsed into "x y" or clour as "r g b"
+    """
+    point_or_colour_string = point_or_colour_string[1:-1]
+    return " ".join(point_or_colour_string.split(", "))
 
 def send(conn, message):
     """
@@ -169,7 +181,7 @@ def draw_rectangle(conn, data):
         for board in boards:
             if board.check_invite_code(data[1]):
                 send_to_board_members(
-                    board, f"<r>\n{data[2]}\n{data[3]}\n{data[4]}\n{data[5]}")
+                    board, f"<r>\n{parse_point_and_colour(data[2])}\n{parse_point_and_colour(data[3])}\n{parse_point_and_colour(data[4])}\n{data[5]}")
 
 
 def draw_ellipse(conn, data):

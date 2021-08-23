@@ -216,15 +216,17 @@ def recv_rectangle(data):
     Args:
         data (list): the data sent over by the server
     """
+    global board_elements
+    global canvas
     if len(data) == 5:
         top_left = (int(data[1].split(" ")[0]), int(data[1].split(" ")[1]))
         bottom_right = (int(data[2].split(" ")[0]), int(data[2].split(" ")[1]))
         colour = (int(data[3].split(" ")[0]), int(
             data[3].split(" ")[1]), int(data[3].split(" ")[2]))
-        fill = (int(data[4].split(" ")[0]),
-                int(data[4].split(" ")[1]),
-                int(data[4].split(" ")[2]))
-        # TODO: update canvas for a rect
+        fill = int(data[4])
+        rect = shapes.Rectangle(top_left, bottom_right, colour, 1)
+        board_elements.append(rect)
+        canvas = rect.mark(canvas)
 
 
 def recv_ellipse(data):
@@ -841,8 +843,7 @@ def main():
                         bottom_right = (max(mouse_down_coords[0], mouse_up_coords[0]), max(mouse_down_coords[1], mouse_up_coords[1]))
                         if drawing_rectangle:
                             rect = shapes.Rectangle(top_left, bottom_right, shape_colour, 1)
-                            board_elements.append(rect)
-                            canvas = rect.mark(canvas)
+                            send_rect(rect)
                         # TODO: based on shape, create a shape and mark it on canvas also send over the shape with protocol
 
         # update the screen
