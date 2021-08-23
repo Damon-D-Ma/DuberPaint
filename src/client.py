@@ -61,7 +61,6 @@ shape_list = []
 
 canvas = []
 
-
 def send(message):
     """
     sends a message to the server
@@ -521,6 +520,7 @@ def main():
 
     # Other values needed for the program
     current_brush = brushes.Brush((0, 0, 0), 10)
+    mouse_down_coords = None
 
     # adding buttons to the list of colour buttons
 
@@ -824,20 +824,19 @@ def main():
                         kick_user(selected_user)
                     elif export_button.selected(pygame.mouse.get_pos()):
                         export_drawing()
-                    elif (200 >= pygame.mouse.get_pos()[0] <= 1080) and (115 >= pygame.mouse.get_pos()[1] <= 720):
+                    elif (200 <= pygame.mouse.get_pos()[0] <= 1080) and (115 <= pygame.mouse.get_pos()[1] <= 720):
                         if using_brush:
                             send_brush_mark(
                                 current_brush.make_brush_stroke(
                                     pygame.mouse.get_pos()))
-                        elif drawing_rectangle:
-                            # send_rect()
-                            print("Drawing Rectangle")
-                        elif drawing_ellipse:
-                            # send_ellipse
-                            print("Drawing Ellipse")
-                        elif drawing_line:
-                            # send_line()
-                            print("Drawing Line")
+                        elif (drawing_rectangle) or (drawing_ellipse) or (drawing_line):
+                            mouse_down_coords = pygame.mouse.get_pos()
+                elif ((event.type == pygame.MOUSEBUTTONUP) and (event.button == 1)):
+                    if (drawing_rectangle) or (drawing_ellipse) or (drawing_line):
+                        mouse_up_coords = pygame.mouse.get_pos()
+                        top_left = (min(mouse_down_coords[0], mouse_up_coords[0]), min(mouse_down_coords[1], mouse_up_coords[1]))
+                        bottom_right = (max(mouse_down_coords[0], mouse_up_coords[0]), max(mouse_down_coords[1], mouse_up_coords[1]))
+                        # TODO: based on shape, create a shape and mark it on canvas also send over the shape with protocol
 
         # update the screen
         if login_screen:
