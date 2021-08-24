@@ -196,5 +196,5 @@ class Line (Shape):
             (self.get_top_left()[0] - self.get_bottom_right()[0])
         b = self.get_bottom_right()[1] - m * self.get_bottom_right()[0]
         for i in range(self.get_top_left()[0], self.get_bottom_right()[0] + 1):
-            canvas[i][int(m * i + b)] = self.get_colour()
+            canvas[int(m * i + b) - 115][i - 200] = self.get_colour()
         return canvas

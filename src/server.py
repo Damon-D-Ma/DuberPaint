@@ -207,11 +207,11 @@ def draw_line(conn, data):
         conn (socket): the connection the message was from
         data (list): the data the client sent
     """
-    if len(data) == 6:
+    if len(data) == 5:
         for board in boards:
             if board.check_invite_code(data[1]):
                 send_to_board_members(
-                    board, f"<L>\n{data[2]}\n{data[3]}\n{data[4]}")
+                    board, f"<L>\n{parse_point_and_colour(data[2])}\n{parse_point_and_colour(data[3])}\n{parse_point_and_colour(data[4])}")
 
 
 def disconnect(conn, data):

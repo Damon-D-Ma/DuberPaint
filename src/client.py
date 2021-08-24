@@ -142,7 +142,7 @@ def send_line(line):
     Args:
         line (Line): the line to be sent to the server
     """
-    message = f'<L>\n{join_code}\n{line.get_top_left}\n{line.get_bottom_right()}\n{line.get_colour()}'
+    message = f'<L>\n{join_code}\n{line.get_top_left()}\n{line.get_bottom_right()}\n{line.get_colour()}'
     send(message)
 
 
@@ -256,12 +256,17 @@ def recv_line(data):
     Args:
         data (list): the data sent over by the server
     """
-    if len(data) == 5:
+    global board_elements
+    global canvas
+    if len(data) == 4:
         top_left = (int(data[1].split(" ")[0]), int(data[1].split(" ")[1]))
         bottom_right = (int(data[2].split(" ")[0]), int(data[2].split(" ")[1]))
         colour = (int(data[3].split(" ")[0]), int(
             data[3].split(" ")[1]), int(data[3].split(" ")[2]))
-        # TODO: update line to canvas
+        print("hm")
+        line = shapes.Line(top_left, bottom_right, colour)
+        board_elements.append(line)
+        canvas = line.mark(canvas)
 
 
 def recv_disconnect(data):
@@ -848,10 +853,12 @@ def main():
                         if drawing_rectangle:
                             rect = shapes.Rectangle(top_left, bottom_right, shape_list[0].get_shape_colour(), 1)
                             send_rect(rect)
-                        if drawing_ellipse:
+                        elif drawing_ellipse:
                             ellipse = shapes.Ellipse(top_left, bottom_right, shape_list[1].get_shape_colour(), 1)
                             send_ellipse(ellipse)
-                        # TODO: based on shape, create a shape and mark it on canvas also send over the shape with protocol
+                        elif drawing_line:
+                            line = shapes.Line(top_left, bottom_right, shape_list[2].get_shape_colour())
+                            send_line(line)
 
         # update the screen
         if login_screen:
