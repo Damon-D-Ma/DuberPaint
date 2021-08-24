@@ -62,6 +62,7 @@ shape_list = []
 
 canvas = []
 
+
 def send(message):
     """
     sends a message to the server
@@ -208,10 +209,11 @@ def recv_draw(data):
         width = int(data[2])
         colour = (int(data[3].split(" ")[0]), int(
             data[3].split(" ")[1]), int(data[3].split(" ")[2]))
-        canvas[coords[1] - 115][coords[0] - 200] = colour #TODO: fix this
+        canvas[coords[1] - 115][coords[0] - 200] = colour  # TODO: fix this
         brush_stroke = brushes.BrushStroke(colour, width, coords)
         board_elements.append(brush_stroke)
         canvas = brush_stroke.mark(canvas)
+
 
 def recv_rectangle(data):
     """
@@ -305,28 +307,6 @@ def recv_user_join(data):
                 break
 
 
-def recv_board(data):
-    """
-    Handles receiving board data
-
-    Args:
-        data (list): all the data that got sent over
-    """
-    global canvas
-    width, height = int(data[1].split(" ")[0]), int(data[1].split(" ")[1])
-    canvas = []
-    for i in range(width):
-        row = []
-        row_data = data[i + 2].split("|")
-        for j in range(height):
-            colour_data = row_data[j].split(",")
-            print(f"{i} {j} {colour_data}")
-            colour = [int(colour_data[0]), int(
-                colour_data[1]), int(colour_data[2])]
-            row.append(colour)
-        canvas.append(row)
-
-
 command_map = {
     "<c>": recv_successful,
     "<X>": recv_login_failed,
@@ -336,7 +316,6 @@ command_map = {
     "<L>": recv_line,
     "<dc>": recv_disconnect,
     "<uj>": recv_user_join,
-    "<b>": recv_board
 }
 
 
@@ -619,15 +598,15 @@ def main():
     shape_list.append(
         dubercomponent.DuberShapeButton(
             586, 20, pygame.transform.scale(
-                rectangle_icon, (75, 75)), (255,0,0)))
+                rectangle_icon, (75, 75)), (255, 0, 0)))
     shape_list.append(
         dubercomponent.DuberShapeButton(
             671, 20, pygame.transform.scale(
-                ellipse_icon, (75, 75)), (0,128,0)))
+                ellipse_icon, (75, 75)), (0, 128, 0)))
     shape_list.append(
         dubercomponent.DuberShapeButton(
             756, 20, pygame.transform.scale(
-                line_icon, (75, 75)), (0,0,255)))
+                line_icon, (75, 75)), (0, 0, 255)))
 
     # adding buttons to the list of user buttons
     user_button_list.append(
@@ -791,11 +770,14 @@ def main():
                         for colour_button in colour_list:
                             if colour_button.selected(pygame.mouse.get_pos()):
                                 if drawing_rectangle:
-                                    shape_list[0].set_shape_colour(colour_button.get_colour())
+                                    shape_list[0].set_shape_colour(
+                                        colour_button.get_colour())
                                 elif drawing_ellipse:
-                                    shape_list[1].set_shape_colour(colour_button.get_colour())
+                                    shape_list[1].set_shape_colour(
+                                        colour_button.get_colour())
                                 elif drawing_line:
-                                    shape_list[2].set_shape_colour(colour_button.get_colour())
+                                    shape_list[2].set_shape_colour(
+                                        colour_button.get_colour())
                                 elif not isinstance(current_brush, brushes.Eraser) and using_brush:
                                     current_brush.set_colour(
                                         colour_button.get_colour())
@@ -815,7 +797,6 @@ def main():
                                 drawing_line = False
                                 break
                             temp_brush_index += 1
-
 
                     elif shape_selection_area.selected(pygame.mouse.get_pos()):
                         if shape_list[0].selected(pygame.mouse.get_pos()):
@@ -850,18 +831,24 @@ def main():
                         elif (drawing_rectangle) or (drawing_ellipse) or (drawing_line):
                             mouse_down_coords = pygame.mouse.get_pos()
                 elif ((event.type == pygame.MOUSEBUTTONUP) and (event.button == 1)):
-                    if ((drawing_rectangle) or (drawing_ellipse) or (drawing_line)) and ((200 <= pygame.mouse.get_pos()[0] <= 1080) and (115 <= pygame.mouse.get_pos()[1] <= 720)):
+                    if ((drawing_rectangle) or (drawing_ellipse) or (drawing_line)) and (
+                            (200 <= pygame.mouse.get_pos()[0] <= 1080) and (115 <= pygame.mouse.get_pos()[1] <= 720)):
                         mouse_up_coords = pygame.mouse.get_pos()
-                        top_left = (min(mouse_down_coords[0], mouse_up_coords[0]), min(mouse_down_coords[1], mouse_up_coords[1]))
-                        bottom_right = (max(mouse_down_coords[0], mouse_up_coords[0]), max(mouse_down_coords[1], mouse_up_coords[1]))
+                        top_left = (min(mouse_down_coords[0], mouse_up_coords[0]), min(
+                            mouse_down_coords[1], mouse_up_coords[1]))
+                        bottom_right = (max(mouse_down_coords[0], mouse_up_coords[0]), max(
+                            mouse_down_coords[1], mouse_up_coords[1]))
                         if drawing_rectangle:
-                            rect = shapes.Rectangle(top_left, bottom_right, shape_list[0].get_shape_colour(), 1)
+                            rect = shapes.Rectangle(
+                                top_left, bottom_right, shape_list[0].get_shape_colour(), 1)
                             send_rect(rect)
                         elif drawing_ellipse:
-                            ellipse = shapes.Ellipse(top_left, bottom_right, shape_list[1].get_shape_colour(), 1)
+                            ellipse = shapes.Ellipse(
+                                top_left, bottom_right, shape_list[1].get_shape_colour(), 1)
                             send_ellipse(ellipse)
                         elif drawing_line:
-                            line = shapes.Line(top_left, bottom_right, shape_list[2].get_shape_colour())
+                            line = shapes.Line(
+                                top_left, bottom_right, shape_list[2].get_shape_colour())
                             send_line(line)
 
         # update the screen
@@ -882,7 +869,6 @@ def update_main_screen():
                      True)  # left part of interface
     pygame.draw.rect(window, (255, 255, 255),
                      (200, 115, 880, 605), False)  # canvas
-
 
     colour_selection_area.draw(window)
     brush_selection_area.draw(window)

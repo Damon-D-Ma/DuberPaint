@@ -233,15 +233,15 @@ def main():
         shape_list.append(
             dubercomponent.DuberShapeButton(
                 586, 20, pygame.transform.scale(
-                    rectangle_icon, (75, 75)), (255,0,0)))
+                    rectangle_icon, (75, 75)), (255, 0, 0)))
         shape_list.append(
             dubercomponent.DuberShapeButton(
                 671, 20, pygame.transform.scale(
-                    ellipse_icon, (75, 75)), (0,128,0)))
+                    ellipse_icon, (75, 75)), (0, 128, 0)))
         shape_list.append(
             dubercomponent.DuberShapeButton(
                 756, 20, pygame.transform.scale(
-                    line_icon, (75, 75)), (0,0,255)))
+                    line_icon, (75, 75)), (0, 0, 255)))
 
         for brushes in brush_list:
             brushes.draw(window)

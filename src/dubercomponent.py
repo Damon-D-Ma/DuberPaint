@@ -236,9 +236,9 @@ class DuberBrushButton(DuberComponent):
              self._height),
             0)
         if not isinstance(self._brush, brushes.Eraser):
-            pygame.draw.rect(screen, self._brush.get_colour(), (self._x, self._y,  8,8), 0)
-            pygame.draw.rect(screen, (0,0,0), (self._x, self._y,  8,8), 1)
-
+            pygame.draw.rect(screen, self._brush.get_colour(),
+                             (self._x, self._y, 8, 8), 0)
+            pygame.draw.rect(screen, (0, 0, 0), (self._x, self._y, 8, 8), 1)
 
         screen.blit(self._icon, (self._x, self._y))
 
@@ -267,7 +267,7 @@ class DuberShapeButton(DuberComponent):
         Gets the colour of the shape from the button
         """
         return self._shape_colour
-    
+
     def set_shape_colour(self, new_colour):
         """
         Sets a new colour for the shape in the button
@@ -292,8 +292,9 @@ class DuberShapeButton(DuberComponent):
              self._width,
              self._height),
             0)
-        pygame.draw.rect(screen, self._shape_colour, (self._x, self._y,  12,12), 0)
-        pygame.draw.rect(screen, (0,0,0), (self._x, self._y,  12,12), 1)
+        pygame.draw.rect(screen, self._shape_colour,
+                         (self._x, self._y, 12, 12), 0)
+        pygame.draw.rect(screen, (0, 0, 0), (self._x, self._y, 12, 12), 1)
         screen.blit(self._icon, (self._x, self._y))
 
 

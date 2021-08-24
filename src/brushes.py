@@ -127,11 +127,15 @@ class BrushStroke(Brush, shapes.Shape):
         Returns:
             list: the updated canvas
         """
-        for x in range(self._coordinates[0] - self._width, self._coordinates[0] + self._width):
-            for y in range(self._coordinates[1] - self._width, self._coordinates[1] + self._width):
-                if (((x - self._coordinates[0])*(x - self._coordinates[0])) + ((y - self._coordinates[1])*(y - self._coordinates[1]))) < (self._width * self._width):
+        for x in range(self._coordinates[0] - self._width,
+                       self._coordinates[0] + self._width):
+            for y in range(
+                    self._coordinates[1] - self._width, self._coordinates[1] + self._width):
+                if (((x - self._coordinates[0]) * (x - self._coordinates[0])) + (
+                        (y - self._coordinates[1]) * (y - self._coordinates[1]))) < (self._width * self._width):
                     canvas[y - 115][x - 200] = self._colour
         return canvas
+
 
 def fill(canvas, point, colour):
     """

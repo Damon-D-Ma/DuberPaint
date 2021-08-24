@@ -34,6 +34,7 @@ def parse_join_code(join_code):
     else:
         return f"{join_code}"
 
+
 def parse_point_and_colour(point_or_colour_string):
     """
     Parses a point or colour to just space separated characters
@@ -46,6 +47,7 @@ def parse_point_and_colour(point_or_colour_string):
     """
     point_or_colour_string = point_or_colour_string[1:-1]
     return " ".join(point_or_colour_string.split(", "))
+
 
 def send(conn, message):
     """
@@ -73,22 +75,6 @@ def send_to_board_members(board, message):
                 send(client[1], message)
 
 
-def send_canvas(conn, board):
-    """
-    Sends the board data over
-
-    Args:
-        conn (socket): [description]
-        board (board.Board): [description]
-    """
-    canvas_data = f"{len(board.canvas)} {len(board.canvas[0])}\n"
-    for row in board.canvas:
-        for colour in row:
-            canvas_data += f"{colour[0]},{colour[1]},{colour[2]}|"
-        canvas_data += "\n"
-    # send(conn, f"<b>\n{canvas_data}")
-
-
 def join_room(conn, data):
     """
     Handles when a user joins a room
@@ -111,13 +97,14 @@ def join_room(conn, data):
         if success:
             # send user in reply
             send(conn, f"<c>\n{current_user_id}\n{data[2]}")
-            # send_canvas(conn, right_board)
             # send to board member that a new user joined
             for user_to_send in right_board.get_users():
                 for client in clients:
                     if (client[0] == user_to_send) and (client[1] is not conn):
-                        print(f"<uj>\n{user_to_send.get_username()}\n{user_to_send.get_id()}")
-                        send(conn, f"<uj>\n{user_to_send.get_username()}\n{user_to_send.get_id()}")
+                        print(
+                            f"<uj>\n{user_to_send.get_username()}\n{user_to_send.get_id()}")
+                        send(
+                            conn, f"<uj>\n{user_to_send.get_username()}\n{user_to_send.get_id()}")
                         time.sleep(0.2)
             send_to_board_members(
                 right_board, f"<uj>\n{data[1]}\n{current_user_id}")
@@ -149,7 +136,6 @@ def create_room(conn, data):
         send(conn, f"<c>\n{current_user_id}\n{join_code}")
         send(conn, f"<uj>\n{data[1]}\n{current_user_id}")
         current_user_id += 1
-        # send_canvas(conn, boards[-1])
     else:
         send(conn, "<X>")
 
