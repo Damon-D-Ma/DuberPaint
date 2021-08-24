@@ -32,12 +32,12 @@ def main():
         window.blit(pygame.transform.scale(logo, (166, 115)), (0, 0))
 
         # drawing tool customization
-        colour_selection_area = dubercomponent.DuberTextBox(
-            240, 10, 160, 95, (128, 128, 128), "", font_1, (255, 255, 255))  # not complete
-        brush_selection_area = dubercomponent.DuberTextBox(
-            420, 10, 136, 95, (128, 128, 128), "", font_1, (255, 255, 255))  # not complete
-        shape_selection_area = dubercomponent.DuberTextBox(
-            576, 10, 265, 95, (128, 128, 128), "", font_1, (255, 255, 255))  # not complete
+        colour_selection_area = dubercomponent.DuberComponent(
+            240, 10, 160, 95, (128, 128, 128))  # not complete
+        brush_selection_area = dubercomponent.DuberComponent(
+            420, 10, 136, 95, (128, 128, 128))  # not complete
+        shape_selection_area = dubercomponent.DuberComponent(
+            576, 10, 265, 95, (128, 128, 128))  # not complete
 
         join_code = "XXXXXX"
         join_code_area = dubercomponent.DuberTextBox(
@@ -104,7 +104,7 @@ def main():
         pygame.draw.rect(window, (128, 128, 128), (370, 78, 20, 20), 0)
 
         # positions for brush buttons
-
+        """
         # row 1
         pygame.draw.rect(window, (128, 128, 128), (430, 20, 32, 32), 0)
         pygame.draw.rect(window, (128, 128, 128), (472, 20, 32, 32), 0)
@@ -119,7 +119,7 @@ def main():
         pygame.draw.rect(window, (128, 128, 128), (586, 20, 75, 75), 0)
         pygame.draw.rect(window, (128, 128, 128), (671, 20, 75, 75), 0)
         pygame.draw.rect(window, (128, 128, 128), (756, 20, 75, 75), 0)
-
+        """
         colour_selection_area.draw(window)
         # canvas
         pygame.draw.rect(window, (255, 255, 255), (200, 115, 880, 605), False)

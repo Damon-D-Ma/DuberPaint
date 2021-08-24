@@ -185,7 +185,7 @@ class DuberBrushButton(DuberComponent):
             brush (brushes.Brush): the brush that the button is storing
 
         """
-        super().__init__(x, y, 32, 32, (0, 0, 0))
+        super().__init__(x, y, 32, 32, (128, 128, 128))
         self._icon = icon
         self._brush = brush
 
@@ -227,6 +227,14 @@ class DuberBrushButton(DuberComponent):
         Args:
             screen (pygame.surface): the surface to draw the component on
         """
+        pygame.draw.rect(
+            screen,
+            self._colour,
+            (self._x,
+             self._y,
+             self._width,
+             self._height),
+            0)
         screen.blit(self._icon, (self._x, self._y))
 
 
@@ -333,6 +341,6 @@ class DuberUserButton(DuberComponent):
              self._y,
              self._width,
              self._height),
-            0)
+            1)
         screen.blit(self._font.render(self._user.get_username(),
                     True, (255, 255, 255)), (self._x, self._y))

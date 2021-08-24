@@ -856,6 +856,8 @@ def main():
 
 def update_main_screen():
     window.fill((0, 0, 0))
+    window.blit(pygame.transform.scale(logo, (166, 115)), (0, 0))
+
     pygame.draw.rect(window, (255, 255, 255), (0, 0, 1080,
                      115), True)  # top part of interface
     pygame.draw.rect(window, (255, 255, 255), (0, 0, 200, 720),
@@ -863,11 +865,11 @@ def update_main_screen():
     pygame.draw.rect(window, (255, 255, 255),
                      (200, 115, 880, 605), False)  # canvas
 
-    window.blit(pygame.transform.scale(logo, (166, 115)), (0, 0))
 
     colour_selection_area.draw(window)
     brush_selection_area.draw(window)
     shape_selection_area.draw(window)
+    join_code_area.draw()
     kick_button.draw(window)
     export_button.draw(window)
     window.blit(main_font.render('Users:', True, (255, 255, 255)), (20, 130))
