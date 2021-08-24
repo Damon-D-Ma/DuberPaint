@@ -517,9 +517,6 @@ def main():
     drawing_line = False
     selected_user = user.User("", -1, False)
 
-    # default colour for shapes that are drawn
-    shape_colour = (0, 0, 0)
-
     # index of the brush selected
     brush_index = 0
 
@@ -611,15 +608,15 @@ def main():
     shape_list.append(
         dubercomponent.DuberShapeButton(
             586, 20, pygame.transform.scale(
-                rectangle_icon, (75, 75))))
+                rectangle_icon, (75, 75)), (255,0,0)))
     shape_list.append(
         dubercomponent.DuberShapeButton(
             671, 20, pygame.transform.scale(
-                ellipse_icon, (75, 75))))
+                ellipse_icon, (75, 75)), (0,128,0)))
     shape_list.append(
         dubercomponent.DuberShapeButton(
             756, 20, pygame.transform.scale(
-                line_icon, (75, 75))))
+                line_icon, (75, 75)), (0,0,255)))
 
     # adding buttons to the list of user buttons
     user_button_list.append(
@@ -782,8 +779,12 @@ def main():
                     if colour_selection_area.selected(pygame.mouse.get_pos()):
                         for colour_button in colour_list:
                             if colour_button.selected(pygame.mouse.get_pos()):
-                                if drawing_rectangle or drawing_ellipse or drawing_line:
-                                    shape_colour = colour_button.get_colour()
+                                if drawing_rectangle:
+                                    shape_list[0].set_shape_colour(colour_button.get_colour())
+                                elif drawing_ellipse:
+                                    shape_list[1].set_shape_colour(colour_button.get_colour())
+                                elif drawing_line:
+                                    shape_list[2].set_shape_colour(colour_button.get_colour())
                                 elif not isinstance(current_brush, brushes.Eraser) and using_brush:
                                     current_brush.set_colour(
                                         colour_button.get_colour())
@@ -842,7 +843,7 @@ def main():
                         top_left = (min(mouse_down_coords[0], mouse_up_coords[0]), min(mouse_down_coords[1], mouse_up_coords[1]))
                         bottom_right = (max(mouse_down_coords[0], mouse_up_coords[0]), max(mouse_down_coords[1], mouse_up_coords[1]))
                         if drawing_rectangle:
-                            rect = shapes.Rectangle(top_left, bottom_right, shape_colour, 1)
+                            rect = shapes.Rectangle(top_left, bottom_right, shape_list[0].get_shape_colour(), 1)
                             send_rect(rect)
                         # TODO: based on shape, create a shape and mark it on canvas also send over the shape with protocol
 

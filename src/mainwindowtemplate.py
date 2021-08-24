@@ -183,7 +183,18 @@ def main():
 
         brush_list = []
         # adding buttons to the list of brush buttons
-
+        """
+        Red: (255,0,0)
+        Orange: (255,165,0)
+        Yellow: (255,255,255)
+        Green: (0,128,0)
+        Blue: (0,0,255)
+        Purple: (128,0,128)
+        Black: (0,0,0)
+        White: (255,255,255)
+        Brown: (139,69,19)
+        Grey: (128,128,128)
+        """
         # row 1
         brush_list.append(
             dubercomponent.DuberBrushButton(
@@ -194,24 +205,24 @@ def main():
             dubercomponent.DuberBrushButton(
                 472, 20, pygame.transform.scale(
                     brush_icon, (32, 32)), brush.Brush(
-                    (0, 0, 0), 10)))
+                    (255, 0, 0), 10)))
         brush_list.append(
             dubercomponent.DuberBrushButton(
                 514, 20, pygame.transform.scale(
                     brush_icon, (32, 32)), brush.Brush(
-                    (0, 0, 0), 10)))
+                    (0, 128, 0), 10)))
 
         # row 2
         brush_list.append(
             dubercomponent.DuberBrushButton(
                 430, 62, pygame.transform.scale(
                     brush_icon, (32, 32)), brush.Brush(
-                    (0, 0, 0), 10)))
+                    (0, 0, 255), 10)))
         brush_list.append(
             dubercomponent.DuberBrushButton(
                 472, 62, pygame.transform.scale(
                     brush_icon, (32, 32)), brush.Brush(
-                    (0, 0, 0), 10)))
+                    (128, 128, 128), 10)))
         brush_list.append(
             dubercomponent.DuberBrushButton(
                 514, 62, pygame.transform.scale(
@@ -222,15 +233,15 @@ def main():
         shape_list.append(
             dubercomponent.DuberShapeButton(
                 586, 20, pygame.transform.scale(
-                    rectangle_icon, (75, 75))))
+                    rectangle_icon, (75, 75)), (255,0,0)))
         shape_list.append(
             dubercomponent.DuberShapeButton(
                 671, 20, pygame.transform.scale(
-                    ellipse_icon, (75, 75))))
+                    ellipse_icon, (75, 75)), (0,128,0)))
         shape_list.append(
             dubercomponent.DuberShapeButton(
                 756, 20, pygame.transform.scale(
-                    line_icon, (75, 75))))
+                    line_icon, (75, 75)), (0,0,255)))
 
         for brushes in brush_list:
             brushes.draw(window)

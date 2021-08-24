@@ -1,5 +1,5 @@
 import pygame
-
+import brushes
 from user import User
 """
 Contains the components
@@ -235,6 +235,11 @@ class DuberBrushButton(DuberComponent):
              self._width,
              self._height),
             0)
+        if not isinstance(self._brush, brushes.Eraser):
+            pygame.draw.rect(screen, self._brush.get_colour(), (self._x, self._y,  8,8), 0)
+            pygame.draw.rect(screen, (0,0,0), (self._x, self._y,  8,8), 1)
+
+
         screen.blit(self._icon, (self._x, self._y))
 
 
@@ -243,7 +248,7 @@ class DuberShapeButton(DuberComponent):
     Button for shapes
     """
 
-    def __init__(self, x, y, icon):
+    def __init__(self, x, y, icon, shape_colour):
         """
         Constructor for the DuberShapeButton
 
@@ -251,9 +256,26 @@ class DuberShapeButton(DuberComponent):
             x (int): the x position of the top left corner
             y (int): the y position of the top left corner
             icon (pygame.image): the image icon
+            colour (tuple): the rgb colour value of the shape stored in the button
         """
         super().__init__(x, y, 75, 75, (255, 255, 255))
         self._icon = icon
+        self._shape_colour = shape_colour
+
+    def get_shape_colour(self):
+        """
+        Gets the colour of the shape from the button
+        """
+        return self._shape_colour
+    
+    def set_shape_colour(self, new_colour):
+        """
+        Sets a new colour for the shape in the button
+
+        Args:
+            new_colour (tuple): the RGB value of the new colour
+        """
+        self._shape_colour = new_colour
 
     def draw(self, screen):
         """
@@ -270,6 +292,8 @@ class DuberShapeButton(DuberComponent):
              self._width,
              self._height),
             0)
+        pygame.draw.rect(screen, self._shape_colour, (self._x, self._y,  12,12), 0)
+        pygame.draw.rect(screen, (0,0,0), (self._x, self._y,  12,12), 1)
         screen.blit(self._icon, (self._x, self._y))
 
 
