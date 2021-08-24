@@ -114,9 +114,24 @@ class BrushStroke(Brush, shapes.Shape):
             screen,
             self._colour,
             self._coordinates,
-            (self._width / 2),
+            (int(self._width / 2)),
             0)
 
+    def mark(self, canvas):
+        """
+        Marks the brushstroke on the canvas
+
+        Args:
+            canvas (list): 3d array keeping track of each pixel on the board
+
+        Returns:
+            list: the updated canvas
+        """
+        for x in range(self._coordinates[0] - self._width, self._coordinates[0] + self._width):
+            for y in range(self._coordinates[1] - self._width, self._coordinates[1] + self._width):
+                if (((x - self._coordinates[0])*(x - self._coordinates[0])) + ((y - self._coordinates[1])*(y - self._coordinates[1]))) < (self._width * self._width):
+                    canvas[y - 115][x - 200] = self._colour
+        return canvas
 
 def fill(canvas, point, colour):
     """

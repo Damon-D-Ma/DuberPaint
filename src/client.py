@@ -201,13 +201,17 @@ def recv_draw(data):
     Args:
         data (list): the data sent over by the server
     """
+    global board_elements
+    global canvas
     if len(data) == 4:
-        # TODO: update canvas for draw
         coords = (int(data[1].split(" ")[0]), int(data[1].split(" ")[1]))
         width = int(data[2])
         colour = (int(data[3].split(" ")[0]), int(
             data[3].split(" ")[1]), int(data[3].split(" ")[2]))
-
+        canvas[coords[1] - 115][coords[0] - 200] = colour #TODO: fix this
+        brush_stroke = brushes.BrushStroke(colour, width, coords)
+        board_elements.append(brush_stroke)
+        canvas = brush_stroke.mark(canvas)
 
 def recv_rectangle(data):
     """

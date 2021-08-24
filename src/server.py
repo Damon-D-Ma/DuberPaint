@@ -166,7 +166,7 @@ def draw(conn, data):
         for board in boards:
             if board.check_invite_code(data[1]):
                 send_to_board_members(
-                    board, f"<d>\n{data[2]}\n{data[3]}\n{data[4]}")
+                    board, f"<d>\n{parse_point_and_colour(data[2])}\n{data[3]}\n{parse_point_and_colour(data[4])}")
 
 
 def draw_rectangle(conn, data):
