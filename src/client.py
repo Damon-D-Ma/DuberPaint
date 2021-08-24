@@ -797,7 +797,6 @@ def main():
                     elif brush_selection_area.selected(pygame.mouse.get_pos()):
                         temp_brush_index = 0
                         for brush_button in brush_list:
-                            temp_brush_index += 1
                             if brush_button.selected(pygame.mouse.get_pos()):
                                 current_brush = brush_button.get_brush()
                                 brush_index = temp_brush_index
@@ -806,6 +805,8 @@ def main():
                                 drawing_ellipse = False
                                 drawing_line = False
                                 break
+                            temp_brush_index += 1
+
 
                     elif shape_selection_area.selected(pygame.mouse.get_pos()):
                         if shape_list[0].selected(pygame.mouse.get_pos()):
