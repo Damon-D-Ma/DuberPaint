@@ -136,9 +136,19 @@ class Ellipse (Shape):
         k = (self._top_left[1] + self._bottom_right[1]) / 2.0
         for x in range(self._top_left[0], self._bottom_right[0] + 1):
             # derived from the ellipse formula
-            y1 = round(sqrt((b * b * (1 - (x - h) * (x - h)))) + k)
-            y2 = round(-sqrt((b * b * (1 - (x - h) * (x - h)))) + k)
-            canvas[x][y] = self.get_colour()
+            y1 = round(sqrt((b*b)*(1-(((x-h)*(x-h))/(a*a)))) + k)
+            y2 = round(-sqrt((b*b)*(1-(((x-h)*(x-h))/(a*a)))) + k)
+            
+            canvas[y1 - 115][x - 200] = self.get_colour()
+            canvas[y2 - 115][x - 200] = self.get_colour()
+
+        for y in range(self._top_left[1], self._bottom_right[1] + 1):
+            x1 = round(sqrt((a*a)*(1-(((y-k)*(y-k))/(b*b)))) + h)
+            x2 = round(-sqrt((a*a)*(1-(((y-k)*(y-k))/(b*b)))) + h)
+
+            canvas[y - 115][x1 - 200] = self.get_colour()
+            canvas[y - 115][x2 - 200] = self.get_colour()
+
         return canvas
 
 

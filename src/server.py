@@ -196,7 +196,7 @@ def draw_ellipse(conn, data):
         for board in boards:
             if board.check_invite_code(data[1]):
                 send_to_board_members(
-                    board, f"<e>\n{data[2]}\n{data[3]}\n{data[4]}\n{data[5]}")
+                    board, f"<e>\n{parse_point_and_colour(data[2])}\n{parse_point_and_colour(data[3])}\n{parse_point_and_colour(data[4])}\n{data[5]}")
 
 
 def draw_line(conn, data):

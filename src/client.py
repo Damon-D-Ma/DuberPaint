@@ -131,7 +131,7 @@ def send_ellipse(ellipse):
     Args:
         ellipse (Ellipse): the ellipse to be sent to the server
     """
-    message = f'<e>\n{join_code}\n{ellipse.get_top_left()}\n{ellipse.get_bottom_right()}\n{ellipse.get_colour()}\n{ellipse.get_filles()}'
+    message = f'<e>\n{join_code}\n{ellipse.get_top_left()}\n{ellipse.get_bottom_right()}\n{ellipse.get_colour()}\n{ellipse.get_filled()}'
     send(message)
 
 
@@ -236,15 +236,17 @@ def recv_ellipse(data):
     Args:
         data (list): the data sent over by the server
     """
+    global board_elements
+    global canvas
     if len(data) == 5:
         top_left = (int(data[1].split(" ")[0]), int(data[1].split(" ")[1]))
         bottom_right = (int(data[2].split(" ")[0]), int(data[2].split(" ")[1]))
         colour = (int(data[3].split(" ")[0]), int(
             data[3].split(" ")[1]), int(data[3].split(" ")[2]))
-        fill = (int(data[4].split(" ")[0]),
-                int(data[4].split(" ")[1]),
-                int(data[4].split(" ")[2]))
-        # TODO: update ellipse to canvas
+        fill = int(data[4])
+        ellipse = shapes.Ellipse(top_left, bottom_right, colour, fill)
+        board_elements.append(ellipse)
+        canvas = ellipse.mark(canvas)
 
 
 def recv_line(data):
@@ -845,6 +847,9 @@ def main():
                         if drawing_rectangle:
                             rect = shapes.Rectangle(top_left, bottom_right, shape_list[0].get_shape_colour(), 1)
                             send_rect(rect)
+                        if drawing_ellipse:
+                            ellipse = shapes.Ellipse(top_left, bottom_right, shape_list[1].get_shape_colour(), 1)
+                            send_ellipse(ellipse)
                         # TODO: based on shape, create a shape and mark it on canvas also send over the shape with protocol
 
         # update the screen
@@ -870,7 +875,7 @@ def update_main_screen():
     colour_selection_area.draw(window)
     brush_selection_area.draw(window)
     shape_selection_area.draw(window)
-    join_code_area.draw()
+    join_code_area.draw(window)
     kick_button.draw(window)
     export_button.draw(window)
     window.blit(main_font.render('Users:', True, (255, 255, 255)), (20, 130))
