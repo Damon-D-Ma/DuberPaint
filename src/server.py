@@ -105,7 +105,10 @@ def join_room(conn, data):
                             f"<uj>\n{user_to_send.get_username()}\n{user_to_send.get_id()}")
                         send(
                             conn, f"<uj>\n{user_to_send.get_username()}\n{user_to_send.get_id()}")
-                        time.sleep(0.2)
+                        time.sleep(0.01)
+            for element in right_board.get_board_elements():
+                send(conn, element)
+                time.sleep(0.01)
             send_to_board_members(
                 right_board, f"<uj>\n{data[1]}\n{current_user_id}")
         else:
@@ -151,8 +154,9 @@ def draw(conn, data):
     if len(data) == 5:
         for board in boards:
             if board.check_invite_code(data[1]):
-                send_to_board_members(
-                    board, f"<d>\n{parse_point_and_colour(data[2])}\n{data[3]}\n{parse_point_and_colour(data[4])}")
+                draw = f"<d>\n{parse_point_and_colour(data[2])}\n{data[3]}\n{parse_point_and_colour(data[4])}"
+                send_to_board_members(board, draw)
+                board.add_element(draw)
 
 
 def draw_rectangle(conn, data):
@@ -166,8 +170,9 @@ def draw_rectangle(conn, data):
     if len(data) == 6:
         for board in boards:
             if board.check_invite_code(data[1]):
-                send_to_board_members(
-                    board, f"<r>\n{parse_point_and_colour(data[2])}\n{parse_point_and_colour(data[3])}\n{parse_point_and_colour(data[4])}\n{data[5]}")
+                rect = f"<r>\n{parse_point_and_colour(data[2])}\n{parse_point_and_colour(data[3])}\n{parse_point_and_colour(data[4])}\n{data[5]}"
+                send_to_board_members(board, rect)
+                board.add_element(rect)
 
 
 def draw_ellipse(conn, data):
@@ -181,8 +186,9 @@ def draw_ellipse(conn, data):
     if len(data) == 6:
         for board in boards:
             if board.check_invite_code(data[1]):
-                send_to_board_members(
-                    board, f"<e>\n{parse_point_and_colour(data[2])}\n{parse_point_and_colour(data[3])}\n{parse_point_and_colour(data[4])}\n{data[5]}")
+                ellipse = f"<e>\n{parse_point_and_colour(data[2])}\n{parse_point_and_colour(data[3])}\n{parse_point_and_colour(data[4])}\n{data[5]}"
+                send_to_board_members(board, ellipse)
+                board.add_element(ellipse)
 
 
 def draw_line(conn, data):
@@ -196,8 +202,9 @@ def draw_line(conn, data):
     if len(data) == 5:
         for board in boards:
             if board.check_invite_code(data[1]):
-                send_to_board_members(
-                    board, f"<L>\n{parse_point_and_colour(data[2])}\n{parse_point_and_colour(data[3])}\n{parse_point_and_colour(data[4])}")
+                line = f"<L>\n{parse_point_and_colour(data[2])}\n{parse_point_and_colour(data[3])}\n{parse_point_and_colour(data[4])}"
+                send_to_board_members(board, line)
+                board.add_element(line)
 
 
 def disconnect(conn, data):

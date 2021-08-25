@@ -68,3 +68,21 @@ class Board:
         return self._user_list
 
     # TODO: update canvas size option
+
+    def add_element(self, element):
+        """
+        Adds an element to the board's list of elements
+
+        Args:
+            element (string): the protocol to send when sending the board element
+        """
+        self._board_elements.append(element)
+
+    def get_board_elements(self):
+        """
+        Gets the board's elements
+
+        Returns:
+            list: all elements the board has in protocols
+        """
+        return self._board_elements
