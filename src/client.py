@@ -505,6 +505,7 @@ def main():
     drawing_rectangle = False
     drawing_ellipse = False
     drawing_line = False
+    mouse_down = False
     selected_user = user.User("", -1, False)
 
     # index of the brush selected
@@ -545,19 +546,19 @@ def main():
     # row 3
     colour_list.append(
         dubercomponent.DuberColourButton(
-            250, 78, (255, 255, 255)))
+            250, 78, (0, 255, 255)))
     colour_list.append(
         dubercomponent.DuberColourButton(
-            280, 78, (255, 255, 255)))
+            280, 78, (255, 105, 147)))
     colour_list.append(
         dubercomponent.DuberColourButton(
-            310, 78, (255, 255, 255)))
+            310, 78, (0, 0, 128)))
     colour_list.append(
         dubercomponent.DuberColourButton(
-            340, 78, (255, 255, 255)))
+            340, 78, (255, 215, 0)))
     colour_list.append(
         dubercomponent.DuberColourButton(
-            370, 78, (255, 255, 255)))
+            370, 78, (0, 255, 0)))
 
     # adding buttons to the list of brush buttons
 
@@ -571,28 +572,28 @@ def main():
         dubercomponent.DuberBrushButton(
             472, 20, pygame.transform.scale(
                 brush_icon, (32, 32)), brushes.Brush(
-                (0, 0, 0), 10)))
+                (255, 0, 0), 10)))
     brush_list.append(
         dubercomponent.DuberBrushButton(
             514, 20, pygame.transform.scale(
                 brush_icon, (32, 32)), brushes.Brush(
-                (0, 0, 0), 10)))
+                (0, 128, 0), 10)))
 
     # row 2
     brush_list.append(
         dubercomponent.DuberBrushButton(
             430, 62, pygame.transform.scale(
                 brush_icon, (32, 32)), brushes.Brush(
-                (0, 0, 0), 10)))
+                (0, 0, 255), 10)))
     brush_list.append(
         dubercomponent.DuberBrushButton(
             472, 62, pygame.transform.scale(
                 brush_icon, (32, 32)), brushes.Brush(
-                (0, 0, 0), 10)))
+                (128, 128, 128), 10)))
     brush_list.append(
         dubercomponent.DuberBrushButton(
             514, 62, pygame.transform.scale(
-                eraser_icon, (32, 32)), brushes.Eraser(10)))
+                eraser_icon, (32, 32)), brushes.Eraser(30)))
 
     # adding buttons to the list of shape buttons
     shape_list.append(
@@ -766,6 +767,7 @@ def main():
             # (UNFINISHED)
             else:
                 if((event.type == pygame.MOUSEBUTTONDOWN) and (event.button == 1)):
+                    mouse_down = True 
                     if colour_selection_area.selected(pygame.mouse.get_pos()):
                         for colour_button in colour_list:
                             if colour_button.selected(pygame.mouse.get_pos()):
@@ -831,6 +833,7 @@ def main():
                         elif (drawing_rectangle) or (drawing_ellipse) or (drawing_line):
                             mouse_down_coords = pygame.mouse.get_pos()
                 elif ((event.type == pygame.MOUSEBUTTONUP) and (event.button == 1)):
+                    mouse_down = False
                     if ((drawing_rectangle) or (drawing_ellipse) or (drawing_line)) and (
                             (200 <= pygame.mouse.get_pos()[0] <= 1080) and (115 <= pygame.mouse.get_pos()[1] <= 720)):
                         mouse_up_coords = pygame.mouse.get_pos()
@@ -850,6 +853,13 @@ def main():
                             line = shapes.Line(
                                 top_left, bottom_right, shape_list[2].get_shape_colour())
                             send_line(line)
+                if ((mouse_down) and (200 <= pygame.mouse.get_pos()[0] <= 1080) and (115 <= pygame.mouse.get_pos()[1] <= 720) and (using_brush)):
+                    send_brush_mark(
+                                current_brush.make_brush_stroke(
+                                    pygame.mouse.get_pos()))
+
+
+
 
         # update the screen
         if login_screen:
