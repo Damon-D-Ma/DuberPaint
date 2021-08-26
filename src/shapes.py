@@ -115,7 +115,8 @@ class Ellipse (Shape):
         Args:
             screen (pygame.Surface): the pygame Surface to draw an Ellipse on
         """
-        pygame.draw.ellipse(screen, self._colour, (self._top_left[0], self._top_left[1],
+        if (abs(self._bottom_right[0] - self._top_left[0]) > 1) and (abs(self._bottom_right[1] - self._top_left[1]) > 1):
+            pygame.draw.ellipse(screen, self._colour, (self._top_left[0], self._top_left[1],
                                                    abs(self._bottom_right[0] -
                                                        self._top_left[0]),
                                                    abs(self._bottom_right[1] - self._top_left[1])), self._filled)
@@ -132,24 +133,25 @@ class Ellipse (Shape):
         """
         a = (self._bottom_right[0] - self._top_left[0]) / 2.0
         b = (self._bottom_right[1] - self._top_left[1]) / 2.0
-        h = (self._top_left[0] + self._bottom_right[0]) / 2.0
-        k = (self._top_left[1] + self._bottom_right[1]) / 2.0
-        for x in range(self._top_left[0], self._bottom_right[0] + 1):
-            # derived from the ellipse formula
-            y1 = round(
-                sqrt((b * b) * (1 - (((x - h) * (x - h)) / (a * a)))) + k)
-            y2 = round(-sqrt((b * b) * (1 - (((x - h) * (x - h)) / (a * a)))) + k)
+        if (a > 0) and (b > 0):
+            h = (self._top_left[0] + self._bottom_right[0]) / 2.0
+            k = (self._top_left[1] + self._bottom_right[1]) / 2.0
+            for x in range(self._top_left[0], self._bottom_right[0] + 1):
+                # derived from the ellipse formula
+                y1 = round(
+                    sqrt((b * b) * (1 - (((x - h) * (x - h)) / (a * a)))) + k)
+                y2 = round(-sqrt((b * b) * (1 - (((x - h) * (x - h)) / (a * a)))) + k)
 
-            canvas[y1 - 115][x - 200] = self.get_colour()
-            canvas[y2 - 115][x - 200] = self.get_colour()
+                canvas[y1 - 115][x - 200] = self.get_colour()
+                canvas[y2 - 115][x - 200] = self.get_colour()
 
-        for y in range(self._top_left[1], self._bottom_right[1] + 1):
-            x1 = round(
-                sqrt((a * a) * (1 - (((y - k) * (y - k)) / (b * b)))) + h)
-            x2 = round(-sqrt((a * a) * (1 - (((y - k) * (y - k)) / (b * b)))) + h)
+            for y in range(self._top_left[1], self._bottom_right[1] + 1):
+                x1 = round(
+                    sqrt((a * a) * (1 - (((y - k) * (y - k)) / (b * b)))) + h)
+                x2 = round(-sqrt((a * a) * (1 - (((y - k) * (y - k)) / (b * b)))) + h)
 
-            canvas[y - 115][x1 - 200] = self.get_colour()
-            canvas[y - 115][x2 - 200] = self.get_colour()
+                canvas[y - 115][x1 - 200] = self.get_colour()
+                canvas[y - 115][x2 - 200] = self.get_colour()
 
         return canvas
 
@@ -194,9 +196,14 @@ class Line (Shape):
         Returns:
             list: the newly marked canvas
         """
-        m = (self.get_top_left()[1] - self.get_bottom_right()[1]) / \
-            (self.get_top_left()[0] - self.get_bottom_right()[0])
+        if (self.get_top_left()[0] - self.get_bottom_right()[0]) == 0:
+            m = 99999999
+        else:
+            m = (self.get_top_left()[1] - self.get_bottom_right()[1]) / \
+                (self.get_top_left()[0] - self.get_bottom_right()[0])
         b = self.get_bottom_right()[1] - m * self.get_bottom_right()[0]
         for i in range(self.get_top_left()[0], self.get_bottom_right()[0] + 1):
+            canvas[int(m * i + b) - 115][i - 200] = self.get_colour()
+        for i in range(self.get_bottom_right()[0], self.get_top_left()[0] + 1):
             canvas[int(m * i + b) - 115][i - 200] = self.get_colour()
         return canvas

@@ -269,7 +269,6 @@ def recv_line(data):
         bottom_right = (int(data[2].split(" ")[0]), int(data[2].split(" ")[1]))
         colour = (int(data[3].split(" ")[0]), int(
             data[3].split(" ")[1]), int(data[3].split(" ")[2]))
-        print("hm")
         line = shapes.Line(top_left, bottom_right, colour)
         board_elements.append(line)
         canvas = line.mark(canvas)
@@ -851,7 +850,7 @@ def main():
                             send_ellipse(ellipse)
                         elif drawing_line:
                             line = shapes.Line(
-                                top_left, bottom_right, shape_list[2].get_shape_colour())
+                                mouse_down_coords, mouse_up_coords, shape_list[2].get_shape_colour())
                             send_line(line)
                 if ((mouse_down) and (200 <= pygame.mouse.get_pos()[0] <= 1080) and (115 <= pygame.mouse.get_pos()[1] <= 720) and (using_brush)):
                     send_brush_mark(
