@@ -233,7 +233,8 @@ def kick(conn, data):
     """
     if len(data) == 2:
         for client in clients:
-            if client[0].get_id == int(data[1]):
+            if client[0].get_id() == int(data[1]):
+                client[2].remove_user(client[0])
                 send_to_board_members(client[2], f"<dc>\n{data[1]}")
                 client[1].close()
                 clients.remove(client)

@@ -86,3 +86,12 @@ class Board:
             list: all elements the board has in protocols
         """
         return self._board_elements
+
+    def remove_user(self, user):
+        """
+        Removes the user
+
+        Args:
+            user (user.User): The user to remvoe
+        """
+        self._user_list.remove(user)

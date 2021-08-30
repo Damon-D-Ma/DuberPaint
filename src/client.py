@@ -281,10 +281,19 @@ def recv_disconnect(data):
     Args:
         data (list): the data being sent over by the server
     """
+    global user_button_list
     if len(data) == 2:
         user_id_of_user_to_remove = int(data[1])
-        # TODO: remove the user
-
+        for i in range(len(user_button_list)):
+            if user_button_list[i].get_user().get_id() == user_id_of_user_to_remove:
+                user_button_list[i].set_user(user.User("", -1, False))
+                user_button_list[i].set_empty(True)
+                if i > 0:
+                    for j in range(i + 1, len(user_button_list)):
+                        user_button_list[j - 1].set_user(user_button_list[j].get_user())
+                        user_button_list[j].set_empty(True)
+                    user_button_list[len(user_button_list) - 1].set_user(user.User("", -1, False))
+                    user_button_list[len(user_button_list) - 1].set_empty(True)
 
 def recv_user_join(data):
     """
@@ -821,7 +830,7 @@ def main():
                                 selected_user = user_button.get_user()
                                 break
                     elif kick_button.selected(pygame.mouse.get_pos()):
-                        kick_user(selected_user)
+                        kick_user(selected_user.get_id())
                     elif export_button.selected(pygame.mouse.get_pos()):
                         export_drawing()
                     elif (200 <= pygame.mouse.get_pos()[0] <= 1080) and (115 <= pygame.mouse.get_pos()[1] <= 720):
