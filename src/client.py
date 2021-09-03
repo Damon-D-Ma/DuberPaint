@@ -166,8 +166,7 @@ def kick_user(target_id):
     Args:
         target_id (string): the user id of the user to be kicked
     """
-
-    if owner:
+    if (owner and (target_id != user_id)):
         message = f'<k>\n{target_id}'
         send(message)
 
@@ -376,7 +375,6 @@ def create_room():
         boolean: True if successful, False otherwise
     """
     global sock
-    global owner
     global server_thread
     global join_code
     sock = socket.create_connection((ip, port))
@@ -428,6 +426,8 @@ def main():
     global board_elements
     global user_list
     global user_button_list
+
+    global owner
 
     global colour_selection_area
     global brush_selection_area
